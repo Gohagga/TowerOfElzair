@@ -1,45 +1,30 @@
 ﻿STRING 1
 {
-TypeScript Template
+Player 1
 }
 
 STRING 2
 {
-Any
+Force 1
 }
 
 STRING 3
 {
-Nondescript
+Tower of Elzair
 }
 
 STRING 4
 {
-TriggerHappy
+Any
 }
 
 STRING 5
 {
-Player 1
+Nondescript
 }
 
 STRING 6
 {
-Player 2
-}
-
-STRING 7
-{
-Player 3
-}
-
-STRING 8
-{
-Force 1
-}
-
-STRING 9
-{
-Force 2
+Unknown
 }
 

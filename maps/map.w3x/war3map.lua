@@ -1,6 +1,6 @@
-gg_trg_Initialization = nil
-gg_unit_Hblm_0003 = nil
-gg_unit_Hpal_0002 = nil
+gg_rct_FloorA = nil
+gg_rct_FloorB = nil
+gg_trg_Melee_Initialization = nil
 function InitGlobals()
 end
 
@@ -10,16 +10,17 @@ function CreateUnitsForPlayer0()
     local unitID
     local t
     local life
-    gg_unit_Hblm_0003 = CreateUnit(p, FourCC("Hblm"), 44.7, -860.1, 3.208)
+    u = BlzCreateUnitWithSkin(p, FourCC("Hpal"), -1257.3, 1741.9, 86.410, FourCC("Hpal"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hcth"), -2176.6, 547.8, 312.153, FourCC("hcth"))
 end
 
-function CreateUnitsForPlayer1()
-    local p = Player(1)
+function CreateNeutralPassive()
+    local p = Player(PLAYER_NEUTRAL_PASSIVE)
     local u
     local unitID
     local t
     local life
-    gg_unit_Hpal_0002 = CreateUnit(p, FourCC("Hpal"), 237.9, -832.4, 269.898)
+    u = BlzCreateUnitWithSkin(p, FourCC("hprt"), -1741.4, 2105.8, 348.740, FourCC("hprt"))
 end
 
 function CreatePlayerBuildings()
@@ -27,80 +28,64 @@ end
 
 function CreatePlayerUnits()
     CreateUnitsForPlayer0()
-    CreateUnitsForPlayer1()
 end
 
 function CreateAllUnits()
     CreatePlayerBuildings()
+    CreateNeutralPassive()
     CreatePlayerUnits()
 end
 
---
-function Trig_Initialization_Actions()
-    SelectUnitForPlayerSingle(gg_unit_Hblm_0003, Player(0))
-    SelectUnitForPlayerSingle(gg_unit_Hpal_0002, Player(1))
+function CreateRegions()
+    local we
+    gg_rct_FloorA = Rect(2048.0, -7168.0, 6656.0, -2560.0)
+    gg_rct_FloorB = Rect(-3072.0, -7168.0, 1536.0, -2528.0)
 end
 
-function InitTrig_Initialization()
-    gg_trg_Initialization = CreateTrigger()
-    TriggerAddAction(gg_trg_Initialization, Trig_Initialization_Actions)
+function Trig_Melee_Initialization_Actions()
+    MeleeStartingVisibility()
+    MeleeStartingHeroLimit()
+    MeleeGrantHeroItems()
+    MeleeStartingResources()
+    MeleeClearExcessUnits()
+    MeleeStartingUnits()
+    MeleeStartingAI()
+    MeleeInitVictoryDefeat()
+end
+
+function InitTrig_Melee_Initialization()
+    gg_trg_Melee_Initialization = CreateTrigger()
+    TriggerAddAction(gg_trg_Melee_Initialization, Trig_Melee_Initialization_Actions)
 end
 
 function InitCustomTriggers()
-    InitTrig_Initialization()
+    InitTrig_Melee_Initialization()
 end
 
 function RunInitializationTriggers()
-    ConditionalTriggerExecute(gg_trg_Initialization)
+    ConditionalTriggerExecute(gg_trg_Melee_Initialization)
 end
 
 function InitCustomPlayerSlots()
     SetPlayerStartLocation(Player(0), 0)
-    ForcePlayerStartLocation(Player(0), 0)
     SetPlayerColor(Player(0), ConvertPlayerColor(0))
     SetPlayerRacePreference(Player(0), RACE_PREF_HUMAN)
-    SetPlayerRaceSelectable(Player(0), false)
+    SetPlayerRaceSelectable(Player(0), true)
     SetPlayerController(Player(0), MAP_CONTROL_USER)
-    SetPlayerStartLocation(Player(1), 1)
-    ForcePlayerStartLocation(Player(1), 1)
-    SetPlayerColor(Player(1), ConvertPlayerColor(1))
-    SetPlayerRacePreference(Player(1), RACE_PREF_ORC)
-    SetPlayerRaceSelectable(Player(1), false)
-    SetPlayerController(Player(1), MAP_CONTROL_USER)
-    SetPlayerStartLocation(Player(2), 2)
-    ForcePlayerStartLocation(Player(2), 2)
-    SetPlayerColor(Player(2), ConvertPlayerColor(2))
-    SetPlayerRacePreference(Player(2), RACE_PREF_UNDEAD)
-    SetPlayerRaceSelectable(Player(2), false)
-    SetPlayerController(Player(2), MAP_CONTROL_COMPUTER)
 end
 
 function InitCustomTeams()
     SetPlayerTeam(Player(0), 0)
-    SetPlayerTeam(Player(1), 0)
-    SetPlayerAllianceStateAllyBJ(Player(0), Player(1), true)
-    SetPlayerAllianceStateAllyBJ(Player(1), Player(0), true)
-    SetPlayerAllianceStateVisionBJ(Player(0), Player(1), true)
-    SetPlayerAllianceStateVisionBJ(Player(1), Player(0), true)
-    SetPlayerTeam(Player(2), 1)
-end
-
-function InitAllyPriorities()
-    SetStartLocPrioCount(0, 1)
-    SetStartLocPrio(0, 0, 1, MAP_LOC_PRIO_HIGH)
-    SetStartLocPrioCount(1, 1)
-    SetStartLocPrio(1, 0, 0, MAP_LOC_PRIO_HIGH)
-    SetStartLocPrioCount(2, 1)
-    SetStartLocPrio(2, 0, 0, MAP_LOC_PRIO_LOW)
 end
 
 function main()
-    SetCameraBounds(-3328.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), -3584.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 3328.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), 3072.0 - GetCameraMargin(CAMERA_MARGIN_TOP), -3328.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), 3072.0 - GetCameraMargin(CAMERA_MARGIN_TOP), 3328.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), -3584.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
+    SetCameraBounds(-3328.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), -7680.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM), 7424.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), 3072.0 - GetCameraMargin(CAMERA_MARGIN_TOP), -3328.0 + GetCameraMargin(CAMERA_MARGIN_LEFT), 3072.0 - GetCameraMargin(CAMERA_MARGIN_TOP), 7424.0 - GetCameraMargin(CAMERA_MARGIN_RIGHT), -7680.0 + GetCameraMargin(CAMERA_MARGIN_BOTTOM))
     SetDayNightModels("Environment\\DNC\\DNCLordaeron\\DNCLordaeronTerrain\\DNCLordaeronTerrain.mdl", "Environment\\DNC\\DNCLordaeron\\DNCLordaeronUnit\\DNCLordaeronUnit.mdl")
     NewSoundEnvironment("Default")
     SetAmbientDaySound("LordaeronSummerDay")
     SetAmbientNightSound("LordaeronSummerNight")
     SetMapMusic("Music", true, 0)
+    CreateRegions()
     CreateAllUnits()
     InitBlizzard()
     InitGlobals()
@@ -109,16 +94,14 @@ function main()
 end
 
 function config()
-    SetMapName("TRIGSTR_001")
-    SetMapDescription("TRIGSTR_003")
-    SetPlayers(3)
-    SetTeams(3)
-    SetGamePlacement(MAP_PLACEMENT_TEAMS_TOGETHER)
-    DefineStartLocation(0, 128.0, -896.0)
-    DefineStartLocation(1, 128.0, -896.0)
-    DefineStartLocation(2, 128.0, -896.0)
+    SetMapName("TRIGSTR_003")
+    SetMapDescription("TRIGSTR_005")
+    SetPlayers(1)
+    SetTeams(1)
+    SetGamePlacement(MAP_PLACEMENT_USE_MAP_SETTINGS)
+    DefineStartLocation(0, 576.0, 896.0)
     InitCustomPlayerSlots()
-    InitCustomTeams()
-    InitAllyPriorities()
+    SetPlayerSlotAvailable(Player(0), MAP_CONTROL_USER)
+    InitGenericPlayerSlots()
 end
 
