@@ -28,3 +28,9 @@ STRING 6
 Unknown
 }
 
+STRING 7
+// Abilities: A000 (MyCustomName), Name (Name)
+{
+MyCustomName
+}
+
