@@ -18,6 +18,7 @@ export type TalentData = {
     OnDeactivate?: OnTalentStateChange;
     Dependency?: TalentDependency;
     Requirements?: RequirementsCheck;
+    StartingLevel?: number;
 }
 
 export class Talent {
@@ -165,8 +166,11 @@ export class Talent {
 
     public ActivateRecursive(unit: unit, count: number) {
         if (this.prevRank && count > 0) {
+            print("Activate previous rank...", this.prevRank.name);
             this.prevRank.ActivateRecursive(unit, count - 1);
+        } else {
+            print("Activate rank...");
+            this.onActivate(unit);
         }
-        this.onActivate(unit);
     }
 }

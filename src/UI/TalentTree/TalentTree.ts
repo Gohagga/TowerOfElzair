@@ -94,12 +94,9 @@ export class TalentTree {
      * If data is passed, new talent will be initialized with it.
      */
     public AddTalent(x: number, y: number, data?: TalentData) {
-        // if (x >= TalentTreeView.Columns || y >= TalentTreeView.Rows) {
-        //     x = TalentTreeView.Columns - 1;
-        //     y = TalentTreeView.Rows - 1;
-        // }
 
         let position = x + y * TalentTreeView.Columns;
+        
         let talent = new Talent(data);
         if (this.talents[position]) {
             let existing = this.talents[position];
@@ -108,6 +105,12 @@ export class TalentTree {
             this.talents[position] = talent;
             this.rankState[position] = 0;
         }
+
+        // If Starting level was provided, add it to the temporary Rank State
+        let startingLevel = data?.StartingLevel || 0;
+        if (!this.tempRankState) this.tempRankState = [];
+        this.tempRankState[position] = startingLevel;
+
         return talent;
     }
 
@@ -147,15 +150,17 @@ export class TalentTree {
 
         if (!this.tempRankState) return;
         for (let i = 0; i < TalentTreeView.MaxTalents; i++) {
+            
             let talent = this.talents[i];
             if (talent && this.rankState[i] != this.tempRankState[i]) {
 
-                for (let j = this.tempRankState[i]; j < this.rankState[i]; j--) {
+                for (let j = this.tempRankState[i]; j > this.rankState[i]; j--) {
                     if (talent.prevRank) {
                         talent = talent.prevRank;
                         this.pointsAvailable += 1;
                     }
                 }
+                this.talents[i] = talent;
             }
         }
 

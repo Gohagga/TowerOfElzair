@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const War3TSTLHelper = require("war3tstlhelper");
+const Wc3ConfigHelper = require("wc3confighelper");
 const execFile = require("child_process").execFile;
 const cwd = process.cwd();
 const luamin = require('luamin');
@@ -81,5 +82,12 @@ switch (operation) {
       return;
     }
 
+    break;
+  case "gen-config":
+
+    const savePath = `./src`;
+    const mapFolder = `./maps/${config.mapFolder}`;
+    const parser = new Wc3ConfigHelper(mapFolder, savePath);
+    parser.genConfigFile();
     break;
 }

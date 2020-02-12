@@ -176,6 +176,7 @@ export class TalentTreeView {
         if (this.playerViewedTree[playerId] == undefined) return;
 
         const tt = this.playerViewedTree[playerId];
+        print("Saving player talent state");
         tt.SaveTalentRankState();
 
         if (GetLocalPlayer() == player) {
@@ -291,12 +292,12 @@ export class TalentTreeView {
 
     static init() {
 
+        this.MaxTalents = this.Rows * this.Columns;
         const t = CreateTrigger();
-        TriggerRegisterTimerEventSingle(t, 0.1)
+        TriggerRegisterTimerEventSingle(t, 0.0)
         TriggerAddAction(t, () => {
             const config: Record<string, FrameConfig> = {};
             const frames: Record<string, framehandle> = {};
-            this.MaxTalents = this.Columns * this.Rows;
 
             frames.box = BlzCreateFrame("SuspendDialog", BlzGetOriginFrame(ORIGIN_FRAME_GAME_UI,0), 0,0);
             config.box = { clear: true, abs: true, pos: { p: { x: 0.35, y: 0.34}, pointSelf: FRAMEPOINT_CENTER }, size: { x: this.Width, y: this.Height }};

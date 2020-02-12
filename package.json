@@ -9,7 +9,8 @@
     "test": "npm run build && node bin/operations run",
     "build": "echo Transpiling TypeScript to Lua... && tstl -p tsconfig.json && node bin/operations build",
     "dev": "npm-watch",
-    "build:defs": "node bin/operations gen-defs"
+    "build:defs": "node bin/operations gen-defs",
+    "build-config": "ts-node bin/operations gen-config"
   },
   "devDependencies": {
     "@types/node": "^12.0.2",
@@ -23,7 +24,8 @@
     "war3tstlhelper": "^1.0.1"
   },
   "dependencies": {
-    "w3ts": "^1.0.6"
+    "w3ts": "^1.0.6",
+    "wc3confighelper": "file:../wc3confighelper"
   },
   "watch": {
     "build:defs": {

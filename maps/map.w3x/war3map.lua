@@ -8,6 +8,7 @@ gg_rct_Room5 = nil
 gg_rct_Room6 = nil
 gg_rct_RoomBoss = nil
 gg_trg_Melee_Initialization = nil
+gg_unit_Hpal_0001 = nil
 function InitGlobals()
 end
 
@@ -17,9 +18,21 @@ function CreateUnitsForPlayer0()
     local unitID
     local t
     local life
-    u = BlzCreateUnitWithSkin(p, FourCC("Hpal"), -2567.2, -6814.1, 86.410, FourCC("Hpal"))
+    gg_unit_Hpal_0001 = BlzCreateUnitWithSkin(p, FourCC("Hpal"), -2567.2, -6814.1, 86.410, FourCC("Hpal"))
+    SetHeroLevel(gg_unit_Hpal_0001, 10, false)
     u = BlzCreateUnitWithSkin(p, FourCC("hcth"), -2176.6, 547.8, 312.153, FourCC("hcth"))
     u = BlzCreateUnitWithSkin(p, FourCC("Hpal"), -1423.2, 1822.8, 233.181, FourCC("Hpal"))
+end
+
+function CreateNeutralHostile()
+    local p = Player(PLAYER_NEUTRAL_AGGRESSIVE)
+    local u
+    local unitID
+    local t
+    local life
+    u = BlzCreateUnitWithSkin(p, FourCC("nrog"), -1742.4, -6558.2, 353.155, FourCC("nrog"))
+    u = BlzCreateUnitWithSkin(p, FourCC("nrog"), -1138.5, -6653.0, 328.336, FourCC("nrog"))
+    u = BlzCreateUnitWithSkin(p, FourCC("nrog"), -667.4, -6524.3, 293.300, FourCC("nrog"))
 end
 
 function CreateNeutralPassive()
@@ -40,6 +53,7 @@ end
 
 function CreateAllUnits()
     CreatePlayerBuildings()
+    CreateNeutralHostile()
     CreateNeutralPassive()
     CreatePlayerUnits()
 end
@@ -58,14 +72,8 @@ function CreateRegions()
 end
 
 function Trig_Melee_Initialization_Actions()
+    SetUnitColor(gg_unit_Hpal_0001, PLAYER_COLOR_RED)
     MeleeStartingVisibility()
-    MeleeStartingHeroLimit()
-    MeleeGrantHeroItems()
-    MeleeStartingResources()
-    MeleeClearExcessUnits()
-    MeleeStartingUnits()
-    MeleeStartingAI()
-    MeleeInitVictoryDefeat()
 end
 
 function InitTrig_Melee_Initialization()
@@ -114,7 +122,7 @@ function config()
     SetPlayers(1)
     SetTeams(1)
     SetGamePlacement(MAP_PLACEMENT_USE_MAP_SETTINGS)
-    DefineStartLocation(0, 576.0, 896.0)
+    DefineStartLocation(0, -2560.0, -6784.0)
     InitCustomPlayerSlots()
     SetPlayerSlotAvailable(Player(0), MAP_CONTROL_USER)
     InitGenericPlayerSlots()

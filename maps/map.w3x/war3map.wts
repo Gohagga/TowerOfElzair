@@ -28,9 +28,255 @@ STRING 6
 Unknown
 }
 
-STRING 7
-// Abilities: A000 (MyCustomName), Name (Name)
+STRING 8
+// Abilities: A000 (TemplateProjectile), Name (Name)
 {
-MyCustomName
+TemplateProjectile
+}
+
+STRING 9
+// Abilities: A001 (MagicMissiles), Name (Name)
+{
+MagicMissiles
+}
+
+STRING 10
+// Abilities: A001 (MagicMissiles), Hotkey (Hotkey - Normal)
+{
+Q
+}
+
+STRING 11
+// Abilities: A001 (MagicMissiles), Tip (Tooltip - Normal)
+{
+Magic Missiles
+}
+
+STRING 12
+// Abilities: A001 (MagicMissiles), Tip (Tooltip - Normal)
+{
+Magic Missiles
+}
+
+STRING 13
+// Abilities: A001 (MagicMissiles), Tip (Tooltip - Normal)
+{
+Magic Missiles
+}
+
+STRING 14
+// Abilities: A001 (MagicMissiles), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 15
+// Abilities: A001 (MagicMissiles), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 16
+// Abilities: A001 (MagicMissiles), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 17
+// Abilities: A002 (ProjectileMagicMissiles), Name (Name)
+{
+ProjectileMagicMissiles
+}
+
+STRING 18
+// Units: nDUM (Dummy), Name (Name)
+{
+Dummy
+}
+
+STRING 19
+// Abilities: A001 (MagicMissiles), Researchhotkey (Hotkey - Learn)
+{
+Q
+}
+
+STRING 20
+// Buffs/Effects: B000 (MagicMissiles), EditorName (Name (Editor Only))
+{
+MagicMissiles
+}
+
+STRING 21
+// Buffs/Effects: BEsh (Shadow Strike), EditorName (Name (Editor Only))
+{
+Shadow Strike
+}
+
+STRING 22
+// Abilities: A003 (IceBolt), Name (Name)
+{
+IceBolt
+}
+
+STRING 24
+// Abilities: A003 (IceBolt), Tip (Tooltip - Normal)
+{
+Magic Missiles
+}
+
+STRING 25
+// Abilities: A003 (IceBolt), Tip (Tooltip - Normal)
+{
+Magic Missiles
+}
+
+STRING 26
+// Abilities: A003 (IceBolt), Tip (Tooltip - Normal)
+{
+Magic Missiles
+}
+
+STRING 27
+// Abilities: A003 (IceBolt), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 28
+// Abilities: A003 (IceBolt), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 29
+// Abilities: A003 (IceBolt), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 31
+// Abilities: A004 (ProjectileIceBolt), Name (Name)
+{
+ProjectileIceBolt
+}
+
+STRING 33
+// Abilities: A005 (DummyFrostNova), Name (Name)
+{
+DummyFrostNova
+}
+
+STRING 34
+// Abilities: A003 (IceBolt), Hotkey (Hotkey - Normal)
+{
+W
+}
+
+STRING 35
+// Abilities: A003 (IceBolt), Researchhotkey (Hotkey - Learn)
+{
+W
+}
+
+STRING 36
+// Abilities: A006 (Magic Burst), Name (Name)
+{
+Magic Burst
+}
+
+STRING 37
+// Abilities: A006 (Magic Burst), Hotkey (Hotkey - Normal)
+{
+R
+}
+
+STRING 38
+// Abilities: A006 (Magic Burst), Tip (Tooltip - Normal)
+{
+Magic Burst - Level 1
+}
+
+STRING 39
+// Abilities: A006 (Magic Burst), Tip (Tooltip - Normal)
+{
+Magic Burst - Level 2
+}
+
+STRING 40
+// Abilities: A006 (Magic Burst), Tip (Tooltip - Normal)
+{
+Magic Burst - Level 3
+}
+
+STRING 41
+// Abilities: A006 (Magic Burst), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 42
+// Abilities: A006 (Magic Burst), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 43
+// Abilities: A006 (Magic Burst), Ubertip (Tooltip - Normal - Extended)
+{
+Launches 3 arcane bolts that always hit their target.
+
+Each missile deals 0.75 * |cff7878ffInt|r magic damage.
+}
+
+STRING 44
+// Abilities: A006 (Magic Burst), Researchhotkey (Hotkey - Learn)
+{
+R
+}
+
+STRING 45
+// Abilities: AUfa (Frost Armor), Ubertip (Tooltip - Normal - Extended)
+{
+Creates a shield of frost around a target friendly unit. The shield adds <AUfa,DataB1> armor. |nLasts <AUfa,DataA1> seconds.
+}
+
+STRING 46
+// Abilities: AUfa (Frost Armor), Ubertip (Tooltip - Normal - Extended)
+{
+Creates a shield of frost around a target friendly unit. The shield adds <AUfa,DataB2> armor. |nLasts <AUfa,DataA2> seconds.
+}
+
+STRING 47
+// Abilities: AUfa (Frost Armor), Ubertip (Tooltip - Normal - Extended)
+{
+Creates a shield of frost around a target friendly unit. The shield adds <AUfa,DataB3> armor. |nLasts <AUfa,DataA3> seconds.
+}
+
+STRING 48
+// Abilities: AUfa (Frost Armor), Researchhotkey (Hotkey - Learn)
+{
+E
+}
+
+STRING 49
+// Abilities: AUfa (Frost Armor), Hotkey (Hotkey - Normal)
+{
+E
 }
 
