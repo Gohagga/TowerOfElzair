@@ -11,5 +11,6 @@ export abstract class SubstanceEffect implements Effect {
 
 export interface SubstanceContext {
     sourceUnit: Unit;
-    targets: Unit[];
+    /**Baseline unit upon which Effects will act upon. */
+    focus: Unit;
 }

@@ -1,5 +1,8 @@
-import { AoeEffect } from "components/effects/form-effects/AoeEffect";
+import { AoeForkEffect } from "components/effects/form-effects/AoeForkEffect";
+import { CasterAsFocusEffect } from "components/effects/form-effects/CasterEffect";
+import { FocusAsOriginEffect } from "components/effects/form-effects/FocusAsOriginEffect";
 import { ProjectileEffect } from "components/effects/form-effects/ProjectileEffect";
+import { DummyCastEffect } from "components/effects/substance-effects/DummyCastEffect";
 import { UnitTargetEffect } from "components/effects/target-effects/UnitTargetEffect";
 import ILogger from "components/logger/ILogger";
 import { Logger } from "components/logger/Logger";
@@ -12,10 +15,6 @@ import { EventSpellCastProvider } from "providers/implementations/EventSpellCast
 import { InstancedDummySpellProvider } from "providers/implementations/InstancedDummySpellProvider";
 import { TargetProjectileProvider } from "providers/implementations/TargetProjectileProvider";
 import { Unit } from "w3ts/index";
-import { DummyCastEffect } from "components/effects/substance-effects/DummyCastEffect";
-import { CasterEffect } from "components/effects/form-effects/CasterEffect";
-import { TargetOriginEffect } from "components/effects/form-effects/TargetOriginEffect";
-import { TargetsOriginForkEffect } from "components/effects/form-effects/TargetsOriginForkEffect";
 
 export class Bootstrapper {
 
@@ -35,13 +34,12 @@ export class Bootstrapper {
 
         
         const fireball = new UnitTargetEffect(spellEvent)
-            .Add(new AoeEffect(unitEnum, 600.0, (t, c) => true)
+            .Add(new AoeForkEffect(unitEnum, 400.0, (t, c) => true)
                 .Add(new ProjectileEffect(fbProjectile, logger)
                     .Add(new DummyCastEffect(banishDummy))
-                    .Add(new TargetOriginEffect()
-                        .Add(new CasterEffect()
+                    .Add(new FocusAsOriginEffect()
+                        .Add(new CasterAsFocusEffect()
                             .Add(new ProjectileEffect(fbProjectile, logger))))));
-
 
         let t = CreateTrigger();
         TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT);

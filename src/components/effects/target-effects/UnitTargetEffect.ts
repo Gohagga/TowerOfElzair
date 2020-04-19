@@ -15,11 +15,14 @@ export class UnitTargetEffect extends TemplateEffect {
     
     public Resolve(): void {
 
+        const caster = this.event.GetCaster();
+        const target = this.event.GetTargetUnit();
         const context: FormContext = {
             origin: this.event.GetCaster().point,
             destination: this.event.GetTargetPoint(),
-            sourceUnit: this.event.GetCaster(),
-            targetUnit: this.event.GetTargetUnit()
+            sourceUnit: caster,
+            targetUnit: target,
+            focus: target
         }
         this.ResolveChildren(context);
     }

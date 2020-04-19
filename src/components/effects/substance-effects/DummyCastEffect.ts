@@ -9,6 +9,6 @@ export class DummyCastEffect extends SubstanceEffect {
     
     public Resolve(): void {
         
-        this.provider.CastAtTargets(this.context.targets);
+        this.provider.CastAt(this.context.focus);
     }
 }

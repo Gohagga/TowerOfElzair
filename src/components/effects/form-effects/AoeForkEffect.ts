@@ -1,12 +1,12 @@
-import { FormEffect, FormContext } from "../base/FormEffect";
 import { IEnumUnitProvider } from "providers/interfaces/IEnumUnitProvider";
-import { SubstanceContext } from "../base/SubstanceEffect";
 import { Unit } from "w3ts";
+import { FormContext, FormEffect } from "../base/FormEffect";
+import { SubstanceContext } from "../base/SubstanceEffect";
 
 /**
  * FormEffect that provides targets by enumerating units within given radius of destination point.
  */
-export class AoeEffect extends FormEffect {
+export class AoeForkEffect extends FormEffect {
     
     /**
      * @param provider Object that handles enumeration.
@@ -21,14 +21,16 @@ export class AoeEffect extends FormEffect {
 
     public Resolve(): void {
         
-        const context: FormContext | SubstanceContext = {
-            origin: this.context.origin,
-            destination: this.context.destination,
-            sourceUnit: this.context.sourceUnit,
-            // targetUnit: this.context.targetUnit,
-            targets: this.provider.EnumUnitsInRange(this.context.destination, this.radius, this.filter)
-        }
+        let targets = this.provider.EnumUnitsInRange(this.context.destination, this.radius, this.filter);
 
-        this.ResolveChildren(context)
+        for (let t of targets) {
+            const context: FormContext | SubstanceContext = {
+                origin: this.context.origin,
+                destination: this.context.destination,
+                sourceUnit: this.context.sourceUnit,
+                focus: t
+            }
+            this.ResolveChildren(context)
+        }
     }
 }

@@ -15,8 +15,6 @@ export class DamageEffect implements SubstanceEffect {
 
     public Resolve(): void {
         
-        for (let u of this.context.targets) {
-            this.provider.UnitDamageTarget(this.context.sourceUnit, u, this.amount, this.type);
-        }
+        this.provider.UnitDamageTarget(this.context.sourceUnit, this.context.focus, this.amount, this.type);
     }
 }

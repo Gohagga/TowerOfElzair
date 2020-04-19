@@ -29,5 +29,6 @@ export interface FormContext {
     destination: Point;
     sourceUnit?: Unit;
     targetUnit?: Unit;
-    targets?: Unit[];
+    /**Baseline unit upon which Effects will act upon. */
+    focus: Unit;
 }
