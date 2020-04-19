@@ -1,7 +1,7 @@
 import { DamageType } from "components/damage/DamageType";
 import { Unit, Trigger } from "w3ts/index";
 
-export interface IDamageEventProvider {
+export interface IOnDamageProvider {
 
     Register(action: () => void): Trigger;
 

@@ -1,4 +1,4 @@
-import { IDamageEventProvider } from "providers/interfaces/IDamageEventProvider";
+import { IOnDamageProvider } from "providers/interfaces/IOnDamageProvider";
 import { InstancedDummySpellProvider } from "./InstancedDummySpellProvider";
 import { Unit } from "w3ts/index";
 import { ITargetProjectileProvider, ProjectileData } from "providers/interfaces/ITargetProjectileProvider";
@@ -13,7 +13,7 @@ export class TargetProjectileProvider implements ITargetProjectileProvider {
     
     constructor(
         private readonly dummyProvider: InstancedDummySpellProvider,
-        private readonly dmgProvider: IDamageEventProvider,
+        private readonly dmgProvider: IOnDamageProvider,
         private readonly logger: ILogger
     ) {
         const t = this.dmgProvider.Register(() => {

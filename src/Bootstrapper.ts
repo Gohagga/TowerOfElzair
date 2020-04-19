@@ -7,14 +7,18 @@ import { UnitTargetEffect } from "components/effects/target-effects/UnitTargetEf
 import ILogger from "components/logger/ILogger";
 import { Logger } from "components/logger/Logger";
 import { Config } from "Config";
-import { DamagedEventProvider } from "providers/implementations/DamagedEventProvider";
+import { OnUnitDamagedProvider } from "providers/implementations/OnUnitDamagedProvider";
 import { DamageProvider } from "providers/implementations/DamageProvider";
 import DummySpellProvider from "providers/implementations/DummySpellProvider";
 import { EnumUnitProvider } from "providers/implementations/EnumUnitProvider";
-import { EventSpellCastProvider } from "providers/implementations/EventSpellCastProvider";
+import { OnSpellCastProvider } from "providers/implementations/OnSpellCastProvider";
 import { InstancedDummySpellProvider } from "providers/implementations/InstancedDummySpellProvider";
 import { TargetProjectileProvider } from "providers/implementations/TargetProjectileProvider";
 import { Unit } from "w3ts/index";
+import { EventUnitUsedAbilityHandler } from "event-handlers/implementations/EventUnitUsedAbilityHandler";
+import { EventAbility as AbilityEvent } from "event-handlers/interfaces/IEventUnitUsedAbilityHandler";
+import { DamageEffect } from "components/effects/substance-effects/DamageEffect";
+import { DamageType } from "components/damage/DamageType";
 
 export class Bootstrapper {
 
@@ -25,29 +29,34 @@ export class Bootstrapper {
         
         logger.info("START");
         const damager = new DamageProvider();
-        const dmgEvent = new DamagedEventProvider();
-        const spellEvent = new EventSpellCastProvider();
+        const onDamaged = new OnUnitDamagedProvider();
+        const onSpellCast = new OnSpellCastProvider();
         const unitEnum = new EnumUnitProvider();
         const banishDummy = new DummySpellProvider(config, "banish", FourCC('A000'));
         const fbDummy = new InstancedDummySpellProvider(config, "acidbomb", FourCC('A001'));
-        const fbProjectile = new TargetProjectileProvider(fbDummy, dmgEvent, logger);
-
+        const fbProjectile = new TargetProjectileProvider(fbDummy, onDamaged, logger);
+        const eventAbilityUsed = new EventUnitUsedAbilityHandler();
         
-        const fireball = new UnitTargetEffect(spellEvent)
+        //     Provides context with targeted unit as Focus, its position as destination and caster and his position as origin
+        const fireball = new UnitTargetEffect(onSpellCast)
+                    // Enums units within range, filters and Resolves subcomponents for each target (as Focus)
             .Add(new AoeForkEffect(unitEnum, 400.0, (t, c) => true)
+                    // Dummy casts a projectile spell at Focus, Resolves subcomponents once it hits
                 .Add(new ProjectileEffect(fbProjectile, logger)
+                        // Dummy casts a banish on Focus
                     .Add(new DummyCastEffect(banishDummy))
+                        // Deals 50 damage to Focus
+                    .Add(new DamageEffect(50.0, DamageType.Magical, damager))
+                        // Sets Origin to position of Focus
                     .Add(new FocusAsOriginEffect()
+                            // Sets caster unit as Focus
                         .Add(new CasterAsFocusEffect()
-                            .Add(new ProjectileEffect(fbProjectile, logger))))));
-
-        let t = CreateTrigger();
-        TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT);
-        TriggerAddAction(t, () => {
-
-            if (GetSpellAbilityId() == FourCC('A002') && GetUnitTypeId(GetTriggerUnit()) != config.dummyUnitId)
-                fireball.Resolve();
-        });
+                                // Dummy casts a projectile spell at Focus, Resolves subcomponents once it hits
+                            .Add(new ProjectileEffect(fbProjectile, logger)
+                                // Deals 5 damage to Focus
+                                .Add(new DamageEffect(5.0, DamageType.Magical, damager)))))));
+                
+        eventAbilityUsed.Register(AbilityEvent.Effect, FourCC('A002'), () => fireball.Resolve());
 
         const u = Unit.fromHandle(gg_unit_Hblm_0003);
         u.addAbility(FourCC('A001'));

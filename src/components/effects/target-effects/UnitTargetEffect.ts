@@ -1,13 +1,13 @@
 import { TemplateEffect } from "../base/TemplateEffect";
 import { FormContext } from "../base/FormEffect";
 import { Point } from "w3ts";
-import { ISpellCastEventProvider } from "providers/interfaces/ISpellCastEventProvider";
+import { IOnSpellCastProvider } from "providers/interfaces/IOnSpellCastProvider";
 
 export class UnitTargetEffect extends TemplateEffect {
 
-    private readonly event: ISpellCastEventProvider;
+    private readonly event: IOnSpellCastProvider;
     constructor(
-        onSpellCast: ISpellCastEventProvider
+        onSpellCast: IOnSpellCastProvider
     ) {
         super();
         this.event = onSpellCast;

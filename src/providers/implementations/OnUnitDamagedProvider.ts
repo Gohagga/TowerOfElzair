@@ -1,9 +1,9 @@
-import { IDamageEventProvider } from "providers/interfaces/IDamageEventProvider";
+import { IOnDamageProvider } from "providers/interfaces/IOnDamageProvider";
 import { Trigger, Unit } from "w3ts/index";
 import { damageTypes, attackTypes } from "./DamageProvider";
 import { DamageType } from "components/damage/DamageType";
 
-export class DamagedEventProvider implements IDamageEventProvider {
+export class OnUnitDamagedProvider implements IOnDamageProvider {
 
     constructor() { }
     

@@ -1,6 +1,6 @@
 import { Unit, Point } from "w3ts";
 
-export interface ISpellCastEventProvider {
+export interface IOnSpellCastProvider {
 
     GetCaster(): Unit;
 

@@ -1,7 +1,7 @@
-import { ISpellCastEventProvider } from "../interfaces/ISpellCastEventProvider";
+import { IOnSpellCastProvider } from "../interfaces/IOnSpellCastProvider";
 import { Unit, Point } from "w3ts";
 
-export class EventSpellCastProvider implements ISpellCastEventProvider {
+export class OnSpellCastProvider implements IOnSpellCastProvider {
     
     GetCaster(): Unit {
         return Unit.fromHandle(GetTriggerUnit());
