@@ -10,7 +10,11 @@ function CreateUnitsForPlayer0()
     local unitID
     local t
     local life
-    gg_unit_Hblm_0003 = BlzCreateUnitWithSkin(p, FourCC("Hblm"), 44.7, -860.1, 3.208, FourCC("Hblm"))
+    gg_unit_Hblm_0003 = BlzCreateUnitWithSkin(p, FourCC("Hblm"), 19.2, -924.3, 3.208, FourCC("Hblm"))
+    u = BlzCreateUnitWithSkin(p, FourCC("nDUM"), -142.0, -1323.6, 67.096, FourCC("nDUM"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 318.1, -587.8, 263.878, FourCC("hkni"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 473.3, -668.6, 128.445, FourCC("hkni"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 255.3, -1044.2, 42.398, FourCC("hkni"))
 end
 
 function CreateUnitsForPlayer1()
@@ -20,6 +24,9 @@ function CreateUnitsForPlayer1()
     local t
     local life
     gg_unit_Hpal_0002 = BlzCreateUnitWithSkin(p, FourCC("Hpal"), 237.9, -832.4, 269.898, FourCC("Hpal"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 90.3, -515.9, 70.084, FourCC("hkni"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hkni"), -28.5, -684.0, 208.977, FourCC("hkni"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 480.1, -902.3, 84.872, FourCC("hkni"))
 end
 
 function CreatePlayerBuildings()

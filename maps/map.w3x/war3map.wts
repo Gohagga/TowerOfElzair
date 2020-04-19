@@ -53,3 +53,15 @@ STRING 11
 Player 12
 }
 
+STRING 12
+// Abilities: A001 (Acid Bomb), Researchhotkey (Hotkey - Learn)
+{
+D
+}
+
+STRING 13
+// Abilities: A001 (Acid Bomb), Hotkey (Hotkey - Normal)
+{
+D
+}
+
