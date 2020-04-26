@@ -1,19 +1,7 @@
-import { TalentData, Talent, ILogger } from "ModuleLoader";
+import ILogger from "components/logger/ILogger";
 import { Unit } from "w3ts/index";
-
-export enum TalentDepType {
-    left,
-    up,
-    right,
-    down
-}
-export type TalentDependency = Record<number, number>;
-const TalentDependencyIndex: Record<TalentDepType, (index: number, cols: number) => [number, number]> = {
-    [TalentDepType.left]: (index: number, cols: number) => [index - 1, 0],
-    [TalentDepType.up]: (index: number, cols: number) => [index + cols, 1],
-    [TalentDepType.right]: (index: number, cols: number) => [index + 1, 0],
-    [TalentDepType.down]: (index: number, cols: number) => [index - cols, 1],
-}
+import { Talent, TalentData } from "./Talent";
+import { TalentDependency, TalentDependencyIndex, TalentDepType } from "./TalentDependency";
 
 export type TalentGenerator = (rank: number) => TalentData
 

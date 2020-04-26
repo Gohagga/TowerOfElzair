@@ -13,7 +13,7 @@ export class QuestEventHandler implements IQuestEventHandler {
         
         const instance: QuestEventCallback = {
             id: this.handles[type].increment++,
-            execute: callback
+            execute: (e: QuestEvent<any>) => callback(e)
         }
         this.handles[type].instances.push(instance);
         return () => {

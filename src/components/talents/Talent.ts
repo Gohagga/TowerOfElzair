@@ -1,6 +1,6 @@
 import { Unit } from "w3ts/index";
-import { TalentTree, TalentDependency } from "../../ModuleLoader";
-import { TalentDepType } from "./TalentTree";
+import { TalentTree } from "./TalentTree";
+import { TalentDependency } from "./TalentDependency";
 
 export type OnTalentStateChange = (unit: Unit) => void;
 export type TalentRequirements = (tree: TalentTree, unit: Unit) => [ boolean, string ];
@@ -43,11 +43,11 @@ export class Talent {
             if (data.Description)               this.description = data.Description;
             if (data && data.Icon)              this.icon = data.Icon;
             if (data && data.IconDisabled)      this.iconDisabled = data.IconDisabled;
-            if (data && data.OnActivate)        this.onActivate = data.OnActivate;
-            if (data && data.OnDeactivate)      this.onDeactivate = data.OnDeactivate;
-            if (data && data.OnAllocate)        this.onAllocate = data.OnAllocate;
+            if (data && data.OnActivate)        this.onActivate = (unit: Unit) => data.OnActivate(unit);
+            if (data && data.OnDeactivate)      this.onDeactivate = (unit: Unit) => data.OnDeactivate(unit);
+            if (data && data.OnAllocate)        this.onAllocate = (unit: Unit) => data.OnAllocate(unit);
 
-            if (data && data.Requirements)      this.requirements = data.Requirements;
+            if (data && data.Requirements)      this._requirements = (tree: TalentTree, unit: Unit) => data.Requirements(tree, unit);
             if (data && data.Dependency)        this.dependency = data.Dependency;
             if (data && data.IsLink)            this.isLink = data.IsLink;
             if (data && data.Cost)              this.cost = data.Cost;
@@ -92,9 +92,8 @@ export class Talent {
         return this._onAllocate;
     }
     public set onAllocate(v : OnTalentStateChange) {
-        this._onAllocate = v;
-    }
-    
+        this._onAllocate = (unit: Unit) => v(unit);
+    }    
     
     public get onActivate() : OnTalentStateChange {
         return this._onActivate;
@@ -107,7 +106,7 @@ export class Talent {
         return this._onDeactivate;
     }
     public set onDeactivate(v : OnTalentStateChange) {
-        this._onDeactivate = v;
+        this._onDeactivate = (unit: Unit) => v(unit);
     }
     
     public get dependency() : TalentDependency {
@@ -123,7 +122,7 @@ export class Talent {
         return this._requirements;
     }
     public set requirements(v : TalentRequirements) {
-        this._requirements = v;
+        this._requirements = (tree: TalentTree, unit: Unit) => v(tree, unit);
     }
 
     public get nextRank() : Talent {
