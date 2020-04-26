@@ -1,8 +1,8 @@
 import { Unit } from "w3ts/index";
-import { TalentTree } from "../../ModuleLoader";
+import { TalentTree, TalentDependency } from "../../ModuleLoader";
+import { TalentDepType } from "./TalentTree";
 
 export type OnTalentStateChange = (unit: Unit) => void;
-export type TalentDependency = { left?: number, up?: number, right?: number, down?: number }
 export type TalentRequirements = (tree: TalentTree, unit: Unit) => [ boolean, string ];
 
 export type TalentData = {
@@ -34,6 +34,25 @@ export class Talent {
     private _nextRank : Talent;
     private _previousRank : Talent;
     private _maxRank : number;
+    private _isLink : boolean;
+    private _cost : number;
+
+    constructor(data?: TalentData) {
+        if (data) {
+            if (data.Name)                      this.name = data.Name;
+            if (data.Description)               this.description = data.Description;
+            if (data && data.Icon)              this.icon = data.Icon;
+            if (data && data.IconDisabled)      this.iconDisabled = data.IconDisabled;
+            if (data && data.OnActivate)        this.onActivate = data.OnActivate;
+            if (data && data.OnDeactivate)      this.onDeactivate = data.OnDeactivate;
+            if (data && data.OnAllocate)        this.onAllocate = data.OnAllocate;
+
+            if (data && data.Requirements)      this.requirements = data.Requirements;
+            if (data && data.Dependency)        this.dependency = data.Dependency;
+            if (data && data.IsLink)            this.isLink = data.IsLink;
+            if (data && data.Cost)              this.cost = data.Cost;
+        }
+    }
     
     public get name() : string {
         return this._name;
@@ -95,11 +114,9 @@ export class Talent {
         return this._dependency;
     }
     public set dependency(v : TalentDependency) {
+
         if (!this._dependency) this._dependency = {};
-        if (v.left) this.dependency.left = v.left;
-        if (v.up) this.dependency.up = v.up;
-        if (v.right) this.dependency.right = v.right;
-        if (v.down) this.dependency.down = v.down;
+        Object.assign(this._dependency, v);
     }
     
     public get requirements() : TalentRequirements {
@@ -132,6 +149,21 @@ export class Talent {
         this._maxRank = v;
         if (this._previousRank) this._previousRank.maxRank = v;
     }
+
+    public get isLink() : boolean {
+        return this._isLink;
+    }
+    public set isLink(v : boolean) {
+        this._isLink = v;
+    }
+    
+    public get cost() : number {
+        return this._cost;
+    }
+    public set cost(v : number) {
+        this._cost = v;
+    }
+    
     
     public SetFinalDescription(data?: TalentData): Talent {
         const t = new Talent();
