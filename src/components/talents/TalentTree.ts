@@ -9,29 +9,26 @@ export abstract class TalentTree {
     
     private logger: ILogger;
 
-    private _unit : Unit;
-    private _title : string;
-    private _pointsAvailable : number;
+    private _unit: Unit;
+    private _title: string = "";
+    private _pointsAvailable: number = 0;
     private _talents: Talent[] = [];
     private _rankState: number[] = [];
     private _tempRankState?: number[];
     private _icon : string | null = null;
-    
-    
+
     private _columns = 4;
     private _rows = 7;
     private _maxTalents : number = 27;
     
-    constructor(logger: ILogger, unit?: Unit) {
+    constructor(logger: ILogger, unit: Unit) {
         this.logger = logger;
-        if (unit) {
-            this.logger.info(this.Initialize);
-            this.Initialize();
-            this.unit = unit;
-        }
+        this.logger.info(this.Initialize);
+        this.Initialize();
+        this._unit = unit;
     }
 
-    public abstract Initialize();
+    public abstract Initialize(): void;
 
     // public CheckDependencies(state: number[], index: number, player: Player): [boolean, string] {
 
@@ -211,33 +208,33 @@ export abstract class TalentTree {
     public set pointsAvailable(v : number) {
         this._pointsAvailable = v;
     }
-    public set icon(v : string) {
+    public set icon(v: string | null) {
         this._icon = v;
     }
     
-    public get title() : string {
+    public get title(): string {
         return this._title;
     }
-    public get unit() : Unit {
+    public get unit(): Unit {
         return this._unit;
     }
-    public get pointsAvailable() : number {
+    public get pointsAvailable(): number {
         return this._pointsAvailable;
     }
-    public get talents() : Talent[] {
+    public get talents(): Talent[] {
         return this._talents;
     }
-    public get icon() : string | null {
+    public get icon(): string | null {
         return this._icon;
     }
-    public get tempRankState() : number[] {
+    public get tempRankState(): number[] {
         if (!this._tempRankState) this._tempRankState = [];
         for (let i = 0; i < this.maxTalents; i++) {
             this._tempRankState[i] = this._rankState[i];
         }
         return this._tempRankState;
     }
-    public get maxTalents() : number {
+    public get maxTalents(): number {
         return this._maxTalents;
     }
     

@@ -44,10 +44,10 @@ export class EventUnitUsedAbilityHandler implements IEventUnitUsedAbilityHandler
         });
     }
 
-    Register(type: EventAbility, abilityId: number, callback: () => void) {
+    Register(type: EventAbility, abilityId: number, callback: () => void): void {
         this.handles[type][abilityId] = callback;
     }
-    Unregister(type: EventAbility, abilityId: number) {
+    Unregister(type: EventAbility, abilityId: number): void {
         
         if (abilityId in this.handles[type]) {
             delete this.handles[type][abilityId];

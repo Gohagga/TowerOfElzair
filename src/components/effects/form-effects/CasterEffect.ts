@@ -9,6 +9,8 @@ export class CasterAsFocusEffect extends FormEffect {
 
     public Resolve(): void {
         
+        if (!this.context) return;
+        
         const context: FormContext | SubstanceContext = {
             origin: this.context.origin,
             destination: this.context.destination,

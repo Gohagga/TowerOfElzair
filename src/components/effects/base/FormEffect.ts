@@ -5,7 +5,6 @@ import { Point, Unit } from "w3ts";
 
 export abstract class FormEffect implements Effect {
 
-    parent: TemplateEffect;
     context: FormContext | null = null;
     effects: (FormEffect | SubstanceEffect)[] = [];
 
@@ -26,8 +25,8 @@ export abstract class FormEffect implements Effect {
 
 export interface FormContext {
     origin: Point;
+    sourceUnit: Unit;
     destination: Point;
-    sourceUnit?: Unit;
     targetUnit?: Unit;
     /**Baseline unit upon which Effects will act upon. */
     focus: Unit;

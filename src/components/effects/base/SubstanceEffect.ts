@@ -4,7 +4,7 @@ import { Unit } from "w3ts";
 
 export abstract class SubstanceEffect implements Effect {
 
-    context: SubstanceContext;
+    context: SubstanceContext | null = null;
     
     public abstract Resolve(): void;
 }

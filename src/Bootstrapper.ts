@@ -3,6 +3,11 @@ import ILogger from "components/logger/ILogger";
 import { Logger } from "components/logger/Logger";
 import { Config } from "Config";
 import { TalentScreenVModel } from "ui/view-models/TalentScreenVModel";
+import { GenerateTabView } from "ui/tab-screen/TabView";
+import { TabViewModel } from "ui/tab-screen/TabViewModel";
+import { FrameEventHandler } from "./event-handlers/implementations/FrameEventHandler";
+import { TalentTreeViewModel } from "ui/talent-screen/TalentTreeViewModel";
+import { GenerateTalentTreeView } from "ui/talent-screen/TalentTreeView";
 
 export class Bootstrapper {
 
@@ -10,6 +15,20 @@ export class Bootstrapper {
         
         const config = new Config();
         const logger: ILogger = new Logger(config);
+
+        const frameEvent = new FrameEventHandler(logger);
+
+        const talentTabView = GenerateTabView(config.TalentScreen);
+        const talentTabs = new TabViewModel(logger, frameEvent, talentTabView);
+
+        const talentTreeView = GenerateTalentTreeView(talentTabView.box, config.talentTree);
+        const tab1 = new TalentTreeViewModel(talentTreeView, logger, "First");
+        const tab2 = new TalentTreeViewModel(talentTreeView, logger, "Second");
+        const tab3 = new TalentTreeViewModel(talentTreeView, logger, "Third");
+
+        talentTabs.tabContent = [ tab1, tab2, tab3 ];
+        // logger.info("Step", 6)
+        // talentTabs.activeTabIndex = 0;
         
         // logger.info("START");
         // const damager = new DamageProvider();

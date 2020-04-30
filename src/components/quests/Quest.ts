@@ -2,11 +2,11 @@ import { IQuest } from "./IQuest";
 
 export class Quest<T> implements IQuest<T> {
     
-    state: Quest.State;
-    context: T;
+    state: Quest.State = Quest.State.NotAvailable;
+    _context: T;
     
-    constructor() {
-        
+    constructor(context: T) {
+        this._context = context;
     }
     
     Accept(): boolean {
@@ -20,7 +20,7 @@ export class Quest<T> implements IQuest<T> {
 
     Update(update: (state: T) => void): boolean {
         if (this.state == Quest.State.Accepted) {
-            update(this.context);
+            update(this._context);
             // TODO: Fire quest updated event
             return true;
         }

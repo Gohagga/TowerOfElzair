@@ -11,7 +11,7 @@ export class TalentScreenVModel {
     _frames: TalentScreenViewFrames;
 
     _talentTrees: TalentTree[] = [];
-    _displayedTree: TalentTree;
+    // _displayedTree: TalentTree;
 
     constructor(player: MapPlayer, frames: TalentScreenViewFrames, { TalentScreen }: TalentScreenModelConfig) {
         this._frames = frames;
@@ -22,7 +22,7 @@ export class TalentScreenVModel {
     public AddTree(tree: TalentTree) {
 
         this._talentTrees.push(tree);
-        if (this._talentTrees.length == 1) this._displayedTree = tree;
+        // if (this._talentTrees.length == 1) this._displayedTree = tree;
     }
 
     // Logic for switching tabs

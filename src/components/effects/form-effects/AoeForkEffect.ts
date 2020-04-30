@@ -16,11 +16,13 @@ export class AoeForkEffect extends FormEffect {
     constructor(
         private readonly provider: IEnumUnitProvider,
         private readonly radius: number,
-        private readonly filter?: (target: Unit, caster: Unit) => boolean,
+        private readonly filter?: (target: Unit, caster?: Unit) => boolean,
     ) { super(); }
 
     public Resolve(): void {
         
+        if (!this.context) return;
+
         let targets = this.provider.EnumUnitsInRange(this.context.destination, this.radius, this.filter);
 
         for (let t of targets) {

@@ -16,6 +16,6 @@ export const enum QuestEventType {
 }
 
 export class QuestEventCallback implements IEventCallback<QuestEvent<any>> {
-    id: number;
-    execute: (e: QuestEvent<any>) => void;
+    id: number = -1;
+    execute: (e: QuestEvent<any>) => void = () => null;
 }

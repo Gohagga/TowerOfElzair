@@ -3,7 +3,7 @@ export interface IEventHandler<Type, EventData> {
     /**Subscribes to an event and returns a function used to unsubscribe. */
     Subscribe(type: Type, callback: (e: EventData) => void): UnsubscribeFunc;
 
-    Register(type: Type, event: EventData);
+    Register(type: Type, event: EventData): void;
 }
 export type UnsubscribeFunc = () => void;
 

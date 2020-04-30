@@ -10,9 +10,9 @@ export type TalentData = {
     Description?: string;
     Icon?: string;
     IconDisabled?: string;
-    OnAllocate?: (unit: Unit) => void;
-    OnActivate?: (unit: Unit) => void;
-    OnDeactivate?: (unit: Unit) => void;
+    OnAllocate?: OnTalentStateChange;
+    OnActivate?: OnTalentStateChange
+    OnDeactivate?: OnTalentStateChange;
     Dependency?: TalentDependency;
     Requirements?: TalentRequirements;
     StartingLevel?: number;
@@ -22,20 +22,20 @@ export type TalentData = {
 
 export class Talent {
     
-    private _name : string;
-    private _description : string;
-    private _iconEnabled : string;
-    private _iconDisabled : string;
-    private _onAllocate : OnTalentStateChange;
-    private _onActivate : OnTalentStateChange;
-    private _onDeactivate : OnTalentStateChange;
-    private _dependency : TalentDependency;
-    private _requirements : TalentRequirements;
-    private _nextRank : Talent;
-    private _previousRank : Talent;
-    private _maxRank : number;
-    private _isLink : boolean;
-    private _cost : number;
+    private _name: string = "";
+    private _description: string = "";
+    private _iconEnabled: string = "";
+    private _iconDisabled: string = "";
+    private _onAllocate: OnTalentStateChange = () => null;
+    private _onActivate: OnTalentStateChange = () => null;
+    private _onDeactivate: OnTalentStateChange = () => null;
+    private _dependency: TalentDependency = {};
+    private _requirements: TalentRequirements = () => [true, ""];
+    private _nextRank?: Talent;
+    private _previousRank?: Talent;
+    private _maxRank: number = 0;
+    private _isLink: boolean = false;
+    private _cost: number = 0;
 
     constructor(data?: TalentData) {
         if (data) {
@@ -43,11 +43,11 @@ export class Talent {
             if (data.Description)               this.description = data.Description;
             if (data && data.Icon)              this.icon = data.Icon;
             if (data && data.IconDisabled)      this.iconDisabled = data.IconDisabled;
-            if (data && data.OnActivate)        this.onActivate = (unit: Unit) => data.OnActivate(unit);
-            if (data && data.OnDeactivate)      this.onDeactivate = (unit: Unit) => data.OnDeactivate(unit);
-            if (data && data.OnAllocate)        this.onAllocate = (unit: Unit) => data.OnAllocate(unit);
+            if (data && data.OnActivate)        this.onActivate = data.OnActivate;
+            if (data && data.OnDeactivate)      this.onDeactivate = data.OnDeactivate;
+            if (data && data.OnAllocate)        this.onAllocate = data.OnAllocate;
 
-            if (data && data.Requirements)      this._requirements = (tree: TalentTree, unit: Unit) => data.Requirements(tree, unit);
+            if (data && data.Requirements)      this._requirements = data.Requirements;
             if (data && data.Dependency)        this.dependency = data.Dependency;
             if (data && data.IsLink)            this.isLink = data.IsLink;
             if (data && data.Cost)              this.cost = data.Cost;
@@ -91,8 +91,8 @@ export class Talent {
     public get onAllocate() : OnTalentStateChange {
         return this._onAllocate;
     }
-    public set onAllocate(v : OnTalentStateChange) {
-        this._onAllocate = (unit: Unit) => v(unit);
+    public set onAllocate(v: OnTalentStateChange) {
+        this._onAllocate = v;
     }    
     
     public get onActivate() : OnTalentStateChange {
@@ -106,7 +106,7 @@ export class Talent {
         return this._onDeactivate;
     }
     public set onDeactivate(v : OnTalentStateChange) {
-        this._onDeactivate = (unit: Unit) => v(unit);
+        this._onDeactivate = v;
     }
     
     public get dependency() : TalentDependency {
@@ -134,10 +134,10 @@ export class Talent {
         v.maxRank = this.maxRank + 1;
     }
 
-    public get previousRank() : Talent {
+    public get previousRank() : Talent | undefined {
         return this._previousRank;
     }
-    public set previousRank(v : Talent) {
+    public set previousRank(v : Talent | undefined) {
         this._previousRank = v;
     }
     

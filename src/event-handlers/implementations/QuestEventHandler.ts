@@ -18,7 +18,8 @@ export class QuestEventHandler implements IQuestEventHandler {
         this.handles[type].instances.push(instance);
         return () => {
             const index = this.handles[type].instances.findIndex(x => instance.id);
-            this.handles[type].instances[index] = this.handles[type].instances.pop();
+            let last = this.handles[type].instances.pop();
+            if (last) this.handles[type].instances[index] = last;
         };
     }
 
