@@ -35,7 +35,6 @@ export class TabViewModel {
             let index = i;
             let msg = `Tab ${i} has been clicked`;
             event.Subscribe(FrameEventType.Click, selector.mainButton, () => {
-                // print(index)
                 logger.info(msg);
                 this.activeTabIndex = index;
             });

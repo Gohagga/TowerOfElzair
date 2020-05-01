@@ -32,7 +32,6 @@ export class FrameEventHandler implements IFrameEventHandler {
         };
         handles.push(handle);
         this._handles[type][id] = handles;
-        print(handles.length, "Handles");
 
         // Register the trigger
         if (id in this._frames == false) {
@@ -51,7 +50,6 @@ export class FrameEventHandler implements IFrameEventHandler {
 
     Register(type: FrameEventType, frameId: number): void {
         
-        print(frameId, "FrameId");
         if (frameId in this._handles[type] == false) return;
         const handles = this._handles[type][frameId];
 

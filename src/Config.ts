@@ -5,7 +5,7 @@ import { ITalentTreeView } from "ui/talent-screen/interface/ITalentTreeView";
 import { ITalentTreeConfig } from "ui/talent-screen/interface/ITalentTreeConfig";
 
 export class Config implements ILogger.Config {  //IDummySpellProvider.Config { // 
-    loggerLevel = ILogger.Level.All;
+    loggerLevel = ILogger.Level.None;
     
     dummyOwningPlayer = 0;
     dummyUnitId = FourCC('nDUM');
@@ -56,10 +56,43 @@ export class Config implements ILogger.Config {  //IDummySpellProvider.Config { 
             text: "Confirm"
         },
         box: {
-            width: 2,
-            height: 2,
-            sideMargin: 1,
-            verticalMargin: 1
+            width: 0.3,
+            height: 0.44,
+        },
+        base: {
+            columns: 4,
+            rows: 6,
+            maxTalentSlots: 24,
+            sideMargin: 0.1,
+            verticalMargin: 0.15
+        },
+        talent: {
+            buttonWidth: 0.04,
+            buttonHeight: 0.04,
+            buttonTexture: "ReplaceableTextures/CommandButtons/BTNPeasant.blp",
+            tooltip: {
+                width: 0.28,
+                height: 0.16,
+                textX: 0,
+                textY: 0,
+                textWidth: 0.25,
+                textHeight: 0.13,
+                defaultText: "Default talent name \n\nDefault talent description",
+            },
+            rank: {
+                x: -0.0006,
+                y: 0.0015,
+                size: {
+                    width: 0.014,
+                    height: 0.014
+                },
+                texture: "UI/Widgets/Console/Human/human-transport-slot.blp",
+            },
+            highlight: {
+                width: 0.038,
+                height: 0.038,
+                texture: "UI/Widgets/Console/Human/CommandButton/human-activebutton.blp"
+            }
         }
     }
 }

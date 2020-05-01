@@ -7,7 +7,7 @@ export type TalentGenerator = (rank: number) => TalentData
 
 export abstract class TalentTree {
     
-    private logger: ILogger;
+    protected logger: ILogger;
 
     private _unit: Unit;
     private _title: string = "";
@@ -21,11 +21,12 @@ export abstract class TalentTree {
     private _rows = 7;
     private _maxTalents : number = 27;
     
-    constructor(logger: ILogger, unit: Unit) {
+    constructor(logger: ILogger, unit: Unit, columns: number, rows: number) {
         this.logger = logger;
-        this.logger.info(this.Initialize);
         this.Initialize();
         this._unit = unit;
+        this._columns = columns;
+        this._rows = rows;
     }
 
     public abstract Initialize(): void;
@@ -237,16 +238,22 @@ export abstract class TalentTree {
     public get maxTalents(): number {
         return this._maxTalents;
     }
+    public get columns(): number {
+        return this._columns;
+    }
+    public get rows(): number {
+        return this._rows;
+    }
     
     
-    public talent = new Proxy(this._talents, {
-        get: (target: Talent[], x: number, y: number) => target[x + y * this._columns],
-        set: (target: Talent[], x: number, y: number, value: Talent) => {
-            this.logger.info("Trying to set something");
-            const index = x + y * this._columns;
-            target[index] = value
-            this.logger.info("Successfully set something");
-            return true;
-        } 
-    });
+    // public talent = new Proxy(this._talents, {
+    //     get: (target: Talent[], x: number, y: number) => target[x + y * this._columns],
+    //     set: (target: Talent[], x: number, y: number, value: Talent) => {
+    //         this.logger.info("Trying to set something");
+    //         const index = x + y * this._columns;
+    //         target[index] = value
+    //         this.logger.info("Successfully set something");
+    //         return true;
+    //     } 
+    // });
 }

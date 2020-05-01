@@ -8,11 +8,35 @@ import { TabViewModel } from "ui/tab-screen/TabViewModel";
 import { FrameEventHandler } from "./event-handlers/implementations/FrameEventHandler";
 import { TalentTreeViewModel } from "ui/talent-screen/TalentTreeViewModel";
 import { GenerateTalentTreeView } from "ui/talent-screen/TalentTreeView";
+import { TalentViewModel } from "ui/talent-screen/TalentViewModel";
+import { GenerateTalentView, GenerateNTalentViews } from "ui/talent-screen/TalentView";
+import { ITalentView } from "ui/talent-screen/interface/ITalentView";
+import { TalentTree } from "components/talents/TalentTree";
+import { TestTalentTree } from "components/talents/content/TestTalentTree";
+import { Unit } from "w3ts/index";
+
+abstract class Base {
+
+    private logger: ILogger;
+    constructor(logger: ILogger) {
+        this.logger = logger;
+        this.logger.info("Super works");
+    }
+}
+
+class Ext extends Base {
+
+    constructor(logger: ILogger) {
+        super(logger);
+    }
+}
 
 export class Bootstrapper {
 
     public static registerComponents() {
         
+        let u = Unit.fromHandle(gg_unit_Hblm_0003);
+
         const config = new Config();
         const logger: ILogger = new Logger(config);
 
@@ -20,12 +44,18 @@ export class Bootstrapper {
 
         const talentTabView = GenerateTabView(config.TalentScreen);
         const talentTabs = new TabViewModel(logger, frameEvent, talentTabView);
+        const talentViews = GenerateNTalentViews(24, talentTabView.box, config.talentTree.talent);
+        const talentVMFactory = (view: ITalentView) => 
+            new TalentViewModel(view);
 
         const talentTreeView = GenerateTalentTreeView(talentTabView.box, config.talentTree);
-        const tab1 = new TalentTreeViewModel(talentTreeView, logger, "First");
-        const tab2 = new TalentTreeViewModel(talentTreeView, logger, "Second");
-        const tab3 = new TalentTreeViewModel(talentTreeView, logger, "Third");
-
+        const tab1 = new TalentTreeViewModel(talentTabView.box,talentTreeView, talentViews, config.talentTree, talentVMFactory, logger);
+        tab1.tree = new TestTalentTree(logger, u, 2, 4);
+        const tab2 = new TalentTreeViewModel(talentTabView.box,talentTreeView, talentViews, config.talentTree, talentVMFactory, logger);
+        tab2.tree = new TestTalentTree(logger, u, 4, 6);
+        const tab3 = new TalentTreeViewModel(talentTabView.box,talentTreeView, talentViews, config.talentTree, talentVMFactory, logger);
+        tab3.tree = new TestTalentTree(logger, u, 3, 7);
+        
         talentTabs.tabContent = [ tab1, tab2, tab3 ];
         // logger.info("Step", 6)
         // talentTabs.activeTabIndex = 0;
