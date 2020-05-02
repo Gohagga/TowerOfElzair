@@ -14,6 +14,7 @@ import { ITalentView } from "ui/talent-screen/interface/ITalentView";
 import { TalentTree } from "components/talents/TalentTree";
 import { TestTalentTree } from "components/talents/content/TestTalentTree";
 import { Unit } from "w3ts/index";
+import { TalentTreeViewModelBuilder } from "ui/talent-screen/TalentTreeViewModelBuilder";
 
 abstract class Base {
 
@@ -40,20 +41,26 @@ export class Bootstrapper {
         const config = new Config();
         const logger: ILogger = new Logger(config);
 
+        
         const frameEvent = new FrameEventHandler(logger);
-
         const talentTabView = GenerateTabView(config.TalentScreen);
         const talentTabs = new TabViewModel(logger, frameEvent, talentTabView);
-        const talentViews = GenerateNTalentViews(24, talentTabView.box, config.talentTree.talent);
-        const talentVMFactory = (view: ITalentView) => 
-            new TalentViewModel(view);
+        
+        const talentTreeViewBuilder = new TalentTreeViewModelBuilder(logger)
+            .SetConfig(config.talentTree)
+            .SetParentFrame(talentTabView.box)
+            .SetFrameEventHandler(frameEvent)
+            .SetBaseView(GenerateTalentTreeView(talentTabView.box, config.talentTree))
+            .SetTalentViews(GenerateNTalentViews(24, talentTabView.box, config.talentTree.talent))
+            .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
 
-        const talentTreeView = GenerateTalentTreeView(talentTabView.box, config.talentTree);
-        const tab1 = new TalentTreeViewModel(talentTabView.box,talentTreeView, talentViews, config.talentTree, talentVMFactory, logger);
+        const tab1 = talentTreeViewBuilder.Build();
         tab1.tree = new TestTalentTree(logger, u, 2, 4);
-        const tab2 = new TalentTreeViewModel(talentTabView.box,talentTreeView, talentViews, config.talentTree, talentVMFactory, logger);
+
+        const tab2 = talentTreeViewBuilder.Build();
         tab2.tree = new TestTalentTree(logger, u, 4, 6);
-        const tab3 = new TalentTreeViewModel(talentTabView.box,talentTreeView, talentViews, config.talentTree, talentVMFactory, logger);
+
+        const tab3 = talentTreeViewBuilder.Build();
         tab3.tree = new TestTalentTree(logger, u, 3, 7);
         
         talentTabs.tabContent = [ tab1, tab2, tab3 ];

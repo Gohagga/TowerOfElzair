@@ -33,7 +33,7 @@ export class Talent {
     private _requirements: TalentRequirements = () => [true, ""];
     private _nextRank?: Talent;
     private _previousRank?: Talent;
-    private _maxRank: number = 0;
+    private _maxRank: number = 1;
     private _isLink: boolean = false;
     private _cost: number = 0;
 

@@ -2,6 +2,7 @@ import ILogger from "components/logger/ILogger";
 import { Unit } from "w3ts/index";
 import { Talent, TalentData } from "./Talent";
 import { TalentDependency, TalentDependencyIndex, TalentDepType } from "./TalentDependency";
+import { TalentState } from "./TalentState";
 
 export type TalentGenerator = (rank: number) => TalentData
 
@@ -23,10 +24,10 @@ export abstract class TalentTree {
     
     constructor(logger: ILogger, unit: Unit, columns: number, rows: number) {
         this.logger = logger;
-        this.Initialize();
-        this._unit = unit;
         this._columns = columns;
         this._rows = rows;
+        this.Initialize();
+        this._unit = unit;
     }
 
     public abstract Initialize(): void;
@@ -45,11 +46,12 @@ export abstract class TalentTree {
 
     // }
 
-    private CheckDependencyKey(state: number[], dep: TalentDependency, key: TalentDepType, index: number) {
+    public CheckDependencyKey(state: number[], dep: TalentDependency, key: TalentDepType, index: number) {
         let linkIndex: number | null = null;
         let linkOrient: number | null = null;
         let linkAction: Action | null = null;
         let errorText: string | null = null;
+        let ok: boolean = true;
 
         const enum Action { enabled, disabled }
 
@@ -64,8 +66,9 @@ export abstract class TalentTree {
 
             if (lvl == -1) linkAction = Action.disabled;
             if (talent && state[depIndex] && state[depIndex] < lvl) {
+                ok = false;
                 errorText = "";
-                if (lvl != -1) errorText += talent.name + " " + lvl;
+                if (lvl != -1) errorText += talent.name + " (" + lvl + ")";
                 linkAction = Action.disabled;
             }
         }
@@ -73,7 +76,8 @@ export abstract class TalentTree {
             linkIndex,
             linkOrient,
             linkAction,
-            errorText
+            errorText,
+            ok
         }
         return retVal;
     }
@@ -229,9 +233,11 @@ export abstract class TalentTree {
         return this._icon;
     }
     public get tempRankState(): number[] {
-        if (!this._tempRankState) this._tempRankState = [];
-        for (let i = 0; i < this.maxTalents; i++) {
-            this._tempRankState[i] = this._rankState[i];
+        if (!this._tempRankState) {
+            this._tempRankState = [];
+            for (let i = 0; i < this.maxTalents; i++) {
+                this._tempRankState[i] = this._rankState[i];
+            }
         }
         return this._tempRankState;
     }

@@ -5,7 +5,7 @@ import { ITalentTreeView } from "ui/talent-screen/interface/ITalentTreeView";
 import { ITalentTreeConfig } from "ui/talent-screen/interface/ITalentTreeConfig";
 
 export class Config implements ILogger.Config {  //IDummySpellProvider.Config { // 
-    loggerLevel = ILogger.Level.None;
+    loggerLevel = ILogger.Level.All;
     
     dummyOwningPlayer = 0;
     dummyUnitId = FourCC('nDUM');
