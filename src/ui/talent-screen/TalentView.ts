@@ -3,6 +3,7 @@ import { FramePoint } from "../view-models/Frame";
 import { Frame } from "w3ts";
 import { ITalentTreeView } from "./interface/ITalentTreeView";
 import { ITalentView } from "./interface/ITalentView";
+import { TalentDepType } from "components/talents/TalentDependency";
 
 export function GenerateNTalentViews(amount: number, parent: Frame, cfg: ITalentTreeConfig.Talent): ITalentView[] {
     
@@ -15,6 +16,13 @@ export function GenerateNTalentViews(amount: number, parent: Frame, cfg: ITalent
 
 export function GenerateTalentView(parent: Frame, cfg: ITalentTreeConfig.Talent): ITalentView {
 
+    const links = [
+        Frame.fromHandle(BlzCreateFrameByType("BACKDROP", "LeftLink", parent.handle, "", 0)),
+        Frame.fromHandle(BlzCreateFrameByType("BACKDROP", "UpLink", parent.handle, "", 0)),
+        Frame.fromHandle(BlzCreateFrameByType("BACKDROP", "RightLink", parent.handle, "", 0)),
+        Frame.fromHandle(BlzCreateFrameByType("BACKDROP", "DownLink", parent.handle, "", 0))
+    ];
+
     const highlight = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", "AvailableImage", parent.handle, "", 0));
     const buttonMain = new Frame("ScoreScreenBottomButtonTemplate", parent, 0, 0);
     const buttonImage = Frame.fromName("ScoreScreenButtonBackdrop", 0);
@@ -23,6 +31,7 @@ export function GenerateTalentView(parent: Frame, cfg: ITalentTreeConfig.Talent)
     const rankImage = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", "Counter", buttonMain.handle, "", 0));
     const rankText = Frame.fromHandle(BlzCreateFrameByType("TEXT", "FaceFrameTooltip", buttonMain.handle, "", 0));
     const toolRank = Frame.fromHandle(BlzCreateFrameByType("TEXT", "FaceFrameTooltip", toolBox.handle, "", 0));
+    
 
     buttonMain.setTooltip(toolBox);
     BlzFrameSetTextAlignment(rankText.handle, TEXT_JUSTIFY_CENTER, TEXT_JUSTIFY_MIDDLE);
@@ -30,6 +39,7 @@ export function GenerateTalentView(parent: Frame, cfg: ITalentTreeConfig.Talent)
 
     buttonMain.setPoint(FramePoint.C, parent, FramePoint.C, 0, 0);
     buttonMain.setSize(cfg.buttonWidth, cfg.buttonHeight);
+    buttonMain.setLevel(2);
 
     toolBox.setPoint(FramePoint.TL, parent, FramePoint.TR, 0, 0);
     toolBox.setSize(cfg.tooltip.width, cfg.tooltip.height);
@@ -59,6 +69,16 @@ export function GenerateTalentView(parent: Frame, cfg: ITalentTreeConfig.Talent)
     toolRank.setSize(cfg.tooltip.width - 0.03, cfg.tooltip.height - 0.03);
     toolRank.text = "Rank 1/3";
 
+    for (let link of links) {
+        link.setPoint(FramePoint.C, parent, FramePoint.C, 0, 0);
+        link.setSize(cfg.link.width, cfg.link.width);
+        link.setTexture(cfg.link.inactiveTexture, 0, true);
+        link.visible = false;
+        link.setLevel(1);
+    }
+    //  { point: true, pos: { pointSelf: FRAMEPOINT_BOTTOM, frameOther: this.frames.box, pointOther: FRAMEPOINT_CENTER, p: { x: xOffset, y: yOffset }}, size: { x: this.TalentWidth*0.10, y: yIncrem }, texture: this.InactiveLinkTexture };
+    // config.horizontalLink = { point: true, pos: { pointSelf: FRAMEPOINT_LEFT, frameOther: this.frames.box, pointOther: FRAMEPOINT_CENTER, p: { x: xOffset, y: yOffset }}, size: { x: xIncrem, y: this.TalentHeight*0.10 }, texture: this.InactiveLinkTexture };
+
     // config.verticalLink = { point: true, pos: { pointSelf: FRAMEPOINT_BOTTOM, frameOther: this.frames.box, pointOther: FRAMEPOINT_CENTER, p: { x: xOffset, y: yOffset }}, size: { x: this.TalentWidth*0.10, y: yIncrem }, texture: this.InactiveLinkTexture };
     // config.horizontalLink = { point: true, pos: { pointSelf: FRAMEPOINT_LEFT, frameOther: this.frames.box, pointOther: FRAMEPOINT_CENTER, p: { x: xOffset, y: yOffset }}, size: { x: xIncrem, y: this.TalentHeight*0.10 }, texture: this.InactiveLinkTexture };
     // config.tooltipRank = { clear: true, point: true, pos: { pointSelf: FRAMEPOINT_TOP, frameOther: tf.tooltipBox, pointOther: FRAMEPOINT_TOP, p: { x: 0.0, y: -0.015 }}, size: { x: this.TooltipBoxWidth-0.03, y: this.TooltipBoxHeight-0.03 }, text: "Rank 1/3"};
@@ -87,7 +107,13 @@ export function GenerateTalentView(parent: Frame, cfg: ITalentTreeConfig.Talent)
             image: rankImage,
             text: rankText
         },
-        highlight: highlight
+        highlight: highlight,
+        links: {
+            left: links[0],
+            up: links[1],
+            right: links[2],
+            down: links[3],
+        }
     }
     return retVal;
 }

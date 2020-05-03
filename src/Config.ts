@@ -92,6 +92,11 @@ export class Config implements ILogger.Config {  //IDummySpellProvider.Config { 
                 width: 0.038,
                 height: 0.038,
                 texture: "UI/Widgets/Console/Human/CommandButton/human-activebutton.blp"
+            },
+            link: {
+                activeTexture: "Textures/Water00.blp",
+                inactiveTexture: "UI/Widgets/Console/Human/human-inventory-slotfiller.blp",
+                width: 0.004
             }
         }
     }

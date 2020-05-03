@@ -43,6 +43,7 @@ export class TestTalentTree extends TalentTree {
             Name: "Tier 1 Peasant",
             Description: "Summons a loyal peasant into your service.",
             Icon: IconPath.BTNPeasant,
+            Dependency: { [left]: 1 },
             OnActivate: target => {
                 new Unit(target.owner, FourCC('hpea'), target.x, target.y, target.facing);
             }
@@ -62,7 +63,7 @@ export class TestTalentTree extends TalentTree {
             Name: "Tier 1 Footman",
             Description: "Summons a loyal footman into your service.",
             Icon: IconPath.BTNFootman,
-            Dependency: { [down]: 1 },
+            Dependency: { [down]: 1, [left]: 1 },
             OnActivate: target => {
                 new Unit(target.owner, FourCC('hfoo'), target.x, target.y, target.facing);
             }
@@ -83,7 +84,7 @@ export class TestTalentTree extends TalentTree {
             Name: "Tier 2 Peasant",
             Description: "Summons two loyal peasants into your service.",
             Icon: IconPath.BTNPeasant,
-            Dependency: { [down]: 1 },
+            Dependency: { [down]: 1, [left]: 1 },
             OnActivate: target => {
                 new Unit(target.owner, FourCC('hpea'), target.x, target.y, target.facing);
                 new Unit(target.owner, FourCC('hpea'), target.x, target.y, target.facing);
@@ -105,7 +106,7 @@ export class TestTalentTree extends TalentTree {
             Name: "Tier 2 Footman",
             Description: "Summons two loyal footmen into your service.",
             Icon: IconPath.BTNFootman,
-            Dependency: { [down]: 1 },
+            Dependency: { [down]: 1, [left]: 1 },
             OnActivate: target => {
                 new Unit(target.owner, FourCC('hfoo'), target.x, target.y, target.facing);
                 new Unit(target.owner, FourCC('hfoo'), target.x, target.y, target.facing);

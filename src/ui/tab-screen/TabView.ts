@@ -37,6 +37,7 @@ function GenerateTabBox(cfg: ITabViewConfig.Box) {
     box.clearPoints();
     box.setAbsPoint(Fp.C, 0.35, 0.34);
     box.setSize(0.3, 0.44);
+    box.visible = false;
 
     title.text = "Talent Tree";
 

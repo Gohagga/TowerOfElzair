@@ -13,7 +13,7 @@ import { GenerateTalentView, GenerateNTalentViews } from "ui/talent-screen/Talen
 import { ITalentView } from "ui/talent-screen/interface/ITalentView";
 import { TalentTree } from "components/talents/TalentTree";
 import { TestTalentTree } from "components/talents/content/TestTalentTree";
-import { Unit } from "w3ts/index";
+import { Unit, MapPlayer, Trigger } from "w3ts/index";
 import { TalentTreeViewModelBuilder } from "ui/talent-screen/TalentTreeViewModelBuilder";
 
 abstract class Base {
@@ -44,7 +44,7 @@ export class Bootstrapper {
         
         const frameEvent = new FrameEventHandler(logger);
         const talentTabView = GenerateTabView(config.TalentScreen);
-        const talentTabs = new TabViewModel(logger, frameEvent, talentTabView);
+        const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), logger, frameEvent, talentTabView);
         
         const talentTreeViewBuilder = new TalentTreeViewModelBuilder(logger)
             .SetConfig(config.talentTree)
@@ -54,16 +54,42 @@ export class Bootstrapper {
             .SetTalentViews(GenerateNTalentViews(24, talentTabView.box, config.talentTree.talent))
             .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
 
-        const tab1 = talentTreeViewBuilder.Build();
-        tab1.tree = new TestTalentTree(logger, u, 2, 4);
+        const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
+        let sharedTree = new TestTalentTree(logger, u, 2, 4);
+        tab1.tree = sharedTree;
 
-        const tab2 = talentTreeViewBuilder.Build();
-        tab2.tree = new TestTalentTree(logger, u, 4, 6);
+        // const tab2 = talentTreeViewBuilder.Build();
+        // tab2.tree = new TestTalentTree(logger, u, 4, 6);
 
-        const tab3 = talentTreeViewBuilder.Build();
-        tab3.tree = new TestTalentTree(logger, u, 3, 7);
+        // const tab3 = talentTreeViewBuilder.Build();
+        // tab3.tree = new TestTalentTree(logger, u, 3, 7);
         
-        talentTabs.tabContent = [ tab1, tab2, tab3 ];
+        talentTabs.tabContent = [ tab1 ];
+
+        // For blue now
+        const talentTabsBlue = new TabViewModel(MapPlayer.fromIndex(1), logger, frameEvent, talentTabView);
+        talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(1));
+        const tabb1 = talentTreeViewBuilder.Build();
+        tabb1.tree = new TestTalentTree(logger, u, 2, 4);
+        // const tabb2 = talentTreeViewBuilder.Build();
+        // tabb2.tree = sharedTree;
+
+        talentTabsBlue.tabContent = [ tabb1 ];
+
+        let t = new Trigger();
+        t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
+        t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
+        t.addAction(() => {
+            switch (MapPlayer.fromEvent()) {
+                case MapPlayer.fromIndex(0):
+                    talentTabs.visible = !talentTabs.visible;
+                    break;
+                case MapPlayer.fromIndex(1):
+                    talentTabsBlue.visible = !talentTabsBlue.visible;
+                    break;
+            }
+        });
+
         // logger.info("Step", 6)
         // talentTabs.activeTabIndex = 0;
         

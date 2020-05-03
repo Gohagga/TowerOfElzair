@@ -51,6 +51,11 @@ export namespace ITalentTreeConfig {
             width: number,
             height: number,
             texture: string
+        },
+        link: {
+            width: number,
+            activeTexture: string,
+            inactiveTexture: string,
         }
     }
 }

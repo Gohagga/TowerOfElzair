@@ -1,4 +1,4 @@
-import { Frame } from "w3ts/index";
+import { Frame, MapPlayer } from "w3ts/index";
 import { ITalentTreeView } from "./interface/ITalentTreeView";
 import { ITalentView } from "./interface/ITalentView";
 import { ITalentSlot } from "./interface/ITalentSlot";
@@ -15,6 +15,7 @@ export class TalentTreeViewModelBuilder {
     private _clickHandler?: IFrameEventHandler;
     private _talentViews?: ITalentView[];
     private _talentVMFactory?: (this: void, view: ITalentView) => ITalentSlot;
+    private _watcher: MapPlayer = MapPlayer.fromIndex(12);
 
     constructor(
         private logger: ILogger
@@ -51,8 +52,13 @@ export class TalentTreeViewModelBuilder {
             this.logger.info("|cffff2222Talent slot factory missing.|r")
             throw new Error("Talent slot factory missing.");
         }
+
+        if (!this._watcher) {
+            this.logger.info("|cffff2222Watching player missing.|r")
+            throw new Error("Watching player missing.");
+        }
         
-        const built = new TalentTreeViewModel(this._parentFrame, this._baseView, this._clickHandler, this._talentViews, this._config, this._talentVMFactory, this.logger);
+        const built = new TalentTreeViewModel(this._watcher, this._parentFrame, this._baseView, this._clickHandler, this._talentViews, this._config, this._talentVMFactory, this.logger);
         return built;
     }
 
@@ -83,6 +89,11 @@ export class TalentTreeViewModelBuilder {
 
     SetTalentViewModelFactory(method: (view: ITalentView) => ITalentSlot) {
         this._talentVMFactory = method;
+        return this;
+    }
+
+    SetWatcher(player: MapPlayer) {
+        this._watcher = player;
         return this;
     }
 }

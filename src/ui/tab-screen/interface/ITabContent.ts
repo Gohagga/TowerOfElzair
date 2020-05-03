@@ -1,6 +1,8 @@
-import { Frame } from "w3ts/index";
+import { Frame, MapPlayer } from "w3ts/index";
 
 export interface ITabContent {
+
+    watcher: MapPlayer;
 
     tabHeader: string;
 

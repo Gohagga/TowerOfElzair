@@ -49,11 +49,11 @@ export abstract class TalentTree {
     public CheckDependencyKey(state: number[], dep: TalentDependency, key: TalentDepType, index: number) {
         let linkIndex: number | null = null;
         let linkOrient: number | null = null;
-        let linkAction: Action | null = null;
+        let linkAction: string | null = null;
         let errorText: string | null = null;
         let ok: boolean = true;
 
-        const enum Action { enabled, disabled }
+        const enum Action { enabled = "enabled", disabled = "disabled" }
 
         if (dep[key]) {
 
@@ -64,7 +64,9 @@ export abstract class TalentTree {
             linkIndex = depIndex;
             linkAction = Action.enabled;
 
-            if (lvl == -1) linkAction = Action.disabled;
+            if (lvl == -1) {
+                linkAction = Action.disabled;
+            }
             if (talent && state[depIndex] && state[depIndex] < lvl) {
                 ok = false;
                 errorText = "";
@@ -74,7 +76,6 @@ export abstract class TalentTree {
         }
         const retVal = {
             linkIndex,
-            linkOrient,
             linkAction,
             errorText,
             ok

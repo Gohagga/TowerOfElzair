@@ -1,10 +1,10 @@
 export enum TalentDepType {
-    left,
-    up,
-    right,
-    down
+    left = "left",
+    up = "up",
+    right = "right",
+    down = "down"
 }
-export type TalentDependency = Record<number, number>;
+export type TalentDependency = Record<string, number>;
 export const TalentDependencyIndex: Record<TalentDepType, (index: number, cols: number) => [number, number]> = {
     [TalentDepType.left]: (index: number, cols: number) => [index - 1, 0],
     [TalentDepType.up]: (index: number, cols: number) => [index + cols, 1],
