@@ -20,7 +20,7 @@ export class Quest<T> implements IQuest<T> {
 
     Update(update: (state: T) => void): boolean {
         if (this.state == Quest.State.Accepted) {
-            update(this._context);
+            update(this._context);          
             // TODO: Fire quest updated event
             return true;
         }
