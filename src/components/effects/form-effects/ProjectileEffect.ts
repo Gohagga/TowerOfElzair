@@ -14,6 +14,8 @@ export class ProjectileEffect extends FormEffect {
     
     public Resolve(): void {
 
+        if (this.context == null) return;
+
         const context: FormContext | SubstanceContext = {
             origin: this.context.origin,
             destination: this.context.destination,
@@ -22,7 +24,7 @@ export class ProjectileEffect extends FormEffect {
             focus: this.context.focus
         }
         
-        this.logger.info("Shooting projectile", this.context.sourceUnit.name, this.context.focus.name);
+        this.logger.info("Shooting projectile", this.context.sourceUnit?.name, this.context.focus.name);
         this.provider.Register({
             origin: this.context.origin,
             source: this.context.sourceUnit,

@@ -12,7 +12,12 @@ export class Logger extends ILogger {
     }
     
     error(...msg: any[]) {
-        if (Number(this._level) > Number(ILogger.Level.Error)) return;
-        print('|cffff2222', ...msg);
+        print("ANYFUCKINGTHING")
+        if (Number(this._level) > Number(ILogger.Level.Info)) return;
+        print("Info", ...msg);
+        // if (Number(this._level) > Number(ILogger.Level.Error)) return;
+        // print(msg.join('\t'));
+        // let shown = '|cffff2222' + msg.join('\t') + '|r';
+        // print(shown);
     }
 }

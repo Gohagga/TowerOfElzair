@@ -2,7 +2,11 @@
   "mapFolder": "map.w3x",
   "minifyScript": false,
   "gameExecutable": "C:\\Users\\bartul.grbin\\games\\Warcraft III\\x86_64\\Warcraft III.exe",
-  "outputFolder": "./dist/bin",
+  "gameExecutableOld": "C:\\Users\\bartul.grbin\\games\\Warcraft III Public Test\\x86_64\\Warcraft III.exe",
+  "gameMapFolder": "C:/Users/bartul.grbin/Documents/Warcraft III/Maps/Test",
+  "mapName": "ToE.w3x",
+  "outputFolderOld": "./dist/bin",
+  "outputFolder": "C:/Users/bartul.grbin/Documents/Warcraft III/Maps/Test",
   "launchArgs": [
     "-launch",
     "-windowmode",

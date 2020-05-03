@@ -13,12 +13,13 @@ export class QuestEventHandler implements IQuestEventHandler {
         
         const instance: QuestEventCallback = {
             id: this.handles[type].increment++,
-            execute: callback
+            execute: (e: QuestEvent<any>) => callback(e)
         }
         this.handles[type].instances.push(instance);
         return () => {
             const index = this.handles[type].instances.findIndex(x => instance.id);
-            this.handles[type].instances[index] = this.handles[type].instances.pop();
+            let last = this.handles[type].instances.pop();
+            if (last) this.handles[type].instances[index] = last;
         };
     }
 

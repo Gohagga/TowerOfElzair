@@ -5,6 +5,8 @@ export class FocusAsOriginEffect extends FormEffect {
     
     public Resolve(): void {
         
+        if (!this.context) return;
+        
         const context: FormContext | SubstanceContext = {
             origin: this.context.focus.point,
             destination: this.context.destination,
