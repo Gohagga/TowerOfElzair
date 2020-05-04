@@ -1,16 +1,16 @@
 import { ITabContent } from "ui/tab-screen/interface/ITabContent";
-import { TalentTree } from "components/talents/TalentTree";
+import { TalentTree } from "systems/talents/TalentTree";
 import { ITalentTreeView, ITalentTreeButtonView } from "./interface/ITalentTreeView";
 import { Frame, MapPlayer } from "w3ts/index";
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 import { ITalentSlot } from "./interface/ITalentSlot";
 import { ITalentTreeConfig } from "./interface/ITalentTreeConfig";
 import { ITalentView } from "./interface/ITalentView";
 import { FramePoint } from "ui/view-models/Frame";
 import { IFrameEventHandler, FrameEventType } from "event-handlers/interfaces/IFrameEventHandler";
-import { TalentState } from "components/talents/TalentState";
-import { TalentDepType } from "components/talents/TalentDependency";
-import { Talent } from "components/talents/Talent";
+import { TalentState } from "systems/talents/TalentState";
+import { TalentDepType } from "systems/talents/TalentDependency";
+import { Talent } from "systems/talents/Talent";
 
 export class TalentTreeViewModel implements ITabContent {
     

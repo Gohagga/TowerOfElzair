@@ -1,5 +1,5 @@
 import { Frame } from "w3ts";
-import { TalentDepType } from "components/talents/TalentDependency";
+import { TalentDepType } from "systems/talents/TalentDependency";
 
 const{ left, up, right, down } = TalentDepType;
 

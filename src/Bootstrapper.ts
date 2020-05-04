@@ -1,6 +1,6 @@
 
-import ILogger from "components/logger/ILogger";
-import { Logger } from "components/logger/Logger";
+import ILogger from "systems/logger/ILogger";
+import { Logger } from "systems/logger/Logger";
 import { Config } from "Config";
 import { TalentScreenVModel } from "ui/view-models/TalentScreenVModel";
 import { GenerateTabView } from "ui/tab-screen/TabView";
@@ -11,10 +11,13 @@ import { GenerateTalentTreeView } from "ui/talent-screen/TalentTreeView";
 import { TalentViewModel } from "ui/talent-screen/TalentViewModel";
 import { GenerateTalentView, GenerateNTalentViews } from "ui/talent-screen/TalentView";
 import { ITalentView } from "ui/talent-screen/interface/ITalentView";
-import { TalentTree } from "components/talents/TalentTree";
-import { TestTalentTree } from "components/talents/content/TestTalentTree";
+import { TalentTree } from "systems/talents/TalentTree";
+import { TestTalentTree } from "systems/talents/content/TestTalentTree";
 import { Unit, MapPlayer, Trigger } from "w3ts/index";
 import { TalentTreeViewModelBuilder } from "ui/talent-screen/TalentTreeViewModelBuilder";
+import { AutoattackDamageEventProvider } from "providers/implementations/AutoattackDamageEventProvider";
+import { DamageEventHandler } from "event-handlers/implementations/DamageEventHandler";
+import { ActionOrder } from "systems/damage/ActionOrder";
 
 abstract class Base {
 
@@ -36,58 +39,16 @@ export class Bootstrapper {
 
     public static registerComponents() {
         
-        let u = Unit.fromHandle(gg_unit_Hblm_0003);
-
         const config = new Config();
         const logger: ILogger = new Logger(config);
 
+        this.InitializeUI(config, logger);
         
-        const frameEvent = new FrameEventHandler(logger);
-        const talentTabView = GenerateTabView(config.TalentScreen);
-        const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), logger, frameEvent, talentTabView);
-        
-        const talentTreeViewBuilder = new TalentTreeViewModelBuilder(logger)
-            .SetConfig(config.talentTree)
-            .SetParentFrame(talentTabView.box)
-            .SetFrameEventHandler(frameEvent)
-            .SetBaseView(GenerateTalentTreeView(talentTabView.box, config.talentTree))
-            .SetTalentViews(GenerateNTalentViews(24, talentTabView.box, config.talentTree.talent))
-            .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
+        let damageHandler = new DamageEventHandler(logger);
+        let autoattackProvider = new AutoattackDamageEventProvider(damageHandler);
 
-        const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
-        let sharedTree = new TestTalentTree(logger, u, 2, 4);
-        tab1.tree = sharedTree;
-
-        // const tab2 = talentTreeViewBuilder.Build();
-        // tab2.tree = new TestTalentTree(logger, u, 4, 6);
-
-        // const tab3 = talentTreeViewBuilder.Build();
-        // tab3.tree = new TestTalentTree(logger, u, 3, 7);
-        
-        talentTabs.tabContent = [ tab1 ];
-
-        // For blue now
-        const talentTabsBlue = new TabViewModel(MapPlayer.fromIndex(1), logger, frameEvent, talentTabView);
-        talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(1));
-        const tabb1 = talentTreeViewBuilder.Build();
-        tabb1.tree = new TestTalentTree(logger, u, 2, 4);
-        // const tabb2 = talentTreeViewBuilder.Build();
-        // tabb2.tree = sharedTree;
-
-        talentTabsBlue.tabContent = [ tabb1 ];
-
-        let t = new Trigger();
-        t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
-        t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
-        t.addAction(() => {
-            switch (MapPlayer.fromEvent()) {
-                case MapPlayer.fromIndex(0):
-                    talentTabs.visible = !talentTabs.visible;
-                    break;
-                case MapPlayer.fromIndex(1):
-                    talentTabsBlue.visible = !talentTabsBlue.visible;
-                    break;
-            }
+        damageHandler.Subscribe(ActionOrder.Autoattack, (e) => {
+            logger.info(e.source.name + " autoattacks " + e.target.name + " for " + e.amount + " " + e.type.toString());
         });
 
         // logger.info("Step", 6)
@@ -162,5 +123,58 @@ export class Bootstrapper {
         //         SetTextTagFadepoint(tt, 0.4)
         //     }
         // });
+    }
+
+    static InitializeUI(config: Config, logger: ILogger) {
+        
+        let u = Unit.fromHandle(gg_unit_Hblm_0003);
+
+        const frameEvent = new FrameEventHandler(logger);
+        const talentTabView = GenerateTabView(config.TalentScreen);
+        const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), logger, frameEvent, talentTabView);
+        
+        const talentTreeViewBuilder = new TalentTreeViewModelBuilder(logger)
+            .SetConfig(config.talentTree)
+            .SetParentFrame(talentTabView.box)
+            .SetFrameEventHandler(frameEvent)
+            .SetBaseView(GenerateTalentTreeView(talentTabView.box, config.talentTree))
+            .SetTalentViews(GenerateNTalentViews(24, talentTabView.box, config.talentTree.talent))
+            .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
+
+        const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
+        let sharedTree = new TestTalentTree(logger, u, 2, 4);
+        tab1.tree = sharedTree;
+
+        // const tab2 = talentTreeViewBuilder.Build();
+        // tab2.tree = new TestTalentTree(logger, u, 4, 6);
+
+        // const tab3 = talentTreeViewBuilder.Build();
+        // tab3.tree = new TestTalentTree(logger, u, 3, 7);
+        
+        talentTabs.tabContent = [ tab1 ];
+
+        // For blue now
+        const talentTabsBlue = new TabViewModel(MapPlayer.fromIndex(1), logger, frameEvent, talentTabView);
+        talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(1));
+        const tabb1 = talentTreeViewBuilder.Build();
+        tabb1.tree = new TestTalentTree(logger, u, 2, 4);
+        // const tabb2 = talentTreeViewBuilder.Build();
+        // tabb2.tree = sharedTree;
+
+        talentTabsBlue.tabContent = [ tabb1 ];
+
+        let t = new Trigger();
+        t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
+        t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
+        t.addAction(() => {
+            switch (MapPlayer.fromEvent()) {
+                case MapPlayer.fromIndex(0):
+                    talentTabs.visible = !talentTabs.visible;
+                    break;
+                case MapPlayer.fromIndex(1):
+                    talentTabsBlue.visible = !talentTabsBlue.visible;
+                    break;
+            }
+        });
     }
 }

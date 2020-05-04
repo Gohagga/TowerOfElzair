@@ -2,7 +2,7 @@ import { Frame, MapPlayer } from "w3ts/index";
 import { ITalentTreeView } from "./interface/ITalentTreeView";
 import { ITalentView } from "./interface/ITalentView";
 import { ITalentSlot } from "./interface/ITalentSlot";
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 import { ITalentTreeConfig } from "./interface/ITalentTreeConfig";
 import { TalentTreeViewModel } from "./TalentTreeViewModel";
 import { IFrameEventHandler } from "event-handlers/interfaces/IFrameEventHandler";

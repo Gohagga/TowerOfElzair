@@ -1,7 +1,7 @@
 import { Frame, MapPlayer } from "w3ts/index";
-import { Talent } from "components/talents/Talent";
-import { TalentState } from "components/talents/TalentState";
-import { TalentDepType } from "components/talents/TalentDependency";
+import { Talent } from "systems/talents/Talent";
+import { TalentState } from "systems/talents/TalentState";
+import { TalentDepType } from "systems/talents/TalentDependency";
 
 export interface ITalentSlot {
     

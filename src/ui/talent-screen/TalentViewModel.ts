@@ -1,10 +1,10 @@
 import { ITalentSlot } from "./interface/ITalentSlot";
 import { ITalentView } from "./interface/ITalentView";
 import { Frame, MapPlayer } from "w3ts/index";
-import { Talent } from "components/talents/Talent";
-import { TalentState } from "components/talents/TalentState";
+import { Talent } from "systems/talents/Talent";
+import { TalentState } from "systems/talents/TalentState";
 import { FramePoint } from "ui/view-models/Frame";
-import { TalentDepType } from "components/talents/TalentDependency";
+import { TalentDepType } from "systems/talents/TalentDependency";
 
 export class TalentViewModel implements ITalentSlot {
 
@@ -128,7 +128,7 @@ export class TalentViewModel implements ITalentSlot {
         this._view.button.main.setPoint(point, relative, relativePoint, x, y);
         this._view.links.left.clearPoints();
         this._view.links.left.setPoint(FramePoint.R, this._view.button.main, FramePoint.C, 0, 0);
-        this._view.links.left.width = linkWidth;
+        this._view.links.left.width = linkWidth; 
         this._view.links.up.clearPoints();
         this._view.links.up.setPoint(FramePoint.B, this._view.button.main, FramePoint.C, 0, 0);
         this._view.links.up.height = linkHeight;

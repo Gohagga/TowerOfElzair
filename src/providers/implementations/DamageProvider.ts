@@ -1,6 +1,6 @@
 import { IDamageProvider } from "../interfaces/IDamageProvider";
 import { Unit } from "w3ts";
-import { DamageType } from "../../components/damage/DamageType";
+import { DamageType } from "../../systems/damage/DamageType";
 
 export class DamageProvider implements IDamageProvider {
     

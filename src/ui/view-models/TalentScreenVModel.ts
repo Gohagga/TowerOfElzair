@@ -1,6 +1,6 @@
 import { TalentScreenModelConfig } from "ui/configs/TalentsConfig";
 import { TalentScreenViewFrames } from "ui/views/TalentScreenView";
-import { TalentTree } from "../../components/talents/TalentTree";
+import { TalentTree } from "../../systems/talents/TalentTree";
 import { MapPlayer } from "w3ts/handles/player";
 
 export class TalentScreenVModel {

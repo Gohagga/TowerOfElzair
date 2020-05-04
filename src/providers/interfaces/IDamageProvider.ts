@@ -1,5 +1,5 @@
 import { Unit } from "w3ts";
-import { DamageType } from "../../components/damage/DamageType";
+import { DamageType } from "../../systems/damage/DamageType";
 
 export interface IDamageProvider {
     

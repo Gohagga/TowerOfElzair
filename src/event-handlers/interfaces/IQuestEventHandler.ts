@@ -1,5 +1,5 @@
 import { IEventHandler, IEventCallback } from "./IEventHandler";
-import { Quest } from "../../components/quests/Quest";
+import { Quest } from "../../systems/quests/Quest";
 
 export interface IQuestEventHandler extends IEventHandler<QuestEventType, QuestEvent<any>> {}
 

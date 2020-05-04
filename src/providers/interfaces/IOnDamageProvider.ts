@@ -1,4 +1,4 @@
-import { DamageType } from "components/damage/DamageType";
+import { DamageType } from "systems/damage/DamageType";
 import { Unit, Trigger } from "w3ts/index";
 
 export interface IOnDamageProvider {

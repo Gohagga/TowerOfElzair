@@ -1,4 +1,4 @@
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 import { TalentScreenModelConfig, TalentScreenViewConfig } from "ui/configs/TalentsConfig";
 import ITabViewConfig from "ui/tab-screen/interface/ITabConfig";
 import { ITalentTreeView } from "ui/talent-screen/interface/ITalentTreeView";

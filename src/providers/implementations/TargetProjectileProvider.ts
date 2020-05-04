@@ -2,7 +2,7 @@ import { IOnDamageProvider } from "providers/interfaces/IOnDamageProvider";
 import { InstancedDummySpellProvider } from "./InstancedDummySpellProvider";
 import { Unit } from "w3ts/index";
 import { ITargetProjectileProvider, ProjectileData } from "providers/interfaces/ITargetProjectileProvider";
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 
 export class TargetProjectileProvider implements ITargetProjectileProvider {
 

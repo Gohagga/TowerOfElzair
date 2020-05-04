@@ -1,7 +1,7 @@
 import { IOnDamageProvider } from "providers/interfaces/IOnDamageProvider";
 import { Trigger, Unit } from "w3ts/index";
 import { damageTypes, attackTypes } from "./DamageProvider";
-import { DamageType } from "components/damage/DamageType";
+import { DamageType } from "systems/damage/DamageType";
 
 export class OnUnitDamagedProvider implements IOnDamageProvider {
 

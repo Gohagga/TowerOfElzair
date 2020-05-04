@@ -1,6 +1,6 @@
 import { IFrameEventHandler, FrameEventType, FrameEventCallback } from "../interfaces/IFrameEventHandler";
 import { Frame, Trigger } from "w3ts";
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 
 export class FrameEventHandler implements IFrameEventHandler {
     

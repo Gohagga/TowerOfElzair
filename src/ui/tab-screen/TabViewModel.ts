@@ -3,7 +3,7 @@ import { ITabContent } from "./interface/ITabContent";
 import { ITabViewConfig } from "./interface/ITabConfig";
 import { ITabView, ITabSelectorView } from "./interface/ITabView";
 import { FrameEventCallback, IFrameEventHandler, FrameEventType } from "../../event-handlers/interfaces/IFrameEventHandler";
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 
 export class TabViewModel {
 
