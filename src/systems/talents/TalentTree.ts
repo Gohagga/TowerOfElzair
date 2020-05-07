@@ -1,4 +1,4 @@
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 import { Unit } from "w3ts/index";
 import { Talent, TalentData } from "./Talent";
 import { TalentDependency, TalentDependencyIndex, TalentDepType } from "./TalentDependency";
@@ -22,10 +22,8 @@ export abstract class TalentTree {
     private _rows = 7;
     private _maxTalents : number = 27;
     
-    constructor(logger: ILogger, unit: Unit, columns: number, rows: number) {
+    constructor(logger: ILogger, unit: Unit) {
         this.logger = logger;
-        this._columns = columns;
-        this._rows = rows;
         this.Initialize();
         this._unit = unit;
     }
@@ -251,7 +249,10 @@ export abstract class TalentTree {
     public get rows(): number {
         return this._rows;
     }
-    
+    protected SetColumnsRows(columns: number, rows: number) {
+        this._columns = columns;
+        this._rows = rows;
+    }    
     
     // public talent = new Proxy(this._talents, {
     //     get: (target: Talent[], x: number, y: number) => target[x + y * this._columns],

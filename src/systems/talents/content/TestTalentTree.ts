@@ -1,5 +1,5 @@
 import { TalentTree } from "../TalentTree";
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 import { Unit } from "w3ts/index";
 import { IconPath } from "IconPath";
 import { TalentDepType } from "../TalentDependency";
@@ -14,7 +14,7 @@ export class TestTalentTree extends TalentTree {
         unit: Unit,
         columns: number,
         rows: number
-    ) { super(logger, unit, columns, rows); }
+    ) { super(logger, unit); this.SetColumnsRows(columns, rows); }
 
     public Initialize(): void {
         this.logger.info("initialize tree");

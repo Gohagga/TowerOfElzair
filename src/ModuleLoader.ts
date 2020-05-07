@@ -1,4 +1,4 @@
-// export * from 'components/logger/ILogger';
+// export * from 'systems/logger/ILogger';
 // // export * from './providers/interfaces/IDummySpellProvider'
 // // export * from './providers/interfaces/IDamageProvider'
 // // export * from './providers/interfaces/IEnumUnitProvider'
@@ -16,19 +16,19 @@
 // export { Config } from 'Config';
 
 // // Components
-// // export * from './components/talents/TalentDependency'
-// // export * from './components/talents/Talent'
-// // export * from './components/talents/TalentTree'
+// // export * from './systems/talents/TalentDependency'
+// // export * from './systems/talents/Talent'
+// // export * from './systems/talents/TalentTree'
 
 // // UI logic
 // // export * from "ui/view-models/TalentScreenModel"
-// // export * from 'components/damage/DamageType'
-// // export * from 'components/effects/form-effects/AoeForkEffect';
-// // export * from 'components/effects/form-effects/CasterEffect';
-// // export * from 'components/effects/form-effects/FocusAsOriginEffect';
-// // export * from 'components/effects/form-effects/ProjectileEffect';
-// // export * from 'components/effects/substance-effects/DummyCastEffect';
-// // export * from 'components/effects/target-effects/UnitTargetEffect';
+// // export * from 'systems/damage/DamageType'
+// // export * from 'systems/effects/form-effects/AoeForkEffect';
+// // export * from 'systems/effects/form-effects/CasterEffect';
+// // export * from 'systems/effects/form-effects/FocusAsOriginEffect';
+// // export * from 'systems/effects/form-effects/ProjectileEffect';
+// // export * from 'systems/effects/substance-effects/DummyCastEffect';
+// // export * from 'systems/effects/target-effects/UnitTargetEffect';
 // // export * from 'providers/implementations/OnUnitDamagedProvider';
 // // export * from 'providers/implementations/DamageProvider';
 // // export * from 'providers/implementations/DummySpellProvider';
@@ -38,5 +38,5 @@
 // // export * from 'providers/implementations/TargetProjectileProvider';
 // // export * from 'event-handlers/implementations/EventUnitUsedAbilityHandler';
 // // export * from 'event-handlers/interfaces/IEventUnitUsedAbilityHandler';
-// // export * from 'components/effects/substance-effects/DamageEffect';
-// // export * from 'components/logger/Logger';
+// // export * from 'systems/effects/substance-effects/DamageEffect';
+// // export * from 'systems/logger/Logger';

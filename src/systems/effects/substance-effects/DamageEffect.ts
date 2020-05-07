@@ -1,7 +1,7 @@
 import { SubstanceEffect, SubstanceContext } from "../base/SubstanceEffect";
 import { FormEffect } from "../base/FormEffect";
 import { IDamageProvider } from "providers/interfaces/IDamageProvider";
-import { DamageType } from "components/damage/DamageType";
+import { DamageType } from "systems/damage/DamageType";
 
 export class DamageEffect extends SubstanceEffect {
 

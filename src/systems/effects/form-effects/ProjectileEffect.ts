@@ -2,7 +2,7 @@ import { FormEffect, FormContext } from "../base/FormEffect";
 import { ITargetProjectileProvider } from "providers/interfaces/ITargetProjectileProvider";
 import { Unit } from "w3ts/index";
 import { SubstanceContext } from "../base/SubstanceEffect";
-import ILogger from "components/logger/ILogger";
+import ILogger from "systems/logger/ILogger";
 
 export class ProjectileEffect extends FormEffect {
     
