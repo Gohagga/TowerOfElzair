@@ -1,3 +1,3 @@
-// export interface IUnitInfoPanelView {
+export interface IUnitInfoPanelView {
     
-// }
+}

@@ -14,6 +14,8 @@ function tsMain() {
   print(" ");
   print("Welcome to TypeScript!");
 
+  Bootstrapper.OnMapInit();
+
   new Timer().start(0.00, false, () => {
     Bootstrapper.registerComponents();
   });

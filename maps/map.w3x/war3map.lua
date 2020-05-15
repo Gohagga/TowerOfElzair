@@ -4,6 +4,15 @@ gg_unit_Hpal_0002 = nil
 function InitGlobals()
 end
 
+function CreateAllItems()
+    local itemID
+    BlzCreateItemWithSkin(FourCC("prvt"), 515.6, -1278.1, FourCC("prvt"))
+    BlzCreateItemWithSkin(FourCC("prvt"), 574.3, -1309.8, FourCC("prvt"))
+    BlzCreateItemWithSkin(FourCC("prvt"), 644.0, -1303.2, FourCC("prvt"))
+    BlzCreateItemWithSkin(FourCC("prvt"), 699.0, -1296.5, FourCC("prvt"))
+    BlzCreateItemWithSkin(FourCC("prvt"), 364.3, -1240.2, FourCC("prvt"))
+end
+
 function CreateUnitsForPlayer0()
     local p = Player(0)
     local u
@@ -14,6 +23,7 @@ function CreateUnitsForPlayer0()
     u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 318.1, -587.8, 263.878, FourCC("hkni"))
     u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 473.3, -668.6, 128.445, FourCC("hkni"))
     u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 255.3, -1044.2, 42.398, FourCC("hkni"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hpea"), 102.4, -1249.2, 206.264, FourCC("hpea"))
 end
 
 function CreateUnitsForPlayer1()
@@ -154,6 +164,7 @@ function main()
     SetAmbientDaySound("LordaeronSummerDay")
     SetAmbientNightSound("LordaeronSummerNight")
     SetMapMusic("Music", true, 0)
+    CreateAllItems()
     CreateAllUnits()
     InitBlizzard()
     InitGlobals()

@@ -1,3 +1,3 @@
-// export interface IUnitInfoPanelConfig {
+export interface IUnitInfoPanelConfig {
     
-// }
+}

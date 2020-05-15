@@ -14,10 +14,11 @@ export class TestTalentTree extends TalentTree {
         unit: Unit,
         columns: number,
         rows: number
-    ) { super(logger, unit); this.SetColumnsRows(columns, rows); }
+    ) { super(logger, unit); }
 
     public Initialize(): void {
         this.logger.info("initialize tree");
+        this.SetColumnsRows(2, 4);
         this.title = "Test talent tree " + this.rows + " - " + this.columns;
 
         this.pointsAvailable = 9999;
@@ -33,7 +34,7 @@ export class TestTalentTree extends TalentTree {
         this.AddTalent(0, 0, {
             Name: "Tier 1 Peasant",
             Description: "Summons a loyal peasant into your service.",
-            Icon: IconPath.BTNPeasant,
+            Icon: "actionbarSlot.blp",
             OnActivate: target => {
                 new Unit(target.owner, FourCC('hpea'), target.x, target.y, target.facing);
             }

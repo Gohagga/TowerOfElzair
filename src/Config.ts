@@ -3,6 +3,7 @@ import { TalentScreenModelConfig, TalentScreenViewConfig } from "ui/configs/Tale
 import ITabViewConfig from "ui/tab-screen/interface/ITabConfig";
 import { ITalentTreeView } from "ui/talent-screen/interface/ITalentTreeView";
 import { ITalentTreeConfig } from "ui/talent-screen/interface/ITalentTreeConfig";
+import { IUnitInfoPanelConfig } from "ui/unit-info-panel/interface/IUnitInfoPanelConfig";
 
 export class Config implements ILogger.Config {  //IDummySpellProvider.Config { // 
     loggerLevel = ILogger.Level.All;
@@ -11,6 +12,9 @@ export class Config implements ILogger.Config {  //IDummySpellProvider.Config { 
     dummyUnitId = FourCC('nDUM');
     dummyDuration = 0.5;
 
+    gameUI: IUnitInfoPanelConfig = {
+        
+    }
 
     TalentScreen: ITabViewConfig = {
         tab: {

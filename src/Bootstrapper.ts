@@ -18,6 +18,7 @@ import { TalentTreeViewModelBuilder } from "ui/talent-screen/TalentTreeViewModel
 import { AutoattackDamageEventProvider } from "providers/implementations/AutoattackDamageEventProvider";
 import { DamageEventHandler } from "event-handlers/implementations/DamageEventHandler";
 import { ActionOrder } from "systems/damage/ActionOrder";
+import { UnitInfoPanelView } from "ui/unit-info-panel/UnitInfoPanelView";
 
 abstract class Base {
 
@@ -125,9 +126,17 @@ export class Bootstrapper {
         // });
     }
 
+    static OnMapInit() {
+        // const config = new Config();
+        // UnitInfoPanelView(config.gameUI);
+    }
+
     static InitializeUI(config: Config, logger: ILogger) {
         
         let u = Unit.fromHandle(gg_unit_Hblm_0003);
+
+        // TimerStart(CreateTimer(), 1.0, false, () => );
+        // UnitInfoPanelView(config.gameUI);
 
         const frameEvent = new FrameEventHandler(logger);
         const talentTabView = GenerateTabView(config.TalentScreen);
