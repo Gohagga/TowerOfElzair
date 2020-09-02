@@ -2,13 +2,33 @@ import { SpellEvent } from "Global/SpellEvent";
 import { SpellHelper } from "Global/SpellHelper";
 import { Abilities } from "customConfig";
 import { TriggeredMissile } from "Global/TriggeredMissile";
+import { UnitConfigurable } from "Libs/UnitConfigurable";
 
-export class IceBolt {
+export type IceBoltConfig = {
+    Damage: number,
+    BaseCooldown: number,
+    CooldownRed: number,
+    ManaCost: number,
+    /**
+     * Specifies in level of dummy ability
+     */
+    Duration: number
+}
+
+export class IceBolt extends UnitConfigurable {
     static spell = Abilities.IceBolt;
     static auraId: number;
     static buffId: number;
     static dummySpell = Abilities.ProjectileIceBolt;
     static buffSpell = Abilities.DummyFrostNova;
+
+    private static DefaultConfig: IceBoltConfig = {
+        Damage: 1.5,
+        BaseCooldown: 6.5,
+        ManaCost: 35,
+        CooldownRed: 0,
+        Duration: 0
+    }
 
     static init() {
         
@@ -28,5 +48,22 @@ export class IceBolt {
                         this.buffSpell.Id, level, this.buffSpell.Orderon);
                 });
         });
+    }
+
+    static UpdateUnitAbility(unit: unit) {
+        const data = this.GetUnitConfig<IceBoltConfig>(unit);
+        let ab = BlzGetUnitAbility(unit, this.spell.Id);
+        let lvl = GetUnitAbilityLevel(unit, this.spell.Id) - 1;
+        const cd = data.BaseCooldown - data.CooldownRed;
+        const dur = string.format("%.2f", this.buffSpell.Dur[data.Duration]);
+        const dmg = string.format("%.2f", data.Damage);;
+        
+        let tooltip = 
+`Pierces the target with a bolt of ice, dealing ${dmg} magic damage and slowing them temporarily for ${dur}
+
+Cooldown: ${cd}.`
+        BlzSetUnitAbilityCooldown(unit, this.spell.Id, lvl, cd);
+        BlzSetUnitAbilityManaCost(unit, this.spell.Id, lvl, data.ManaCost);
+        BlzSetAbilityStringLevelField(ab, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, lvl, tooltip);
     }
 }

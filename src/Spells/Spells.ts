@@ -10,6 +10,7 @@ export function InitializeSpells() {
     MagicMissiles.init();
     IceBolt.init();
     MagicBurst.init();
+
     // Paladin
 }
 

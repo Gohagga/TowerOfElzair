@@ -105,14 +105,17 @@ export const Abilities = {
         Base: FourCC('AUfn'),
         Name: "DummyFrostNova",
         EffectArt: "",
-        Data: [0,0,0],
+        Data: [0,0,0,null,null],
         Orderon: "frostnova",
-        Area: [0,0,0],
-        Rng: [99999,99999,99999],
-        Cool: [0,0,0],
-        Cost: [0,0,0],
+        Area: [0,0,0,null,null],
+        Rng: [99999,99999,99999,null,null],
+        Cool: [0,0,0,null,null],
+        Cost: [0,0,0,0,0],
         hero: 0,
-        race: "commoner"
+        race: "commoner",
+        HeroDur: [2.5,2.75,3,3.25,3.5],
+        Dur: [2.5,2.75,3,3.25,3.5],
+        levels: 5
     },
 
     MagicBurst: {

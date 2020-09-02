@@ -3,7 +3,7 @@ import { IconPath } from "iconList";
 import { MagicMissiles, MagicMissilesConfig } from "Spells/MagicMissiles";
 import { Abilities } from "customConfig";
 
-export class MagicianTalentTree extends TalentTree {
+export class ArcherTalentTree extends TalentTree {
     readonly Id: number = 0;
     readonly Columns: number = 5;
     readonly Rows: number = 5;
@@ -11,19 +11,19 @@ export class MagicianTalentTree extends TalentTree {
     constructor(unit: unit, load?: string) {
         super(unit, load);
         
-        this.title = "Fire Mage Talent tree";
+        this.title = "Archer";
         this.pointsAvailable = 999;
 
-        const magicMissiles = this.AddTalent(0, 3, {
-            Name: "Magic Missiles",
-            Description: "Launches multiple arcane bolts that always hit their target.\nEach missile deals magic damage.",
-            Icon: IconPath.BTNDispelMagic,
-            Requirements: (tree: TalentTree, unit: unit) => [false, ""],
+        const poisonArrows = this.AddTalent(0, 3, {
+            Name: "Poison Arrow",
+            Description: "Instantly deal moderate fire damage to the last targeted enemy.|n|n|cffffd9b3Cast time: Instant|r|n|cffffd9b3Cooldown 6s|r",
+            Icon: IconPath.BTNPoisonArrow,
+            // Requirements: (tree: TalentTree, unit: unit) => [false, ""],
             OnActivate: (unit: unit) => { 
                 UnitAddAbility(unit, Abilities.MagicMissiles.Id);
                 MagicMissiles.UpdateUnitAbility(unit);
             },
-            StartingLevel: 1,
+            // StartingLevel: 1,
         });
 
         // Power
@@ -31,14 +31,15 @@ export class MagicianTalentTree extends TalentTree {
             const count = [ 1, 1, 2, 2, 3 ];
             return {
                 Name: "Power",
-                Description: `Your Magic Missiles does ${i * 3}% more damage and shoots additional ${count[i - 1]} missiles.`,
+                Description: `Your Magic Missiles does ${i * 5}% more damage and shoots additional ${count[i - 1]} missiles.`,
                 Icon: IconPath.BTNSpellSteal,
                 Dependency: { left: 1 },
                 OnActivate: (unit: unit) => {
                     MagicMissiles.UpdateUnitConfig<MagicMissilesConfig>(unit,
                         (cfg) => {
                             cfg.MissileCount = count[i - 1] + 2;
-                            cfg.Damage += 0.03;
+                            cfg.Damage += 0.05;
+                            print("damage config changed to ", cfg.Damage);
                         });
                     MagicMissiles.UpdateUnitAbility(unit);
                 },
@@ -64,7 +65,7 @@ export class MagicianTalentTree extends TalentTree {
 
         const iceBolt = this.AddTalent(0, 2, {
             Name: "IceBolt",
-            Description: "Pierces the target with a bolt of ice, dealing magic damage and  slowing them temporarily.",
+            Description: "Instantly deal moderate fire damage to the last targeted enemy.|n|n|cffffd9b3Cast time: Instant|r|n|cffffd9b3Cooldown 6s|r",
             Icon: IconPath.BTNColdArrows,
             OnActivate: (unit: unit) => { 
                 UnitAddAbility(unit, Abilities.IceBolt.Id);

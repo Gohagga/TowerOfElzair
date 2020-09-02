@@ -5,6 +5,7 @@ import { TriggeredMissile } from 'Global/TriggeredMissile';
 import { SpellHelper } from 'Global/SpellHelper';
 import { MagicianTalentTree } from 'Classes/MagicianTalentTree';
 import { TalentTreeView } from 'UI/TalentTree/TalentTreeView';
+import { Dungen } from 'Global/Dungen';
 
 function tsMain() {
   
@@ -17,8 +18,10 @@ function tsMain() {
     InitializeSpells();
     TalentTreeView.init();
 
-    let tree = new MagicianTalentTree(gg_unit_Hpal_0001);
-    TalentTreeView.SetPlayerViewedTree(Player(0), tree);
+    // let tree = new MagicianTalentTree(gg_unit_Hpal_0001);
+    // TalentTreeView.SetPlayerViewedTree(Player(0), tree);
+    print("supposed to do something now");
+    Dungen.init();
   });
 
   print("Welcome to TypeScript!");

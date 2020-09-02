@@ -24,6 +24,8 @@
     "war3tstlhelper": "^1.0.1"
   },
   "dependencies": {
+    "@dungen/dungen": "file:../DungeonGenerator",
+    "d": "^1.0.1",
     "w3ts": "^1.0.6",
     "wc3confighelper": "file:../wc3confighelper"
   },
