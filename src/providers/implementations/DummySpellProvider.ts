@@ -3,20 +3,25 @@ import { Unit } from "w3ts";
 
 export class DummySpellProvider implements IDummySpellProvider {
 
+    private readonly config: IDummySpellProviderConfig;
     private readonly dummy: Unit;
     private readonly ability: ability;
 
-    constructor(
-        private readonly config: DummySpellProvider.Config,
+    constructor(svc: {
+        config: IDummySpellProviderConfig
+    },
         private readonly order: number | string,
         abilityId: number,
         level: number = 1)
     {
-        this.dummy = new Unit(config.dummyOwningPlayer, config.dummyUnitId, 0, 0, 0, 0);
+        print("Registerinng this", svc.config?.dummyOwningPlayer, svc.config?.dummyUnitId, order, abilityId, level);
+        this.config = svc.config;
+        this.dummy = new Unit(svc.config.dummyOwningPlayer, svc.config.dummyUnitId, 0, 0, 0, 0);
         this.dummy.addAbility(abilityId);
         this.dummy.setAbilityLevel(abilityId, level);
         this.dummy.removeGuardPosition();
         this.ability = this.dummy.getAbility(abilityId);
+        print("Registered");
     }
 
     Modify(cb: (ability: ability) => void): void {
@@ -35,11 +40,7 @@ export class DummySpellProvider implements IDummySpellProvider {
         }
     }
 }
-
-export namespace DummySpellProvider {
-    export interface Config {
-        dummyOwningPlayer: number,
-        dummyUnitId: number,
-    }
+export interface IDummySpellProviderConfig {
+    dummyOwningPlayer: number,
+    dummyUnitId: number,
 }
-export default DummySpellProvider;

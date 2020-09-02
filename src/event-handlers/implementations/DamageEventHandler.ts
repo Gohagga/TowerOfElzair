@@ -6,10 +6,13 @@ import ILogger from "systems/logger/ILogger";
 export class DamageEventHandler implements IDamageEventHandler<ActionOrder> {
 
     private _subscriptions: DamageEventSub[] = [];
+    private logger: ILogger;
 
-    constructor(
-        private logger: ILogger
-    ) { }
+    constructor(svc: { 
+        ILogger: ILogger
+    }) {
+        this.logger = svc.ILogger;
+    }
     
     Subscribe(type: ActionOrder, callback: (e: IDamageEvent) => void): IDamageEventSub;
     Subscribe(type: ActionOrder, callback: (e: IDamageEvent) => void, filter: { source?: Unit, target?: Unit }): IDamageEventSub;

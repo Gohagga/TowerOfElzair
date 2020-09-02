@@ -1,7 +1,7 @@
 import { FormEffect, FormContext } from "../base/FormEffect";
 import { SubstanceContext } from "../base/SubstanceEffect";
 
-export class CasterAsFocusEffect extends FormEffect {
+export class TargetEffect extends FormEffect {
     
     constructor() {
         super();
@@ -9,19 +9,18 @@ export class CasterAsFocusEffect extends FormEffect {
 
     public Resolve(): void {
         
-        print(CasterAsFocusEffect.name, 1)
-        if (!this.context || !this.context.sourceUnit) return;
-        print(CasterAsFocusEffect.name, 2)
+        print("Resolve targeeet effect")
+        if (!(this.context && this.context.targetUnit)) return;
+        print("Resolve targeeet effect")
 
         const context: FormContext | SubstanceContext = {
             origin: this.context.origin,
             destination: this.context.destination,
             sourceUnit: this.context.sourceUnit,
             targetUnit: this.context.targetUnit,
-            focus: this.context.sourceUnit
+            focus: this.context.targetUnit
         }
 
-        print(CasterAsFocusEffect.name, 3)
         this.ResolveChildren(context)
     }
     

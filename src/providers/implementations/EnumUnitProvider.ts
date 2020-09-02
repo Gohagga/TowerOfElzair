@@ -10,10 +10,11 @@ export class EnumUnitProvider implements IEnumUnitProvider {
         const units: Unit[] = [];
         let u: unit;
         while ((u = FirstOfGroup(this.group)) != null) {
+            print(GetUnitName(u));
             GroupRemoveUnit(this.group, u);
-            if (filter) {
-                let U = Unit.fromHandle(u);
-                if (filter(U, source)) units.push(U);
+            let U = Unit.fromHandle(u);
+            if (!filter || filter(U, source)) {
+                units.push(U);
             }
         }
         return units;
@@ -25,5 +26,5 @@ export class EnumUnitProvider implements IEnumUnitProvider {
 
     EnumUnitsInLine(origin: Point, destination: Point, width: number, filter?: (target: Unit, caster: Unit) => boolean): Unit[] {
         return [];
-    }
+}
 }

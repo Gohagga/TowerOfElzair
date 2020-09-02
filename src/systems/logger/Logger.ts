@@ -1,4 +1,5 @@
 import ILogger from "./ILogger";
+import { Config } from "Config";
 
 export class Logger extends ILogger {
 

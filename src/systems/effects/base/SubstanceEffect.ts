@@ -1,4 +1,3 @@
-import { FormEffect } from "./FormEffect";
 import { Effect } from "./Effect";
 import { Unit } from "w3ts";
 

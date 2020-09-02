@@ -19,6 +19,9 @@ export const attackTypes = {
     [DamageType.Physical]: ATTACK_TYPE_NORMAL,
     [DamageType.Magical]: ATTACK_TYPE_NORMAL,
     [DamageType.Untyped]: ATTACK_TYPE_CHAOS,
+    [DamageType.Blunt]: ATTACK_TYPE_NORMAL,
+    [DamageType.Slashing]: ATTACK_TYPE_NORMAL,
+    [DamageType.Piercing]: ATTACK_TYPE_NORMAL
 }
 
 export const damageTypes = {
@@ -27,6 +30,9 @@ export const damageTypes = {
     [DamageType.Physical]: DAMAGE_TYPE_UNIVERSAL,
     [DamageType.Magical]: DAMAGE_TYPE_MAGIC,
     [DamageType.Untyped]: DAMAGE_TYPE_UNIVERSAL,
+    [DamageType.Blunt]: DAMAGE_TYPE_UNIVERSAL,
+    [DamageType.Slashing]: DAMAGE_TYPE_UNIVERSAL,
+    [DamageType.Piercing]: DAMAGE_TYPE_UNIVERSAL
 }
 
 // export const damageTypeMapping: Record<number, Record<number, DamageType>> = {}

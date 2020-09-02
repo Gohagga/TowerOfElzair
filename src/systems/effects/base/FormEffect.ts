@@ -1,4 +1,3 @@
-import { TemplateEffect } from "./TemplateEffect";
 import { SubstanceEffect, SubstanceContext } from "./SubstanceEffect";
 import { Effect } from "./Effect";
 import { Point, Unit } from "w3ts";

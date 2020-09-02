@@ -1,9 +1,9 @@
 import { Unit } from "w3ts/index";
-import { TalentTree } from "./TalentTree";
+import { ITalentTree } from "./ITalentTree";
 import { TalentDependency } from "./TalentDependency";
 
 export type OnTalentStateChange = (unit: Unit) => void;
-export type TalentRequirements = (tree: TalentTree, unit: Unit) => [ boolean, string ];
+export type TalentRequirements = (tree: ITalentTree, unit: Unit) => [ boolean, string ];
 
 export type TalentData = {
     Name?: string;
@@ -18,6 +18,7 @@ export type TalentData = {
     StartingLevel?: number;
     Cost?: number;
     IsLink?: boolean;
+    Tag?: any;
 }
 
 export class Talent {
@@ -36,21 +37,23 @@ export class Talent {
     private _maxRank: number = 1;
     private _isLink: boolean = false;
     private _cost: number = 0;
+    public tag: any;
 
     constructor(data?: TalentData) {
         if (data) {
             if (data.Name)                      this.name = data.Name;
             if (data.Description)               this.description = data.Description;
-            if (data && data.Icon)              this.icon = data.Icon;
-            if (data && data.IconDisabled)      this.iconDisabled = data.IconDisabled;
-            if (data && data.OnActivate)        this.onActivate = data.OnActivate;
-            if (data && data.OnDeactivate)      this.onDeactivate = data.OnDeactivate;
-            if (data && data.OnAllocate)        this.onAllocate = data.OnAllocate;
+            if (data.Icon)              this.icon = data.Icon;
+            if (data.IconDisabled)      this.iconDisabled = data.IconDisabled;
+            if (data.OnActivate)        this.onActivate = data.OnActivate;
+            if (data.OnDeactivate)      this.onDeactivate = data.OnDeactivate;
+            if (data.OnAllocate)        this.onAllocate = data.OnAllocate;
 
-            if (data && data.Requirements)      this._requirements = data.Requirements;
-            if (data && data.Dependency)        this.dependency = data.Dependency;
-            if (data && data.IsLink)            this.isLink = data.IsLink;
-            if (data && data.Cost)              this.cost = data.Cost;
+            if (data.Requirements)      this._requirements = data.Requirements;
+            if (data.Dependency)        this.dependency = data.Dependency;
+            if (data.IsLink)            this.isLink = data.IsLink;
+            if (data.Cost)              this.cost = data.Cost;
+            if (data.Tag)               this.tag = data.Tag;
         }
     }
     
@@ -122,7 +125,7 @@ export class Talent {
         return this._requirements;
     }
     public set requirements(v : TalentRequirements) {
-        this._requirements = (tree: TalentTree, unit: Unit) => v(tree, unit);
+        this._requirements = (tree: ITalentTree, unit: Unit) => v(tree, unit);
     }
 
     public get nextRank() : Talent {
@@ -186,6 +189,6 @@ export class Talent {
     }
 }
 
-// TalentScreenViewModel => TalentTreeViewModel.Render() => loop TalentViewModel.Render(), this.isVisible = true => Frame.isVisible = true
+// TalentScreenViewModel => ITalentTreeViewModel.Render() => loop TalentViewModel.Render(), this.isVisible = true => Frame.isVisible = true
 
 // Talent.name = xyz, event.Fire() => TalentViewModel, eventTalent == this.talent && this.isVisible? .Render() => frames.Name.value = xyz

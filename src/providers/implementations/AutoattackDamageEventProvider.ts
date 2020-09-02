@@ -6,11 +6,13 @@ import { DamageType } from "systems/damage/DamageType";
 export class AutoattackDamageEventProvider {
 
     private _trig: Trigger;
+    private _damageEventHandler: IDamageEventHandler<ActionOrder>;
 
-    constructor(
-        private _damageEventHandler: IDamageEventHandler<ActionOrder>
-    ) {
-        
+    constructor(svc: {
+        ["IDamageEventHandler<ActionOrder>"]: IDamageEventHandler<ActionOrder>
+    }) {
+        this._damageEventHandler = svc["IDamageEventHandler<ActionOrder>"];
+
         this._trig = new Trigger();
         this._trig.registerAnyUnitEvent(EVENT_PLAYER_UNIT_DAMAGING);
         this._trig.addAction(() => {

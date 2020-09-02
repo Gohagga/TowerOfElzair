@@ -6,24 +6,29 @@ import { IOnSpellCastProvider } from "providers/interfaces/IOnSpellCastProvider"
 export class UnitTargetEffect extends TemplateEffect {
 
     private readonly event: IOnSpellCastProvider;
-    constructor(
-        onSpellCast: IOnSpellCastProvider
-    ) {
+    constructor(svc: {
+        OnSpellCastProvider: IOnSpellCastProvider
+    }) {
         super();
-        this.event = onSpellCast;
+        this.event = svc.OnSpellCastProvider;
     }
     
     public Resolve(): void {
 
+        print("Resolve target effect")
         const caster = this.event.GetCaster();
         const target = this.event.GetTargetUnit();
+        print("Resolve target effect 2")
         const context: FormContext = {
-            origin: this.event.GetCaster().point,
+            origin: caster.point,
             destination: this.event.GetTargetPoint(),
             sourceUnit: caster,
             targetUnit: target,
             focus: target
         }
+        print("Resolve target effect 3")
         this.ResolveChildren(context);
+        print("Resolve target effect 4")
+
     }
 }

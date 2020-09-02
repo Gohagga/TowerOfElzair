@@ -1,16 +1,15 @@
 import ILogger from "systems/logger/ILogger";
-import { TalentScreenModelConfig, TalentScreenViewConfig } from "ui/configs/TalentsConfig";
 import ITabViewConfig from "ui/tab-screen/interface/ITabConfig";
-import { ITalentTreeView } from "ui/talent-screen/interface/ITalentTreeView";
 import { ITalentTreeConfig } from "ui/talent-screen/interface/ITalentTreeConfig";
 import { IUnitInfoPanelConfig } from "ui/unit-info-panel/interface/IUnitInfoPanelConfig";
+import { IDummySpellProviderConfig } from "providers/implementations/DummySpellProvider";
 
-export class Config implements ILogger.Config {  //IDummySpellProvider.Config { // 
+export class Config implements ILogger.Config, IDummySpellProviderConfig { // 
     loggerLevel = ILogger.Level.All;
     
     dummyOwningPlayer = 0;
     dummyUnitId = FourCC('nDUM');
-    dummyDuration = 0.5;
+    dummyDuration = 1;
 
     gameUI: IUnitInfoPanelConfig = {
         
@@ -64,9 +63,9 @@ export class Config implements ILogger.Config {  //IDummySpellProvider.Config { 
             height: 0.44,
         },
         base: {
-            columns: 4,
-            rows: 6,
-            maxTalentSlots: 24,
+            columns: 5,
+            rows: 7,
+            maxTalentSlots: 35,
             sideMargin: 0.1,
             verticalMargin: 0.15
         },

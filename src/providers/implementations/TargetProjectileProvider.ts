@@ -10,15 +10,20 @@ export class TargetProjectileProvider implements ITargetProjectileProvider {
     // private readonly data: Record<number, Record<number, () => void>> = {};
     
     private readonly data: Record<number, ProjectileData> = {};
+    private readonly dmgProvider: IOnDamageProvider;
+    private readonly logger: ILogger;
     
-    constructor(
+    constructor(svc: {
+        logger: ILogger,
+        OnUnitDamagedProvider: IOnDamageProvider
+    },
         private readonly dummyProvider: InstancedDummySpellProvider,
-        private readonly dmgProvider: IOnDamageProvider,
-        private readonly logger: ILogger
     ) {
+        this.logger = svc.logger;
+        this.dmgProvider = svc.OnUnitDamagedProvider;
         const t = this.dmgProvider.Register(() => {
             const sourceId = this.dmgProvider.GetSourceUnit().id;
-            this.logger.info("Damage event", this.dmgProvider.GetSourceUnit().name), sourceId;
+            this.logger.info("Damage event", this.dmgProvider.GetSourceUnit().name, sourceId);
             // const targetId = this.dmgProvider.GetTargetUnit().id;
             if (sourceId in this.data) { // && targetId in this.data[sourceId]) {
                 

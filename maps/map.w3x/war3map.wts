@@ -65,3 +65,63 @@ STRING 13
 D
 }
 
+STRING 14
+// Abilities: AF00 (Bash), Hotkey (Hotkey - Normal)
+{
+Q
+}
+
+STRING 15
+// Abilities: AF00 (Bash), Name (Name)
+{
+Bash
+}
+
+STRING 16
+// Abilities: AF00 (Bash), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 17
+// Abilities: AF00 (Bash), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 18
+// Abilities: AF00 (Bash), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 20
+// Abilities: AF02 (Slam), Name (Name)
+{
+Slam
+}
+
+STRING 21
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 22
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 23
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 24
+// Abilities: AF02 (Slam), Hotkey (Hotkey - Normal)
+{
+E
+}
+

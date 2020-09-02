@@ -19,10 +19,11 @@ function CreateUnitsForPlayer0()
     local unitID
     local t
     local life
-    gg_unit_Hblm_0003 = BlzCreateUnitWithSkin(p, FourCC("Hblm"), 643.3, -1100.9, 3.208, FourCC("Hblm"))
+    gg_unit_Hblm_0003 = BlzCreateUnitWithSkin(p, FourCC("Hblm"), 643.3, -1100.9, 3.210, FourCC("Hblm"))
     u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 318.1, -587.8, 263.878, FourCC("hkni"))
     u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 473.3, -668.6, 128.445, FourCC("hkni"))
     u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 255.3, -1044.2, 42.398, FourCC("hkni"))
+    u = BlzCreateUnitWithSkin(p, FourCC("hkni"), 1253.3, -733.2, 128.445, FourCC("hkni"))
     u = BlzCreateUnitWithSkin(p, FourCC("hpea"), 102.4, -1249.2, 206.264, FourCC("hpea"))
 end
 

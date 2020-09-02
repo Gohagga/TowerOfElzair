@@ -3,5 +3,9 @@ export const enum DamageType {
     PhysicalAutoattack,
     MagicalAutoattack,
     Physical,
-    Magical
+    Magical,
+
+    Blunt,
+    Slashing,
+    Piercing,
 }
