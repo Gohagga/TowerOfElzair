@@ -12,9 +12,7 @@ export class UnitSlotManager<SlotType extends number> implements ISlotManager<Un
 
     ApplySlot(owner: Unit, slot: SlotType, item: ISlottable<Unit>): void {
         
-        let x = {};
         let unitSlots = this._instances[owner.id] || {} as Record<SlotType, ISlottable<Unit>>;
-        
         if (slot in unitSlots) unitSlots[slot](owner);
 
         unitSlots[slot] = item;

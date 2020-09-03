@@ -14,7 +14,7 @@ export class TalentTreeViewModelBuilder {
     private _baseView?: ITalentTreeView;
     private _clickHandler?: IFrameEventHandler;
     private _talentViews?: ITalentView[];
-    private _talentVMFactory?: (this: void, view: ITalentView) => ITalentSlot;
+    private _talentVMFactory?: (this: any, view: ITalentView) => ITalentSlot;
     private _watcher: MapPlayer = MapPlayer.fromIndex(12);
 
     constructor(
@@ -58,7 +58,8 @@ export class TalentTreeViewModelBuilder {
             throw new Error("Watching player missing.");
         }
         
-        const built = new TalentTreeViewModel(this._watcher, this._parentFrame, this._baseView, this._clickHandler, this._talentViews, this._config, this._talentVMFactory, this.logger);
+        const built = new TalentTreeViewModel(this._watcher, this._parentFrame, this._baseView, this._clickHandler, this._talentViews, this._config, 
+            this._talentVMFactory, this.logger);
         return built;
     }
 

@@ -61,7 +61,9 @@ export class TalentViewModel implements ITalentSlot {
         this._available = v;
         if (!this._talent) return;
         // icon to disabled/enabled, button enable, highlight, tooltip
-        let texture = v ? this._talent.iconEnabled : this._talent.iconDisabled;
+        // let texture = v ? this._talent.iconEnabled : this._talent.iconDisabled;
+        let texture = this._talent.iconDisabled;
+        if (this._rank > 0) texture = this._talent.iconEnabled;
         
         if (MapPlayer.fromLocal().id != this.watcher.id) return;
         this._view.button.image.setTexture(texture, 0, true);
@@ -175,7 +177,14 @@ export class TalentViewModel implements ITalentSlot {
         let rankText = v.toString();
 
         if (MapPlayer.fromLocal().id != this.watcher.id) return;
-        this._view.rank.text.text = rankText;
+        if (this.talent.maxRank == 1) {
+            this._view.rank.image.visible = false;
+            this._view.rank.text.visible = false;
+        } else {
+            this._view.rank.image.visible = true;
+            this._view.rank.text.visible = true;
+            this._view.rank.text.text = rankText;
+        }
         this._view.tooltip.rank.text = tooltip;
     }
     public get state() : TalentState {

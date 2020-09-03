@@ -23,10 +23,20 @@ import { FocusAsOriginEffect } from "systems/effects/form-effects/FocusAsOriginE
 import { CasterAsFocusEffect } from "systems/effects/form-effects/CasterEffect";
 import { EffectBuilder } from "systems/effects/EffectBuilder";
 import { EffectAbility } from "systems/ability/EffectAbility";
-import { AbilityData } from "systems/ability/Ability";
+import { AbilityData, Ability } from "systems/ability/Ability";
 import { AbilityBuilder } from "content/abilities/AbilityBuilder";
 import { Bash } from "content/abilities/MeleeCombat/Bash";
 import { abilityData } from "content/abilities/AbilityData";
+import { Unit, MapPlayer, Trigger } from "w3ts/index";
+import { FrameEventHandler } from "event-handlers/implementations/FrameEventHandler";
+import { GenerateTabView } from "ui/tab-screen/TabView";
+import { TabViewModel } from "ui/tab-screen/TabViewModel";
+import { TalentTreeViewModelBuilder } from "ui/talent-screen/TalentTreeViewModelBuilder";
+import { GenerateTalentTreeView } from "ui/talent-screen/TalentTreeView";
+import { GenerateNTalentViews } from "ui/talent-screen/TalentView";
+import { ITalentView } from "ui/talent-screen/interface/ITalentView";
+import { TalentViewModel } from "ui/talent-screen/TalentViewModel";
+import { MeleeCombat } from "content/disciplines/MeleeCombat";
 
 export class Bootstrapper {
 
@@ -72,7 +82,7 @@ export class Bootstrapper {
             Bash,
             EffectAbility
         ]);
-        abilityBuilder.buildAll(abilityData);
+        const abilities = abilityBuilder.buildAll(abilityData);
 
         // damageHandler.Subscribe(ActionOrder.Autoattack, (e) => {
             //     logger.info(e.source.name + " autoattacks " + e.target.name + " for " + e.amount + " " + e.type.toString());
@@ -92,29 +102,37 @@ export class Bootstrapper {
 
         // print(4)
 
-        // const abilityRecord = abilities.reduce((obj: any, item) => {
-        //     obj[item.codeId] = item;
-        //     return obj;
-        // }, {}) as Record<string, Ability>;
+        const abilityRecord = abilities.reduce((obj: any, item) => {
+            obj[item.name] = item;
+            return obj;
+        }, {}) as Record<string, Ability>;
 
-        // print(5)
+        for (const x in abilityRecord) {
+            print(abilityRecord[x].name, x);
+        }
+
+        print(5)
         
-        // let u = Unit.fromHandle(gg_unit_Hblm_0003);
-        // const frameEvent = new FrameEventHandler(logger);
-        // const talentTabView = GenerateTabView(config.TalentScreen);
-        // const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), logger, frameEvent, talentTabView);
+        let u = Unit.fromHandle(gg_unit_Hblm_0003);
+        const frameEvent = new FrameEventHandler(logger);
+        const talentTabView = GenerateTabView(config.TalentScreen);
+        const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), logger, frameEvent, talentTabView);
         
-        // print(6)
+        print(6)
 
-        // const talentTreeViewBuilder = new TalentTreeViewModelBuilder(logger)
-        //     .SetConfig(config.talentTree)
-        //     .SetParentFrame(talentTabView.box)
-        //     .SetFrameEventHandler(frameEvent)
-        //     .SetBaseView(GenerateTalentTreeView(talentTabView.box, config.talentTree))
-        //     .SetTalentViews(GenerateNTalentViews(config.talentTree.base.maxTalentSlots, talentTabView.box, config.talentTree.talent))
-        //     .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
+        const talentTreeViewBuilder = new TalentTreeViewModelBuilder(logger)
+            .SetConfig(config.talentTree)
+            .SetParentFrame(talentTabView.box)
+            .SetFrameEventHandler(frameEvent)
+            .SetBaseView(GenerateTalentTreeView(talentTabView.box, config.talentTree))
+            .SetTalentViews(GenerateNTalentViews(config.talentTree.base.maxTalentSlots, talentTabView.box, config.talentTree.talent))
+            .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
 
-        // print(7)
+        print(7)
+
+        const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
+        let sharedTree = new MeleeCombat(u, logger, services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager"), abilityRecord);
+        tab1.tree = sharedTree;
 
         // const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
         // let sharedTree = new TestTalentTree(logger, u, 2, 4);
@@ -130,7 +148,7 @@ export class Bootstrapper {
         // // const tab3 = talentTreeViewBuilder.Build();
         // // tab3.tree = new TestTalentTree(logger, u, 3, 7);
         
-        // talentTabs.tabContent = [ tab1, tab2 ];
+        talentTabs.tabContent = [ tab1 ];
 
         // // For blue now
         // // const talentTabsBlue = new TabViewModel(MapPlayer.fromIndex(1), logger, frameEvent, talentTabView);
@@ -144,19 +162,19 @@ export class Bootstrapper {
 
         // print(10)
 
-        // let t = new Trigger();
-        // t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
-        // t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
-        // t.addAction(() => {
-        //     switch (MapPlayer.fromEvent()) {
-        //         case MapPlayer.fromIndex(0):
-        //             talentTabs.visible = !talentTabs.visible;
-        //             break;
-        //         // case MapPlayer.fromIndex(1):
-        //         //     talentTabsBlue.visible = !talentTabsBlue.visible;
-        //         //     break;
-        //     }
-        // });
+        let t = new Trigger();
+        t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
+        t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
+        t.addAction(() => {
+            switch (MapPlayer.fromEvent()) {
+                case MapPlayer.fromIndex(0):
+                    talentTabs.visible = !talentTabs.visible;
+                    break;
+                // case MapPlayer.fromIndex(1):
+                //     talentTabsBlue.visible = !talentTabsBlue.visible;
+                //     break;
+            }
+        });
         // let talentScreen = new TalentScreenVModel(config);
         
         //     Provides context with targeted unit as Focus, its position as destination and caster and his position as origin

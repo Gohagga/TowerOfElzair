@@ -4,6 +4,7 @@ import { AbilityData, Ability } from "systems/ability/Ability";
 import { IEventUnitUsedAbilityHandler, EventAbility } from "event-handlers/interfaces/IEventUnitUsedAbilityHandler";
 import { IDamageProvider } from "providers/interfaces/IDamageProvider";
 import { DamageType } from "systems/damage/DamageType";
+import { AbilitySlot } from "systems/ability/AbilitySlot";
 
 export class Bash extends Ability {
 

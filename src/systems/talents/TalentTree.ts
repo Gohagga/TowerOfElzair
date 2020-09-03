@@ -1,8 +1,8 @@
-import ILogger from "systems/logger/ILogger";
 import { Unit } from "w3ts/index";
 import { Talent, TalentData } from "./Talent";
 import { TalentDependency, TalentDependencyIndex, TalentDepType } from "./TalentDependency";
 import { TalentState } from "./TalentState";
+import { ILogger } from "../logger/ILogger";
 
 export type TalentGenerator = (rank: number) => TalentData
 
@@ -185,6 +185,12 @@ export abstract class TalentTree {
 
         if (this._tempRankState) this._tempRankState[i] = level;
         this._rankState[i] = level;
+    }
+
+    protected GetTalentLevel(x: number, y: number) {
+        
+        let i = x + y * this._columns;
+        return this._rankState[i];
     }
 
     protected TalentLevelRequirement(x: number, y: number, level: number): [boolean, string] {

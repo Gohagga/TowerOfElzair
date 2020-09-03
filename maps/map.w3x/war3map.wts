@@ -101,27 +101,27 @@ STRING 20
 Slam
 }
 
-STRING 21
-// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
-{
-Bash
-}
-
-STRING 22
-// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
-{
-Bash
-}
-
-STRING 23
-// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
-{
-Bash
-}
-
 STRING 24
 // Abilities: AF02 (Slam), Hotkey (Hotkey - Normal)
 {
 E
+}
+
+STRING 25
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Slam
+}
+
+STRING 26
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Slam
+}
+
+STRING 27
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Slam
 }
 

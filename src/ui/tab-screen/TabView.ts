@@ -1,6 +1,6 @@
 import { ITabViewConfig } from "./interface/ITabConfig";
 import { Frame } from "w3ts/index";
-import { FramePoint as Fp } from "ui/view-models/Frame";
+import { FramePoint as Fp } from "../view-models/Frame";
 import { ITabView, ITabSelectorView } from "./interface/ITabView";
 
 export function GenerateTabView({ box: boxConf, tab: tabConf }: ITabViewConfig): ITabView {

@@ -10,7 +10,7 @@ export class OnUnitDamagedProvider implements IOnDamageProvider {
     Register(action: () => void): Trigger {
         const t = new Trigger();
         t.registerAnyUnitEvent(EVENT_PLAYER_UNIT_DAMAGED);
-        t.addAction(action);
+        t.addAction(() => action());
         return t;
     }
 

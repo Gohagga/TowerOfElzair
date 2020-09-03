@@ -1,4 +1,4 @@
-// import { AbilitySlot } from "./AbilitySlotManager";
+// import { AbilitySlot } from "./AbilitySlot";
 // import { Unit } from "w3ts";
 // import { ISlotManager } from "../slottable/ISlotManager";
 

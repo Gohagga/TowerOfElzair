@@ -1,19 +1,18 @@
-import { TalentTree } from "systems/talents/TalentTree";
-import { IconPath } from "IconPath";
-import { Talent } from "systems/talents/Talent";
-import ILogger from "systems/logger/ILogger";
-import { Unit } from "w3ts/index";
-import { ISlotManager } from "systems/slottable/ISlotManager";
-import { AbilitySlot } from "systems/ability/AbilitySlot";
-import { TalentDepType } from "systems/talents/TalentDependency";
-import { Ability } from "systems/ability/Ability";
+import { TalentDepType } from "../../systems/talents/TalentDependency";
+import { TalentTree } from "../../systems/talents/TalentTree";
+import { Talent } from "../../systems/talents/Talent";
+import { Unit } from "w3ts";
+import ILogger from "../../systems/logger/ILogger";
+import { IconPath } from "../../IconPath";
+import { AbilityData, Ability } from "../../systems/ability/Ability";
+import { Discipline } from "./Discipline";
+import { AbilitySlot } from "../../systems/ability/AbilitySlot";
+import { UnitSlotManager } from "../../systems/slottable/UnitSlotManager";
+
 
 const { left, up, right, down } = TalentDepType;
 
-export class MeleeCombat extends TalentTree {
-    
-    masteryFirstAbilities: Talent[] = [];
-    masterySecondAbilities: Talent[] = [];
+export class MeleeCombat extends Discipline {
     
     bash: Ability;
 
@@ -48,10 +47,12 @@ export class MeleeCombat extends TalentTree {
             Icon: IconPath.BTNHammer,
             // Dependency: { [left]: -1 },
             OnAllocate: u => {
-                this.bash.AddToUnit(u, x => {
-                    x.removeAbility(this.bash.id)
-                    this.SetTalentLevel(1, 6, 0);
+                this.slotManager.ApplySlot(u, this.bash.slot, u => {
+                    this.bash.RemoveFromUnit(u);
+                    this.SetTalentLevel(1, 5, 0);
                 });
+                this.bash.AddToUnit(u);
+                this.SetTalentLevel(1, 5, 1);
             }
         });
         
@@ -105,10 +106,14 @@ export class MeleeCombat extends TalentTree {
             Icon: IconPath.BTNHammer,
             // Dependency: { [left]: -1 },
             OnAllocate: u => {
-                this.bash.AddToUnit(u, x => {
-                    x.removeAbility(this.bash.id)
-                    this.SetTalentLevel(1, 6, 0);
+                this.slotManager.ApplySlot(u, this.bash.slot, u => {
+                    this.bash.RemoveFromUnit(u);
+                    this.SetTalentLevel(1, 4, 0);
                 });
+                this.bash.AddToUnit(u);
+                this.SetTalentLevel(1, 4, 1);
+                // if (u.getAbilityLevel(this.bash.id) > 0) {
+                // }
             }
         });
         
@@ -155,9 +160,10 @@ export class MeleeCombat extends TalentTree {
     constructor(
         unit: Unit,
         logger: ILogger,
-        abilities: Record<string, Ability>
+        slotManager: UnitSlotManager<AbilitySlot>,
+        private abilities: Record<string, Ability>
     ) {
-        super(logger, unit);
+        super(unit, logger, slotManager, abilities);
         this.bash = abilities["Bash"];
     }
 }

@@ -146,7 +146,7 @@ export class TalentTreeViewModel implements ITabContent {
             enabled: this._config.talent.link.activeTexture,
             disabled: this._config.talent.link.inactiveTexture
         };
-        this.logger.info('RENDER LINKS:', depLeft.linkAction, depUp.linkAction, depRight.linkAction, depDown.linkAction);
+        // this.logger.info('RENDER LINKS:', depLeft.linkAction, depUp.linkAction, depRight.linkAction, depDown.linkAction);
         slot.renderLinks({
             left: depLeft.linkAction != null ? linkTexture[depLeft.linkAction] : null,
             up: depUp.linkAction != null ? linkTexture[depUp.linkAction] : null,
