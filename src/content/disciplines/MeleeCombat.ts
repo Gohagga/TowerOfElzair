@@ -98,7 +98,7 @@ export class MeleeCombat extends Discipline {
         this.AddTalent(0, 4, {
             IsLink: true,
             Dependency: { [up]: 0 },
-        })
+        });
 
         this.AddTalent(1, 4, {
             Name: "Bash",
@@ -161,7 +161,7 @@ export class MeleeCombat extends Discipline {
         unit: Unit,
         logger: ILogger,
         slotManager: UnitSlotManager<AbilitySlot>,
-        private abilities: Record<string, Ability>
+        abilities: Record<string, Ability>
     ) {
         super(unit, logger, slotManager, abilities);
         this.bash = abilities["Bash"];

@@ -14,7 +14,7 @@ export class TalentTreeViewModelBuilder {
     private _baseView?: ITalentTreeView;
     private _clickHandler?: IFrameEventHandler;
     private _talentViews?: ITalentView[];
-    private _talentVMFactory?: (this: any, view: ITalentView) => ITalentSlot;
+    private _talentVMFactory?: (this: void, view: ITalentView) => ITalentSlot;
     private _watcher: MapPlayer = MapPlayer.fromIndex(12);
 
     constructor(

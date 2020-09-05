@@ -100,6 +100,10 @@ export class TalentViewModel implements ITalentSlot {
         this._view.button.main.enabled = false;
         this._view.highlight.visible = false;
     }
+
+    public get name() {
+        return this._talent?.name || "";
+    }
     
     public set name(v : string) {
         this._name = v;

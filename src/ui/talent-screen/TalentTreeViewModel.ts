@@ -153,15 +153,20 @@ export class TalentTreeViewModel implements ITabContent {
             right: depRight.linkAction != null ? linkTexture[depRight.linkAction] : null,
             down: depDown.linkAction != null ? linkTexture[depDown.linkAction] : null,
         });
+
+        // If talent is link, just render it empty
+        if (talent.isLink) {
+            slot.state = TalentState.Empty;
+            return;
+        }
         
         // Check talent dependency errors
         let depError = "";
-        this.logger.info(depLeft.ok, depUp.ok, depRight.ok, depDown.ok)
+        // this.logger.info(depLeft.ok, depUp.ok, depRight.ok, depDown.ok)
         if (depLeft.ok && depUp.ok && depRight.ok && depDown.ok) {
             slot.errorText = null;
             if (tempState == talent.maxRank) slot.state = TalentState.Maxed;
             else slot.state = TalentState.Available;
-            return;
         } else {
 
             dep = true;
@@ -174,7 +179,7 @@ export class TalentTreeViewModel implements ITabContent {
         
         slot.errorText = depError + reqError;
 
-        if (req) slot.state = TalentState.RequireDisabled;
+        if (!req) slot.state = TalentState.RequireDisabled;
         if (dep) slot.state = TalentState.DependDisabled;
 
     }
@@ -217,12 +222,14 @@ export class TalentTreeViewModel implements ITabContent {
             }
         }
 
+        this.ResetTalentViewModels();
         if (MapPlayer.fromLocal().id != this.watcher.id) return;
         
         this._confirm.mainButton.visible = true;
         this._cancel.mainButton.visible = true;
         this.logger.info("Confirm and cancel buttons shown.");
     }
+
     Hide(button: Frame): void {
         this._watched = false;
 
@@ -236,7 +243,8 @@ export class TalentTreeViewModel implements ITabContent {
     }
 
     RenderButton(image: Frame): void {
-        throw new Error("Method not implemented.");
+        let tex = this._tree && this._tree.icon;
+        if (tex) image.setTexture(tex, 0, true);
     }
     
     public get tabHeader(): string {

@@ -1,10 +1,11 @@
 import { Ability, AbilityData } from "systems/ability/Ability";
 import { ISlotManager } from "systems/slottable/ISlotManager";
-import { AbilitySlot } from "systems/ability/AbilitySlot";
+import { NoEffectAbility } from "systems/ability/NoEffectAbility";
 import { Unit } from "w3ts";
 import { EventUnitUsedAbilityHandler } from "event-handlers/implementations/EventUnitUsedAbilityHandler";
 import { InjectionContainer } from "providers/implementations/InjectionContainer";
 import { IEventUnitUsedAbilityHandler } from "event-handlers/interfaces/IEventUnitUsedAbilityHandler";
+import { IAbility } from "systems/ability/IAbility";
 
 export class AbilityBuilder {
 
@@ -35,26 +36,35 @@ export class AbilityBuilder {
 
     build(data: AbilityData) {
 
-        if (data.controller in this.container == false) {
+        if (data.controller && data.controller in this.container == false) {
             print("Error - ability controller missing for", data.name);
             return;
         }
         
-        const constr = this.container[data.controller];
-        let ability = new constr(this.svc, data);
+        print("building ability");
+        let ability: IAbility;
+        if (data.controller) {
+            const constr = this.container[data.controller];
+            ability = new constr(this.svc, data);
+        } else {
+            ability = new NoEffectAbility(data);
+        }
         return ability;
     }
 
     buildAll(data: AbilityData[]) {
 
-        const abilities: Ability[] = [];
+        const abilities: IAbility[] = [];
 
         for (let d of data) {
-            if (d.controller in this.container == false) {
+            if (d.controller && d.controller in this.container == false) {
                 print("Error - ability controller missing for", d.name);
-            } else {
+            } else if (d.controller) {
                 const constr = this.container[d.controller];
                 let ability = new constr(this.svc, d);
+                abilities.push(ability);
+            } else {
+                let ability = new NoEffectAbility(d);
                 abilities.push(ability);
             }
         }

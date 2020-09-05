@@ -37,6 +37,8 @@ import { GenerateNTalentViews } from "ui/talent-screen/TalentView";
 import { ITalentView } from "ui/talent-screen/interface/ITalentView";
 import { TalentViewModel } from "ui/talent-screen/TalentViewModel";
 import { MeleeCombat } from "content/disciplines/MeleeCombat";
+import { HumanHeroesDiscipline } from "content/disciplines/HumanHeroesDiscipline";
+import { OrcHeroesDiscipline } from "content/disciplines/OrcHeroesDiscipline";
 
 export class Bootstrapper {
 
@@ -130,10 +132,16 @@ export class Bootstrapper {
 
         print(7)
 
+        let slotManager = services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager");
         const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
-        let sharedTree = new MeleeCombat(u, logger, services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager"), abilityRecord);
-        tab1.tree = sharedTree;
+        // let sharedTree = new MeleeCombat(u, logger, services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager"), abilityRecord);
+        tab1.tree = new HumanHeroesDiscipline(u, logger, slotManager, abilityRecord);
 
+        const tab2 = talentTreeViewBuilder.Build();
+        tab2.tree = new OrcHeroesDiscipline(u, logger, slotManager, abilityRecord);
+        talentTabs.tabContent = [ tab1, tab2 ];
+
+        talentTabs.activeTabIndex = 0;
         // const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
         // let sharedTree = new TestTalentTree(logger, u, 2, 4);
         // tab1.tree = sharedTree;
@@ -148,7 +156,6 @@ export class Bootstrapper {
         // // const tab3 = talentTreeViewBuilder.Build();
         // // tab3.tree = new TestTalentTree(logger, u, 3, 7);
         
-        talentTabs.tabContent = [ tab1 ];
 
         // // For blue now
         // // const talentTabsBlue = new TabViewModel(MapPlayer.fromIndex(1), logger, frameEvent, talentTabView);

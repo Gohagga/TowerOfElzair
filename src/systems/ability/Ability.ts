@@ -54,7 +54,7 @@ export abstract class Ability implements IAbility {
     }
 }
 
-export type AbilityData = {
+export interface AbilityData {
     
     /**Id of wc3 ability. */
     codeId: string,
@@ -64,7 +64,11 @@ export type AbilityData = {
 
     name: string,
 
-    controller: string,
+    icon?: string,
+
+    iconDisabled?: string,
+
+    controller?: string,
 
     effect?: EffectData,
 }

@@ -1,8 +1,14 @@
 import { Unit, Point } from "w3ts/index";
+import { AbilitySlot } from "./AbilitySlot";
+import { AbilityData } from "./Ability";
 
-export interface IAbility {
+export interface IAbility extends AbilityData {
 
     id: number;
+
+    codeId: string;
+
+    slot: AbilitySlot;
 
     name: string;
 

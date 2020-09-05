@@ -7,29 +7,26 @@ import { IconPath } from "../../IconPath";
 import { AbilityData, Ability } from "../../systems/ability/Ability";
 import { AbilitySlot } from "../../systems/ability/AbilitySlot";
 import { UnitSlotManager } from "../../systems/slottable/UnitSlotManager";
+import { IAbility } from "systems/ability/IAbility";
 
 
 
 const { left, up, right, down } = TalentDepType;
 
-export class Discipline extends TalentTree {
+export abstract class Discipline extends TalentTree {
 
     protected slotManager: UnitSlotManager<AbilitySlot>;
     
     protected masteryFirstAbilities: Talent[] = [];
     protected masterySecondAbilities: Talent[] = [];
+    protected masteryThirdAbilities: Talent[] = [];
+    protected masteryFourthAbilities: Talent[] = [];
     
-    public Initialize(): void {
-        this.SetColumnsRows(1, 1);
-        this.title = "Not set";
-        this.pointsAvailable = 9999;
-    }
-
     constructor(
         unit: Unit,
         logger: ILogger,
         UnitAbilitySlotManager: UnitSlotManager<AbilitySlot>,
-        abilities: Record<string, Ability>
+        protected abilities: Record<string, IAbility>
     ) {
         super(logger, unit);
         this.slotManager = UnitAbilitySlotManager;

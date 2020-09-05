@@ -144,6 +144,7 @@ export abstract class TalentTree {
             if (talent && this._rankState[i] != this._tempRankState[i]) {
 
                 for (let j = this._tempRankState[i]; j > this._rankState[i]; j--) {
+                    talent.onDeallocate(this.unit);
                     if (talent.previousRank) {
                         talent = talent.previousRank;
                         this.pointsAvailable += talent.cost;
@@ -187,9 +188,11 @@ export abstract class TalentTree {
         this._rankState[i] = level;
     }
 
-    protected GetTalentLevel(x: number, y: number) {
+    protected GetAllocatedTalentLevel(x: number, y: number) {
         
         let i = x + y * this._columns;
+        if (this._tempRankState)
+            return this._tempRankState[i];
         return this._rankState[i];
     }
 

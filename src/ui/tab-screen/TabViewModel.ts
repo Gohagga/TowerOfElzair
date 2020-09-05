@@ -38,6 +38,9 @@ export class TabViewModel {
             event.Subscribe(FrameEventType.Click, selector.mainButton, () => {
                 logger.info(msg);
                 this.activeTabIndex = index;
+
+                selector.mainButton.enabled = false;
+                selector.mainButton.enabled = true;
             });
 
             if (MapPlayer.fromLocal().id != this._watcher.id) continue;
@@ -58,6 +61,7 @@ export class TabViewModel {
         this._box.visible = v;
         this.logger.info("Is selector visible?", this._tabSelectors[0].mainButton.visible);
     }
+
     public set activeTabIndex(index: number) {
 
         const i = this._activeTabIndex;
@@ -116,6 +120,7 @@ export class TabViewModel {
             if (MapPlayer.fromLocal() == this._watcher) {
                 this._tabSelectors[i].mainButton.visible = butt;
                 this._tabSelectors[i].selectFrame.visible = false;
+                if (v[i]) v[i].RenderButton(this._tabSelectors[i].mainImage);
             }
         }
 

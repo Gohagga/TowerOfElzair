@@ -11,6 +11,7 @@ export type TalentData = {
     Icon?: string;
     IconDisabled?: string;
     OnAllocate?: OnTalentStateChange;
+    OnDeallocate?: OnTalentStateChange;
     OnActivate?: OnTalentStateChange
     OnDeactivate?: OnTalentStateChange;
     Dependency?: TalentDependency;
@@ -28,6 +29,7 @@ export class Talent {
     private _iconEnabled: string = "";
     private _iconDisabled: string = "";
     private _onAllocate: OnTalentStateChange = () => null;
+    private _onDeallocate: OnTalentStateChange = () => null;
     private _onActivate: OnTalentStateChange = () => null;
     private _onDeactivate: OnTalentStateChange = () => null;
     private _dependency: TalentDependency = {};
@@ -48,8 +50,9 @@ export class Talent {
             if (data.OnActivate)        this.onActivate = data.OnActivate;
             if (data.OnDeactivate)      this.onDeactivate = data.OnDeactivate;
             if (data.OnAllocate)        this.onAllocate = data.OnAllocate;
+            if (data.OnDeallocate)      this.onDeallocate = data.OnDeallocate;
 
-            if (data.Requirements)      this._requirements = data.Requirements;
+            if (data.Requirements)      this.requirements = data.Requirements;
             if (data.Dependency)        this.dependency = data.Dependency;
             if (data.IsLink)            this.isLink = data.IsLink;
             if (data.Cost)              this.cost = data.Cost;
@@ -96,7 +99,14 @@ export class Talent {
     }
     public set onAllocate(v: OnTalentStateChange) {
         this._onAllocate = v;
-    }    
+    }
+
+    public get onDeallocate() : OnTalentStateChange {
+        return this._onDeallocate;
+    }
+    public set onDeallocate(v: OnTalentStateChange) {
+        this._onDeallocate = v;
+    }
     
     public get onActivate() : OnTalentStateChange {
         return this._onActivate;
