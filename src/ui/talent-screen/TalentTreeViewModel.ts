@@ -61,12 +61,9 @@ export class TalentTreeViewModel implements ITabContent {
 
     OnTalentClicked(slot: ITalentSlot, index: number) {
         
-        if (MapPlayer.fromEvent() != this._watcher) return;
         if (!this._watched || !slot.talent || !this._tree) return;
 
         let tempState = this._tree.tempRankState[index];
-        this.logger.info("lvl", tempState, "maxRank", slot.talent.maxRank);
-
         if (this._tree.pointsAvailable >= slot.talent.cost && tempState < slot.talent.maxRank) {
 
             this._tree.ApplyTalentTemporary(index);
@@ -103,7 +100,6 @@ export class TalentTreeViewModel implements ITabContent {
 
         const tempState = this._tree.tempRankState;
         this._tree.ResetTempRankState();
-
         this.ResetTalentViewModels();
 
         if (GetTriggerPlayer() == GetLocalPlayer()) {
@@ -146,6 +142,7 @@ export class TalentTreeViewModel implements ITabContent {
             enabled: this._config.talent.link.activeTexture,
             disabled: this._config.talent.link.inactiveTexture
         };
+
         // this.logger.info('RENDER LINKS:', depLeft.linkAction, depUp.linkAction, depRight.linkAction, depDown.linkAction);
         slot.renderLinks({
             left: depLeft.linkAction != null ? linkTexture[depLeft.linkAction] : null,
@@ -156,32 +153,42 @@ export class TalentTreeViewModel implements ITabContent {
 
         // If talent is link, just render it empty
         if (talent.isLink) {
-            slot.state = TalentState.Empty;
+            slot.state = TalentState.Link;
             return;
         }
         
-        // Check talent dependency errors
+        slot.errorText = null;
+        let depOk = true;
+        let reqOk = true;
+
         let depError = "";
-        // this.logger.info(depLeft.ok, depUp.ok, depRight.ok, depDown.ok)
+        let reqError = "";
+        
+        // Check talent dependency errors and set message
         if (depLeft.ok && depUp.ok && depRight.ok && depDown.ok) {
-            slot.errorText = null;
+            depOk = true;
+        } else {
+            
+            depOk = false;
+            depError += [ depLeft.errorText, depUp.errorText, depRight.errorText, depDown.errorText ]
+            .filter(x => x != null)
+            .join(',');
+        }
+        
+        // Check talent requirements error and set message
+        [reqOk, reqError] = talent.requirements(tree, tree.unit);
+        
+        if (depOk && reqOk) {
+
             if (tempState == talent.maxRank) slot.state = TalentState.Maxed;
             else slot.state = TalentState.Available;
         } else {
-
-            dep = true;
-            depError += [ depLeft.errorText, depUp.errorText, depRight.errorText, depDown.errorText ]
-                .filter(x => x != null)
-                .join(',');
+            
+            slot.errorText = depError + reqError;
+            
+            if (!req) slot.state = TalentState.RequireDisabled;
+            else if (!dep) slot.state = TalentState.DependDisabled;
         }
-        let reqError: string;
-        [req, reqError] = talent.requirements(tree, tree.unit);
-        
-        slot.errorText = depError + reqError;
-
-        if (!req) slot.state = TalentState.RequireDisabled;
-        if (dep) slot.state = TalentState.DependDisabled;
-
     }
     
     Show(button: Frame): void {

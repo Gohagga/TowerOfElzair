@@ -68,7 +68,11 @@ export abstract class TalentTree {
             if (talent && state[depIndex] && state[depIndex] < lvl) {
                 ok = false;
                 errorText = "";
-                if (lvl != -1) errorText += talent.name + " (" + lvl + ")";
+                if (lvl != -1) {
+                    errorText += talent.name;
+
+                    if (talent.maxRank && talent.maxRank > 1) errorText += " (" + lvl + ")";
+                }
                 linkAction = Action.disabled;
             }
         }
@@ -188,6 +192,13 @@ export abstract class TalentTree {
         this._rankState[i] = level;
     }
 
+    protected SetTempTalentLevel(x: number, y: number, level: number) {
+
+        let i = x + y * this._columns;
+
+        this.tempRankState[i] = level;
+    }
+
     protected GetAllocatedTalentLevel(x: number, y: number) {
         
         let i = x + y * this._columns;
@@ -261,6 +272,7 @@ export abstract class TalentTree {
     protected SetColumnsRows(columns: number, rows: number) {
         this._columns = columns;
         this._rows = rows;
+        this._maxTalents = columns * rows;
     }    
     
     // public talent = new Proxy(this._talents, {

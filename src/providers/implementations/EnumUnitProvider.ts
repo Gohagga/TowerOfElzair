@@ -10,7 +10,6 @@ export class EnumUnitProvider implements IEnumUnitProvider {
         const units: Unit[] = [];
         let u: unit;
         while ((u = FirstOfGroup(this.group)) != null) {
-            print(GetUnitName(u));
             GroupRemoveUnit(this.group, u);
             let U = Unit.fromHandle(u);
             if (!filter || filter(U, source)) {

@@ -6,13 +6,11 @@ export const abilityData: AbilityData[] = [
     {
         codeId: "AHtb",
         name: "StormBolt",
-        
         slot: AbilitySlot.Q,
     },
     {
         codeId: "AHtc",
         name: "ThunderClap",
-        
         slot: AbilitySlot.W,
     },
     {

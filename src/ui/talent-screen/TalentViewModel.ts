@@ -54,16 +54,20 @@ export class TalentViewModel implements ITalentSlot {
             case TalentState.Maxed:
                 this.SetMaxed();
                 break;
+            case TalentState.Link:
+                this.setLinkVisibility();
+                break;
         }
     }
     
     public set available(v : boolean) {
+        
         this._available = v;
         if (!this._talent) return;
         // icon to disabled/enabled, button enable, highlight, tooltip
         // let texture = v ? this._talent.iconEnabled : this._talent.iconDisabled;
         let texture = this._talent.iconDisabled;
-        if (this._rank > 0) texture = this._talent.iconEnabled;
+        if (this._rank && this._rank > 0) texture = this._talent.iconEnabled;
         
         if (MapPlayer.fromLocal().id != this.watcher.id) return;
         this._view.button.image.setTexture(texture, 0, true);
@@ -145,6 +149,28 @@ export class TalentViewModel implements ITalentSlot {
         this._view.links.down.setPoint(FramePoint.T, this._view.button.main, FramePoint.C, 0, 0);
         this._view.links.down.height = linkHeight;
     }
+
+    setLinkVisibility() {
+        if (MapPlayer.fromLocal().id != this.watcher.id) return;
+
+        this._view.highlight.visible = false;
+        
+        if (this._talent && this._talent.icon && this._talent.icon != "") {
+            this._view.button.main.visible = true;
+            this._view.button.main.enabled = false;
+            let texture = this._talent.iconDisabled;
+            if (this._rank && this._rank > 0) texture = this._talent.iconEnabled;
+            this._view.button.image.setTexture(texture, 0, true);
+        } else {
+            this._view.button.main.visible = false;
+        }
+
+        this._view.links.down.visible = this._linkVisibility.down;
+        this._view.links.right.visible = this._linkVisibility.right;
+        this._view.links.up.visible = this._linkVisibility.up;
+        this._view.links.left.visible = this._linkVisibility.left;
+    }
+
     public get visible(): boolean {
         return this._visible;
     }
@@ -157,10 +183,10 @@ export class TalentViewModel implements ITalentSlot {
         this._view.button.main.visible = v;
         this._view.highlight.visible = v && this._available;
 
-        this._view.links.down.visible = this._linkVisibility.down;
-        this._view.links.right.visible = this._linkVisibility.right;
-        this._view.links.up.visible = this._linkVisibility.up;
-        this._view.links.left.visible = this._linkVisibility.left;
+        this._view.links.down.visible = v && this._linkVisibility.down;
+        this._view.links.right.visible = v && this._linkVisibility.right;
+        this._view.links.up.visible = v && this._linkVisibility.up;
+        this._view.links.left.visible = v && this._linkVisibility.left;
     }
     public get talent(): Talent | null {
         return this._talent;
@@ -175,6 +201,9 @@ export class TalentViewModel implements ITalentSlot {
     }
     /**Changes view. */
     public set rank(v: number) {
+        if (!v) {
+            return;
+        }
         this._rank = v;
         if (!this.talent) return;
         let tooltip = `Rank ${v}/${this.talent.maxRank}`;

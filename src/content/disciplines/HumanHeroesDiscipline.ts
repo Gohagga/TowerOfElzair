@@ -114,9 +114,6 @@ export class HumanHeroesDiscipline extends Discipline {
                 let desc = BlzGetAbilityResearchExtendedTooltip(ability.id, 0);
                 let icon = BlzGetAbilityIcon(ability.id);
 
-                print(x, name);
-                // let dep = y == 1 ? 1 : -1;
-
                 let mastery = [
                     this.masteryFourthAbilities,
                     this.masteryThirdAbilities,

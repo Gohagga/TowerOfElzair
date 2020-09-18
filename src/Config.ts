@@ -5,7 +5,7 @@ import { IUnitInfoPanelConfig } from "ui/unit-info-panel/interface/IUnitInfoPane
 import { IDummySpellProviderConfig } from "providers/implementations/DummySpellProvider";
 
 export class Config implements ILogger.Config, IDummySpellProviderConfig { // 
-    loggerLevel = ILogger.Level.All;
+    loggerLevel = ILogger.Level.None;
     
     dummyOwningPlayer = 0;
     dummyUnitId = FourCC('nDUM');
@@ -92,8 +92,8 @@ export class Config implements ILogger.Config, IDummySpellProviderConfig { //
                 texture: "UI/Widgets/Console/Human/human-transport-slot.blp",
             },
             highlight: {
-                width: 0.038,
-                height: 0.038,
+                width: 0.036,
+                height: 0.036,
                 texture: "UI/Widgets/Console/Human/CommandButton/human-activebutton.blp"
             },
             link: {

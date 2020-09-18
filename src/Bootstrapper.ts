@@ -108,19 +108,11 @@ export class Bootstrapper {
             obj[item.name] = item;
             return obj;
         }, {}) as Record<string, Ability>;
-
-        for (const x in abilityRecord) {
-            print(abilityRecord[x].name, x);
-        }
-
-        print(5)
         
         let u = Unit.fromHandle(gg_unit_Hblm_0003);
         const frameEvent = new FrameEventHandler(logger);
         const talentTabView = GenerateTabView(config.TalentScreen);
         const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), logger, frameEvent, talentTabView);
-        
-        print(6)
 
         const talentTreeViewBuilder = new TalentTreeViewModelBuilder(logger)
             .SetConfig(config.talentTree)
@@ -130,18 +122,21 @@ export class Bootstrapper {
             .SetTalentViews(GenerateNTalentViews(config.talentTree.base.maxTalentSlots, talentTabView.box, config.talentTree.talent))
             .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
 
-        print(7)
-
         let slotManager = services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager");
         const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
         // let sharedTree = new MeleeCombat(u, logger, services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager"), abilityRecord);
-        tab1.tree = new HumanHeroesDiscipline(u, logger, slotManager, abilityRecord);
+        print("main", 1)
+        tab1.tree = new MeleeCombat(u, logger, slotManager, abilityRecord);
 
+        print("main", 2)
         const tab2 = talentTreeViewBuilder.Build();
+        print("main", 3)
         tab2.tree = new OrcHeroesDiscipline(u, logger, slotManager, abilityRecord);
+        print("main", 4)
         talentTabs.tabContent = [ tab1, tab2 ];
 
         talentTabs.activeTabIndex = 0;
+        print("main", 5)
         // const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
         // let sharedTree = new TestTalentTree(logger, u, 2, 4);
         // tab1.tree = sharedTree;
@@ -175,6 +170,8 @@ export class Bootstrapper {
         t.addAction(() => {
             switch (MapPlayer.fromEvent()) {
                 case MapPlayer.fromIndex(0):
+                    print("yes")
+                    print(talentTabs);
                     talentTabs.visible = !talentTabs.visible;
                     break;
                 // case MapPlayer.fromIndex(1):

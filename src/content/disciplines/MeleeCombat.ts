@@ -8,18 +8,31 @@ import { AbilityData, Ability } from "../../systems/ability/Ability";
 import { Discipline } from "./Discipline";
 import { AbilitySlot } from "../../systems/ability/AbilitySlot";
 import { UnitSlotManager } from "../../systems/slottable/UnitSlotManager";
-
+import { IAbility } from "systems/ability/IAbility";
 
 const { left, up, right, down } = TalentDepType;
 
 export class MeleeCombat extends Discipline {
     
-    bash: Ability;
-
     public Initialize(): void {
+        
         this.SetColumnsRows(5, 6);
         this.title = "Melee Combat";
         this.pointsAvailable = 9999;
+        this.icon = IconPath.BTNOrcMeleeUpOne;
+    }
+
+    constructor(
+        unit: Unit,
+        logger: ILogger,
+        slotManager: UnitSlotManager<AbilitySlot>,
+        abilities: Record<string, IAbility>
+    ) {
+        super(unit, logger, slotManager, abilities);
+        print("MELEE COMBAT")
+        let [a1, b1, c1, d1] = [abilities.StormBolt, abilities.ThunderClap, abilities.Bash, abilities.Avatar];
+        let [a2, b2, c2, d2] = [abilities.Flamestrike, abilities.Banish, abilities.SiphonMana, abilities.Phoenix];
+        let [a3, b3, c3, d3] = [abilities.HolyLight, abilities.DivineShield, abilities.DevotionAura, abilities.Resurrection];
 
         let dmgBonus = 7.5;
 
@@ -27,143 +40,124 @@ export class MeleeCombat extends Discipline {
             Name: "Melee Combat 1",
             Cost: 1,
             Description: `Unlocks abilities and increases all physical damage done by ${dmgBonus}%.`,
-            Icon: IconPath.BTNGauntletsOfOgrePower,
-            OnActivate: u => {
+            Icon: IconPath.BTNOrcMeleeUpOne,
+            OnAllocate: u => {
                 for (let t of this.masteryFirstAbilities) {
                     if (t.dependency) t.dependency[left] = 0;
                 }
+                this.SetTempTalentLevel(0, 4, 1);
             },
-            OnDeactivate: u => {
+            OnDeallocate: u => {
                 for (let t of this.masteryFirstAbilities) {
                     if (t.dependency) t.dependency[left] = -1;
-                    if (t.tag) (t.tag as Ability).RemoveFromUnit(u);
+                    let ab = t.tag as IAbility;
+                    this.slotManager.RemoveSlot(this.unit, ab.slot);
                 }
+                this.SetTalentLevel(0, 4, 0);
             }
         });
 
-        this.AddTalent(1, 5, {
-            Name: "Bash",
-            Description: `Bashes the target in.`,
-            Icon: IconPath.BTNHammer,
-            // Dependency: { [left]: -1 },
-            OnAllocate: u => {
-                this.slotManager.ApplySlot(u, this.bash.slot, u => {
-                    this.bash.RemoveFromUnit(u);
-                    this.SetTalentLevel(1, 5, 0);
-                });
-                this.bash.AddToUnit(u);
-                this.SetTalentLevel(1, 5, 1);
-            }
-        });
+        // Bash
+        this.masteryFirstAbilities.push(this.SetupTalent(a1, 1, 5));
         
-        this.AddTalent(2, 5, {
-            Name: "Sprint",
-            Description: `Sprint around.`,
-            Icon: IconPath.BTNBoots,
-            Dependency: { [left]: -1 },
-            OnAllocate: u => {
-                // bash.AddToUnit(u, x => {
-                //     x.removeAbility(bash.id)
-                //     this.SetTalentLevel(1, 6, 0);
-                // });
-            }
-        });
+        // Sprint
+        this.masteryFirstAbilities.push(this.SetupTalent(b1, 2, 5));
 
-        this.AddTalent(3, 5, {
-            Name: "Slam",
-            Description: `Slam someone.`,
-            Icon: IconPath.BTNCallToArms,
-            Dependency: { [left]: -1 },
-            OnAllocate: u => {
-                // bash.AddToUnit(u, x => {
-                //     x.removeAbility(bash.id)
-                //     this.SetTalentLevel(1, 6, 0);
-                // });
-            }
-        });
+        // Slam
+        this.masteryFirstAbilities.push(this.SetupTalent(c1, 3, 5));
 
-        this.AddTalent(4, 5, {
-            Name: "Ground Smash",
-            Description: `Smash someone.`,
-            Icon: IconPath.BTNCallToArms,
-            Dependency: { [left]: -1 },
-            OnAllocate: u => {
-                // bash.AddToUnit(u, x => {
-                //     x.removeAbility(bash.id)
-                //     this.SetTalentLevel(1, 6, 0);
-                // });
-            }
-        });
+        // Ground Smash
+        this.masteryFirstAbilities.push(this.SetupTalent(d1, 4, 5));
 
         this.AddTalent(0, 4, {
+            Name: "Melee Combat 1",
             IsLink: true,
-            Dependency: { [up]: 0 },
+            Dependency: { [up]: 1 },
         });
 
-        this.AddTalent(1, 4, {
-            Name: "Bash",
-            Description: `Bashes the target in.`,
-            Icon: IconPath.BTNHammer,
-            // Dependency: { [left]: -1 },
-            OnAllocate: u => {
-                this.slotManager.ApplySlot(u, this.bash.slot, u => {
-                    this.bash.RemoveFromUnit(u);
-                    this.SetTalentLevel(1, 4, 0);
-                });
-                this.bash.AddToUnit(u);
-                this.SetTalentLevel(1, 4, 1);
-                // if (u.getAbilityLevel(this.bash.id) > 0) {
-                // }
-            }
-        });
-        
-        this.AddTalent(2, 4, {
-            Name: "Sprint",
-            Description: `Sprint around.`,
-            Icon: IconPath.BTNBoots,
-            Dependency: { [left]: -1 },
-            OnAllocate: u => {
-                // bash.AddToUnit(u, x => {
-                //     x.removeAbility(bash.id)
-                //     this.SetTalentLevel(1, 6, 0);
-                // });
-            }
-        });
+        // Bash
+        this.masteryFirstAbilities.push(this.SetupTalent(a2, 1, 4));
+                
+        // Sprint
+        this.masteryFirstAbilities.push(this.SetupTalent(b2, 2, 4));
 
-        this.AddTalent(3, 4, {
-            Name: "Slam",
-            Description: `Slam someone.`,
-            Icon: IconPath.BTNCallToArms,
-            Dependency: { [left]: -1 },
+        // Slam
+        this.masteryFirstAbilities.push(this.SetupTalent(c2, 3, 4));
+
+        // Ground Smash
+        this.masteryFirstAbilities.push(this.SetupTalent(d2, 4, 4));
+
+        // Second mastery
+        let mastery2 = this.AddTalent(0, 3, {
+            Name: "Melee Combat 2",
+            Cost: 1,
+            Description: `Unlocks abilities and increases all physical damage done by ${dmgBonus}%.`,
+            Icon: IconPath.BTNOrcMeleeUpTwo,
+            Dependency: { [up]: 1 },
             OnAllocate: u => {
-                // bash.AddToUnit(u, x => {
-                //     x.removeAbility(bash.id)
-                //     this.SetTalentLevel(1, 6, 0);
-                // });
+                for (let t of this.masterySecondAbilities) {
+                    if (t.dependency) t.dependency[left] = 0;
+                }
+                this.SetTempTalentLevel(0, 3, 1);
+            },
+            OnDeallocate: u => {
+                for (let t of this.masterySecondAbilities) {
+                    if (t.dependency) t.dependency[left] = -1;
+                    let ab = t.tag as IAbility;
+                    this.slotManager.RemoveSlot(this.unit, ab.slot);
+                }
+                this.SetTalentLevel(0, 3, 0);
             }
         });
 
-        this.AddTalent(4, 4, {
-            Name: "Ground Smash",
-            Description: `Smash someone.`,
-            Icon: IconPath.BTNCallToArms,
-            Dependency: { [left]: -1 },
-            OnAllocate: u => {
-                // bash.AddToUnit(u, x => {
-                //     x.removeAbility(bash.id)
-                //     this.SetTalentLevel(1, 6, 0);
-                // });
-            }
-        });
+        // Bash
+        this.masterySecondAbilities.push(this.SetupTalent(a3, 1, 3));
+                
+        // Sprint
+        this.masterySecondAbilities.push(this.SetupTalent(b3, 2, 3));
+
+        // Slam
+        this.masterySecondAbilities.push(this.SetupTalent(c3, 3, 3));
+
+        // Ground Smash
+        this.masterySecondAbilities.push(this.SetupTalent(d3, 4, 3));
+
+        print("END MELEE COMBAT")
     }
 
-    constructor(
-        unit: Unit,
-        logger: ILogger,
-        slotManager: UnitSlotManager<AbilitySlot>,
-        abilities: Record<string, Ability>
-    ) {
-        super(unit, logger, slotManager, abilities);
-        this.bash = abilities["Bash"];
+    private SetupTalent(ability: IAbility, col: number, row: number): Talent {
+        
+        let name = GetAbilityName(ability.id);
+        let desc = BlzGetAbilityResearchExtendedTooltip(ability.id, 0);
+        let icon = BlzGetAbilityIcon(ability.id);
+
+        let x = col;
+        let y = row;
+        
+        let talent = this.AddTalent(x, y, {
+            Name: name,
+            Description: desc,
+            Dependency: { [left]: -1 },
+            Icon: ability.icon || icon,
+            IconDisabled: ability.iconDisabled,
+            Requirements: (tree, unit) => {
+                let lvl = this.GetAllocatedTalentLevel(0, y);
+                let talent = this.talents[y * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                this.slotManager.ApplySlot(u, ability.slot, u => {
+                    print("Remove from unit", name);
+                    ability.RemoveFromUnit(u);
+                    this.SetTalentLevel(x, y, 0);
+                });
+                print("Add to unit", name);
+                ability.AddToUnit(u);
+                this.SetTalentLevel(x, y, 1);
+            },
+            Tag: ability
+        });
+
+        return talent;
     }
 }
