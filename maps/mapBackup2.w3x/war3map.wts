@@ -1,0 +1,127 @@
+﻿STRING 1
+{
+TypeScript Template
+}
+
+STRING 2
+{
+Any
+}
+
+STRING 3
+{
+Nondescript
+}
+
+STRING 4
+{
+TriggerHappy
+}
+
+STRING 5
+{
+Player 1
+}
+
+STRING 6
+{
+Player 2
+}
+
+STRING 7
+{
+Player 3
+}
+
+STRING 8
+{
+Force 1
+}
+
+STRING 9
+{
+Force 2
+}
+
+STRING 10
+{
+Player 4
+}
+
+STRING 11
+{
+Player 12
+}
+
+STRING 12
+// Abilities: A001 (Acid Bomb), Researchhotkey (Hotkey - Learn)
+{
+D
+}
+
+STRING 13
+// Abilities: A001 (Acid Bomb), Hotkey (Hotkey - Normal)
+{
+D
+}
+
+STRING 14
+// Abilities: AF00 (Bash), Hotkey (Hotkey - Normal)
+{
+Q
+}
+
+STRING 15
+// Abilities: AF00 (Bash), Name (Name)
+{
+Bash
+}
+
+STRING 16
+// Abilities: AF00 (Bash), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 17
+// Abilities: AF00 (Bash), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 18
+// Abilities: AF00 (Bash), Tip (Tooltip - Normal)
+{
+Bash
+}
+
+STRING 20
+// Abilities: AF02 (Slam), Name (Name)
+{
+Slam
+}
+
+STRING 24
+// Abilities: AF02 (Slam), Hotkey (Hotkey - Normal)
+{
+E
+}
+
+STRING 25
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Slam
+}
+
+STRING 26
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Slam
+}
+
+STRING 27
+// Abilities: AF02 (Slam), Tip (Tooltip - Normal)
+{
+Slam
+}
+
