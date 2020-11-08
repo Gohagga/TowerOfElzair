@@ -1,4 +1,4 @@
-import { IDamageEventHandler, IDamageEventSub, IDamageEvent, DamageEventData } from "../interfaces/IDamageEventHandler";
+import { IDamageEventHandler, IDamageEventSub, IDamageEvent, DamageEventData } from "./IDamageEventHandler";
 import { ActionOrder } from "../../systems/damage/ActionOrder";
 import { Unit } from "w3ts/index";
 import ILogger from "systems/logger/ILogger";
@@ -14,9 +14,9 @@ export class DamageEventHandler implements IDamageEventHandler<ActionOrder> {
         this.logger = svc.ILogger;
     }
     
-    Subscribe(type: ActionOrder, callback: (e: IDamageEvent) => void): IDamageEventSub;
-    Subscribe(type: ActionOrder, callback: (e: IDamageEvent) => void, filter: { source?: Unit, target?: Unit }): IDamageEventSub;
-    Subscribe(type: ActionOrder, callback: (e: IDamageEvent) => void, filter?: { source?: Unit, target?: Unit }): IDamageEventSub {
+    SubscribeTo(type: ActionOrder, callback: (e: IDamageEvent) => void): IDamageEventSub;
+    SubscribeTo(type: ActionOrder, callback: (e: IDamageEvent) => void, filter: { source?: Unit, target?: Unit }): IDamageEventSub;
+    SubscribeTo(type: ActionOrder, callback: (e: IDamageEvent) => void, filter?: { source?: Unit, target?: Unit }): IDamageEventSub {
         
         let sub: DamageEventSub;
         // If filter exists, apply the thing
@@ -56,7 +56,12 @@ export class DamageEventHandler implements IDamageEventHandler<ActionOrder> {
         return sub;
     }
 
-    Register(data: DamageEventData) {
+    Register(type: ActionOrder, data: DamageEventData) {
+        this.RegisterDamageInstance(data);
+    }
+
+    
+    RegisterDamageInstance(data: DamageEventData) {
         
         if (!this._subscriptions || this._subscriptions.length == 0) return;
         let remaining: DamageEventSub[] = [];

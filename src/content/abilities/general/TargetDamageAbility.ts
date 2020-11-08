@@ -7,25 +7,24 @@ import { DamageType } from "systems/damage/DamageType";
 import { AbilitySlot } from "systems/ability/AbilitySlot";
 import { SimpleAbility } from "systems/ability/SimpleAbility";
 
-export class Bash extends SimpleAbility {
+export class TargetDamageAbility extends SimpleAbility {
 
     private damage: IDamageProvider;
 
     constructor(svc: {
         spellEvent: IAbilityEventHandler,
         damageProvider: IDamageProvider,
-    },  data: AbilityData) {
+    },  
+        data: AbilityData,
+        private damageType: DamageType,
+        private amount: (caster: Unit, target: Unit) => number
+    ) {
         super(svc, data);
         this.damage = svc.damageProvider;
     }
     
     Execute(caster: Unit, origin: Point, destination: Point, target: Unit): boolean {
-        const damage = 50;
-        this.damage.UnitDamageTarget(caster, target, damage, DamageType.Blunt);
+        this.damage.UnitDamageTarget(caster, target, this.amount(caster, target), this.damageType);
         return true;
-    }
-
-    AddToUnit(unit: Unit): boolean {
-        return unit.addAbility(this.id);
     }
 }

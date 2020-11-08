@@ -2,7 +2,7 @@ import ILogger from "systems/logger/ILogger";
 import { Logger } from "systems/logger/Logger";
 import { Config } from "Config";
 import { InjectionContainer } from "providers/implementations/InjectionContainer";
-import { DamageEventHandler } from "event-handlers/implementations/DamageEventHandler";
+import { DamageEventHandler } from "events/damage/DamageEventHandler";
 import { AutoattackDamageEventProvider } from "providers/implementations/AutoattackDamageEventProvider";
 import { DamageProvider } from "providers/implementations/DamageProvider";
 import { OnUnitDamagedProvider } from "providers/implementations/OnUnitDamagedProvider";
@@ -11,7 +11,7 @@ import { EnumUnitProvider } from "providers/implementations/EnumUnitProvider";
 import { DummySpellProvider } from "providers/implementations/DummySpellProvider";
 import { InstancedDummySpellProvider } from "providers/implementations/InstancedDummySpellProvider";
 import { TargetProjectileProvider } from "providers/implementations/TargetProjectileProvider";
-import { EventUnitUsedAbilityHandler } from "event-handlers/implementations/EventUnitUsedAbilityHandler";
+import { EventUnitUsedAbilityHandler } from "events/ability/EventUnitUsedAbilityHandler";
 import { UnitSlotManager } from "systems/slottable/UnitSlotManager";
 import { AbilitySlot } from "systems/ability/AbilitySlot";
 import { Effect as SpellEffect } from "systems/effects/base/Effect";
@@ -26,8 +26,8 @@ import { EffectAbility } from "systems/ability/EffectAbility";
 import { AbilityData, Ability } from "systems/ability/Ability";
 import { AbilityBuilder } from "content/abilities/AbilityBuilder";
 import { Bash } from "content/abilities/MeleeCombat/Bash";
-import { abilityData } from "content/abilities/AbilityData";
-import { Unit, MapPlayer, Trigger } from "w3ts/index";
+import { abilityDataRecord } from "content/abilities/AbilityData";
+import { Unit, MapPlayer, Trigger, Frame } from "w3ts/index";
 import { FrameEventHandler } from "event-handlers/implementations/FrameEventHandler";
 import { GenerateTabView } from "ui/tab-screen/TabView";
 import { TabViewModel } from "ui/tab-screen/TabViewModel";
@@ -39,6 +39,17 @@ import { TalentViewModel } from "ui/talent-screen/TalentViewModel";
 import { MeleeCombat } from "content/disciplines/MeleeCombat";
 import { HumanHeroesDiscipline } from "content/disciplines/HumanHeroesDiscipline";
 import { OrcHeroesDiscipline } from "content/disciplines/OrcHeroesDiscipline";
+import { NoEffectAbility } from "systems/ability/NoEffectAbility";
+import { IAbility } from "systems/ability/IAbility";
+import { TargetDamageAbility } from "content/abilities/general/TargetDamageAbility";
+import { DamageType } from "systems/damage/DamageType";
+import { Sprint } from "content/abilities/MeleeCombat/Sprint";
+import { GroundSmash } from "content/abilities/MeleeCombat/GroundSmash";
+import { Charge } from "content/abilities/MeleeCombat/Charge";
+import { BattleRush } from "content/abilities/MeleeCombat/BattleRush";
+import { GenerateProgressBarView } from "ui/progress-bar/ProgressBarView";
+import { ProgressBarViewModel } from "ui/progress-bar/ProgressBarViewModel";
+import { Momentum, UnitMomentum } from "systems/momentum/Momentum";
 
 export class Bootstrapper {
 
@@ -48,68 +59,32 @@ export class Bootstrapper {
         
         const config = new Config();
         const logger: ILogger = new Logger(config);
-        services.register(config, "config");
-        services.register(logger, "logger");
+        const originUi = Frame.fromOrigin(ORIGIN_FRAME_GAME_UI, 0);
 
-        services.registerConsumer(DamageEventHandler).as("IDamageEventHandler", "IDamageEventHandler<ActionOrder>");
-        services.registerConsumer(AutoattackDamageEventProvider);
-        services.registerProvider(DamageProvider).as("IDamageProvider");
-        services.registerProvider(OnUnitDamagedProvider);
-        services.registerProvider(OnSpellCastProvider);
-        services.registerProvider(EnumUnitProvider);
-        services.registerConsumer(DummySpellProvider, "banish", FourCC('A000')).as("DummyBanish");
-        services.registerConsumer(InstancedDummySpellProvider, "acidbomb", FourCC('A001')).as("DummyFireball");
-        services.registerConsumer(TargetProjectileProvider, services.get("DummyFireball")).as("DummyFireballProjectile");
-        services.registerConsumer(EventUnitUsedAbilityHandler).as("SpellEvent");
-        services.register(new UnitSlotManager<AbilitySlot>(), "UnitAbilitySlotManager");
+        const spellEvent = new EventUnitUsedAbilityHandler();
+        const damageProvider = new DamageProvider();
+        const dmgHandler = new DamageEventHandler({ ILogger: logger });
 
-        // const targetProjProvider = services.resolve(TargetProjectileProvider);
+        const svc = { spellEvent, damageProvider, IDamageEventHandler: dmgHandler };
+        
+        const autoattackHandler = new AutoattackDamageEventProvider(svc);
 
-        const effectConstructors: Record<string, new (...args: any[]) => SpellEffect> = {
-            AoeForkEffect,
-            ProjectileEffect,
-            DummyCastEffect,
-            DamageEffect,
-            FocusAsOriginEffect,
-            CasterAsFocusEffect,
+        // Ability registration here
+        const abilities: Record<string, IAbility> = {
+            Bash: new TargetDamageAbility(svc, abilityDataRecord.Bash, DamageType.Blunt, () => 35),
+            Sprint: new Sprint(abilityDataRecord.Sprint),
+            Slam: new TargetDamageAbility(svc, abilityDataRecord.Slam, DamageType.Blunt, () => 50),
+            GroundSmash: new GroundSmash(svc, abilityDataRecord.GroundSmash),
+
+            Swing: new TargetDamageAbility(svc, abilityDataRecord.Swing, DamageType.Slashing, () => 40),
+            Charge: new Charge(abilityDataRecord.Charge),
+            Cleave: new TargetDamageAbility(svc, abilityDataRecord.Cleave, DamageType.Slashing, () => 25),
+            BattleRush: new BattleRush(svc, abilityDataRecord.BattleRush),
+            
         };
-        services.register(effectConstructors, "CreateEffect");
 
-        services.registerConsumer(EffectBuilder);
-
-        // let effAbility = services.resolve(EffectAbility, testAb);
-        services.get<EffectBuilder>(EffectBuilder.name);
-        const abilityBuilder = services.resolve<AbilityBuilder>(AbilityBuilder);
-        abilityBuilder.registerAll([
-            Bash,
-            EffectAbility
-        ]);
-        const abilities = abilityBuilder.buildAll(abilityData);
-
-        // damageHandler.Subscribe(ActionOrder.Autoattack, (e) => {
-            //     logger.info(e.source.name + " autoattacks " + e.target.name + " for " + e.amount + " " + e.type.toString());
-            // });
-        
-
-        // print(2)
-        // let bash = new UnitTargetEffect(onSpellCast).Add(new TargetEffect().Add(new UnitDamageEffect(u => 50, DamageType.Blunt, damager)));
-        // const effects: Record<string, () => void> = {
-        //     "bash": bash.Resolve,
-        // }
-
-        // print(3)
-
-        // const abilityBuilder = new AbilityBuilder(eventAbilityUsed, abilitySlotManager, effects);
-        // const abilities = abilityBuilder.BuildAll([abilityData[0]]);
-
-        // print(4)
-
-        const abilityRecord = abilities.reduce((obj: any, item) => {
-            obj[item.name] = item;
-            return obj;
-        }, {}) as Record<string, Ability>;
-        
-        let u = Unit.fromHandle(gg_unit_Hblm_0003);
+        let u = Unit.fromHandle(gg_unit_Hpal_0002);
+        u.addType(UNIT_TYPE_PEON);
         const frameEvent = new FrameEventHandler(logger);
         const talentTabView = GenerateTabView(config.TalentScreen);
         const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), logger, frameEvent, talentTabView);
@@ -122,47 +97,15 @@ export class Bootstrapper {
             .SetTalentViews(GenerateNTalentViews(config.talentTree.base.maxTalentSlots, talentTabView.box, config.talentTree.talent))
             .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
 
-        let slotManager = services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager");
+        let slotManager = new UnitSlotManager<AbilitySlot>();
         const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
-        // let sharedTree = new MeleeCombat(u, logger, services.get<UnitSlotManager<AbilitySlot>>("UnitAbilitySlotManager"), abilityRecord);
-        print("main", 1)
-        tab1.tree = new MeleeCombat(u, logger, slotManager, abilityRecord);
+        print("main", 1);
+        tab1.tree = new MeleeCombat(u, logger, slotManager, abilities);
 
-        print("main", 2)
-        const tab2 = talentTreeViewBuilder.Build();
-        print("main", 3)
-        tab2.tree = new OrcHeroesDiscipline(u, logger, slotManager, abilityRecord);
-        print("main", 4)
-        talentTabs.tabContent = [ tab1, tab2 ];
-
+        talentTabs.tabContent = [ tab1 ];
         talentTabs.activeTabIndex = 0;
         print("main", 5)
-        // const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
-        // let sharedTree = new TestTalentTree(logger, u, 2, 4);
-        // tab1.tree = sharedTree;
-
-        // print(8)
-
-        // const tab2 = talentTreeViewBuilder.Build();
-        // tab2.tree =  new MeleeCombat(u, logger, abilityRecord);
-
-        // print(9)
-
-        // // const tab3 = talentTreeViewBuilder.Build();
-        // // tab3.tree = new TestTalentTree(logger, u, 3, 7);
         
-
-        // // For blue now
-        // // const talentTabsBlue = new TabViewModel(MapPlayer.fromIndex(1), logger, frameEvent, talentTabView);
-        // // talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(1));
-        // // const tabb1 = talentTreeViewBuilder.Build();
-        // // tabb1.tree = new TestTalentTree(logger, u, 2, 4);
-        // // // const tabb2 = talentTreeViewBuilder.Build();
-        // // // tabb2.tree = sharedTree;
-
-        // // talentTabsBlue.tabContent = [ tabb1 ];
-
-        // print(10)
 
         let t = new Trigger();
         t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
@@ -179,36 +122,9 @@ export class Bootstrapper {
                 //     break;
             }
         });
-        // let talentScreen = new TalentScreenVModel(config);
         
-        //     Provides context with targeted unit as Focus, its position as destination and caster and his position as origin
-        // const fireball = new UnitTargetEffect(onSpellCast)
-        //             // Enums units within range, filters and Resolves subcomponents for each target (as Focus)
-        //     .Add(new AoeForkEffect(unitEnum, 400.0, (t, c) => true)
-        //             // Dummy casts a projectile spell at Focus, Resolves subcomponents once it hits
-        //         .Add(new ProjectileEffect(fbProjectile, logger)
-        //                 // Dummy casts a banish on Focus
-        //             .Add(new DummyCastEffect(banishDummy))
-        //                 // Deals 50 damage to Focus
-        //             .Add(new DamageEffect(50.0, DamageType.Magical, damager))
-        //                 // Sets Origin to position of Focus
-        //             .Add(new FocusAsOriginEffect()
-        //                     // Sets caster unit as Focus
-        //                 .Add(new CasterAsFocusEffect()
-        //                         // Dummy casts a projectile spell at Focus, Resolves subcomponents once it hits
-        //                     .Add(new ProjectileEffect(fbProjectile, logger)
-        //                         // Deals 5 damage to Focus
-        //                         .Add(new DamageEffect(5.0, DamageType.Magical, damager)))))));
-
-        // eventAbilityUsed.Register(EventAbility.Effect, FourCC('A002'), () => fireball.Resolve());
-
-        // const u = Unit.fromHandle(gg_unit_Hblm_0003);
-        // u.addAbility(FourCC('A001'));
-
-        // // BlzGetUnitAbility( gg_unit_Hblm_0003
-        // const ab = u.getAbility(FourCC('A001'));
-
-        services.get<OnUnitDamagedProvider>("OnUnitDamagedProvider").Register(() => {
+        const onUnitDamage = new OnUnitDamagedProvider();
+        onUnitDamage.Register(() => {
             
             let damage = GetEventDamage();
             const source = GetEventDamageSource();
@@ -236,10 +152,27 @@ export class Bootstrapper {
                 SetTextTagFadepoint(tt, 0.4)
             }
         });
+
+        print("MOMENTUM", 1)
+        let x = 0.5;
+        const mom = new UnitMomentum(u);
+        const momentum = new Momentum(svc);
+
+        momentum.Register(u, mom);
+        // const momentumView = GenerateProgressBarView(originUi, config.momentum.progressBar);
+        // print("MOMENTUM", 2)
+        // const momentumViewModel = new ProgressBarViewModel(momentumView, () => {
+        //     print("MOMENTUM")
+        //     x += GetRandomReal(0, 0.03);
+        //     return x;
+        // });
+        // print("MOMENTUM", 3)
+
+        print("MOMENTUM", 0)
+        // print(BlzLoadTOCFile("SimpleProgressBar.toc"));
     }
 
     static OnMapInit() {
-        // const config = new Config();
-        // UnitInfoPanelView(config.gameUI);
+        
     }
 }

@@ -1,18 +1,19 @@
 import { IAbility } from "./IAbility";
 import { Unit, Point } from "w3ts/index";
 import { Ability, AbilityData } from "./Ability";
-import { IEventUnitUsedAbilityHandler, EventAbility } from "event-handlers/interfaces/IEventUnitUsedAbilityHandler";
+import { IAbilityEventHandler, EventAbility } from "events/ability/IAbilityEventHandler";
 import { EffectData, EffectBuilder } from "systems/effects/EffectBuilder";
 import { Effect } from "systems/effects/base/Effect";
 import { CustomContextEffect } from "systems/effects/target-effects/CustomContextEffect";
 import { FormEffect } from "systems/effects/base/FormEffect";
+import { SimpleAbility } from "./SimpleAbility";
 
-export class EffectAbility extends Ability {
+export class EffectAbility extends SimpleAbility {
     
     effect: CustomContextEffect;
     
     constructor(svc: {
-        SpellEvent: IEventUnitUsedAbilityHandler,
+        spellEvent: IAbilityEventHandler,
         EffectBuilder: EffectBuilder
     },  data: AbilityData) {
         super(svc, data);
@@ -25,7 +26,7 @@ export class EffectAbility extends Ability {
         this.effect.Add(svc.EffectBuilder.build(data.effect) as FormEffect);
     }
     
-    Execute(caster: Unit, origin: Point, destination: Point, target: Unit): void {
+    Execute(caster: Unit, origin: Point, destination: Point, target: Unit): boolean {
 
         print(caster.name, "casts ", this.name, "at", target.name);
         this.effect.context = {
@@ -36,5 +37,6 @@ export class EffectAbility extends Ability {
             focus: target || caster
         }
         this.effect.Resolve();
+        return true;
     }
 }

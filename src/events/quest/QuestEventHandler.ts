@@ -1,4 +1,4 @@
-import { IQuestEventHandler, QuestEvent, QuestEventType, QuestEventCallback } from "../interfaces/IQuestEventHandler";
+import { IQuestEventHandler, QuestEvent, QuestEventType, QuestEventCallback } from "./IQuestEventHandler";
 
 export class QuestEventHandler implements IQuestEventHandler {
     
@@ -9,7 +9,7 @@ export class QuestEventHandler implements IQuestEventHandler {
         [QuestEventType.Changed]: { increment: 0, instances: [] },
     };
 
-    Subscribe(type: QuestEventType, callback: (e: QuestEvent<any>) => void): () => void {
+    SubscribeTo(type: QuestEventType, callback: (e: QuestEvent<any>) => void): () => void {
         
         const instance: QuestEventCallback = {
             id: this.handles[type].increment++,

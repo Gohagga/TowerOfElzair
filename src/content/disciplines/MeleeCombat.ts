@@ -30,9 +30,9 @@ export class MeleeCombat extends Discipline {
     ) {
         super(unit, logger, slotManager, abilities);
         print("MELEE COMBAT")
-        let [a1, b1, c1, d1] = [abilities.StormBolt, abilities.ThunderClap, abilities.Bash, abilities.Avatar];
-        let [a2, b2, c2, d2] = [abilities.Flamestrike, abilities.Banish, abilities.SiphonMana, abilities.Phoenix];
-        let [a3, b3, c3, d3] = [abilities.HolyLight, abilities.DivineShield, abilities.DevotionAura, abilities.Resurrection];
+        let [a1, b1, c1, d1] = [abilities.Bash, abilities.Sprint, abilities.Slam, abilities.GroundSmash];
+        let [a2, b2, c2, d2] = [abilities.Swing, abilities.Charge, abilities.Cleave, abilities.BattleRush];
+        // let [a3, b3, c3, d3] = [abilities.HolyLight, abilities.DivineShield, abilities.DevotionAura, abilities.Resurrection];
 
         let dmgBonus = 7.5;
 
@@ -111,16 +111,16 @@ export class MeleeCombat extends Discipline {
         });
 
         // Bash
-        this.masterySecondAbilities.push(this.SetupTalent(a3, 1, 3));
+        // this.masterySecondAbilities.push(this.SetupTalent(a3, 1, 3));
                 
-        // Sprint
-        this.masterySecondAbilities.push(this.SetupTalent(b3, 2, 3));
+        // // Sprint
+        // this.masterySecondAbilities.push(this.SetupTalent(b3, 2, 3));
 
-        // Slam
-        this.masterySecondAbilities.push(this.SetupTalent(c3, 3, 3));
+        // // Slam
+        // this.masterySecondAbilities.push(this.SetupTalent(c3, 3, 3));
 
-        // Ground Smash
-        this.masterySecondAbilities.push(this.SetupTalent(d3, 4, 3));
+        // // Ground Smash
+        // this.masterySecondAbilities.push(this.SetupTalent(d3, 4, 3));
 
         print("END MELEE COMBAT")
     }

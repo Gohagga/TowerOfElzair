@@ -10,15 +10,16 @@ export function GenerateTalentTreeView(parent: Frame, cfg: ITalentTreeConfig): I
     const cancelButton = new Frame("ScriptDialogButton", parent, 0, 0);
     const cancelText = Frame.fromName("ScriptDialogButtonText", 0);
 
-    confirmButton.clearPoints();
-    confirmButton.setPoint(FramePoint.BR, parent, FramePoint.B, 0, cfg.confirm.y);
-    confirmButton.setSize(cfg.confirm.width, cfg.confirm.height);
-    confirmText.text = cfg.confirm.text;
+    confirmButton
+        .clearPoints()
+        .setPoint(FramePoint.BR, parent, FramePoint.B, 0, cfg.confirm.y)
+        .setSize(cfg.confirm.width, cfg.confirm.height)
+        .text = cfg.confirm.text;
 
-    cancelButton.clearPoints();
-    cancelButton.setPoint(FramePoint.BL, parent, FramePoint.B, 0, cfg.cancel.y);
-    cancelButton.setSize(cfg.cancel.width, cfg.cancel.height);
-    cancelText.text = cfg.cancel.text;
+    cancelButton.clearPoints()
+        .setPoint(FramePoint.BL, parent, FramePoint.B, 0, cfg.cancel.y)
+        .setSize(cfg.cancel.width, cfg.cancel.height)
+        .text = cfg.cancel.text;
 
     const retVal: ITalentTreeView = {
         confirm: {

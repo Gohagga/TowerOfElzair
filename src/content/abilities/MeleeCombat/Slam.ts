@@ -20,12 +20,8 @@ export class Bash extends SimpleAbility {
     }
     
     Execute(caster: Unit, origin: Point, destination: Point, target: Unit): boolean {
-        const damage = 50;
+        const damage = 75;
         this.damage.UnitDamageTarget(caster, target, damage, DamageType.Blunt);
         return true;
-    }
-
-    AddToUnit(unit: Unit): boolean {
-        return unit.addAbility(this.id);
     }
 }

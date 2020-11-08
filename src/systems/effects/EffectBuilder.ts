@@ -3,8 +3,8 @@ import ILogger from "systems/logger/ILogger";
 import { FormEffect } from "./base/FormEffect";
 import { SubstanceEffect } from "./base/SubstanceEffect";
 import { UnitTargetEffect } from "./target-effects/UnitTargetEffect";
-import { EventUnitUsedAbilityHandler } from "event-handlers/implementations/EventUnitUsedAbilityHandler";
-import { EventAbility } from "event-handlers/interfaces/IEventUnitUsedAbilityHandler";
+import { EventUnitUsedAbilityHandler } from "events/ability/EventUnitUsedAbilityHandler";
+import { EventAbility } from "events/ability/IAbilityEventHandler";
 import { OnSpellCastProvider } from "providers/implementations/OnSpellCastProvider";
 
 export class EffectBuilder {

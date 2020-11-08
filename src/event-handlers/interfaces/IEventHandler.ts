@@ -1,11 +1,10 @@
-export interface IEventHandler<Type, EventData> {
+export interface IEventHandler<Type, EventData, EventRegisterData, UnsubscribeObj> {
     
     /**Subscribes to an event and returns a function used to unsubscribe. */
-    Subscribe(type: Type, callback: (e: EventData) => void): UnsubscribeFunc;
+    SubscribeTo(type: Type, callback: (e: EventData) => void): UnsubscribeObj;
 
-    Register(type: Type, event: EventData): void;
+    Register(type: Type, event: EventRegisterData): void;
 }
-export type UnsubscribeFunc = () => void;
 
 export interface IEventCallback<EventData> {
     id: number;

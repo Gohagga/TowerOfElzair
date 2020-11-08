@@ -3,6 +3,8 @@ import ITabViewConfig from "ui/tab-screen/interface/ITabConfig";
 import { ITalentTreeConfig } from "ui/talent-screen/interface/ITalentTreeConfig";
 import { IUnitInfoPanelConfig } from "ui/unit-info-panel/interface/IUnitInfoPanelConfig";
 import { IDummySpellProviderConfig } from "providers/implementations/DummySpellProvider";
+import { IProgressBarViewConfig } from "ui/progress-bar/IProgressBarViewConfig";
+import { IconPath } from "IconPath";
 
 export class Config implements ILogger.Config, IDummySpellProviderConfig { // 
     loggerLevel = ILogger.Level.None;
@@ -101,6 +103,18 @@ export class Config implements ILogger.Config, IDummySpellProviderConfig { //
                 inactiveTexture: "UI/Widgets/Console/Human/human-inventory-slotfiller.blp",
                 width: 0.004
             }
+        }
+    }
+
+    momentum: { progressBar: IProgressBarViewConfig } = {
+        progressBar: {
+            x: 0.5,
+            y: 0.4,
+            height: 0.08,
+            width: 0.08,
+            isBorderOnTop: false,
+            textureBorder: IconPath.BTNArthas,
+            textureFill: IconPath.BTNHeroDeathKnight
         }
     }
 }

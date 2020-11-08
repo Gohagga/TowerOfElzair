@@ -1,5 +1,5 @@
 import { IEnumUnitProvider } from "providers/interfaces/IEnumUnitProvider";
-import { Point, Unit } from "w3ts";
+import { Unit, Point } from "w3ts";
 
 export class EnumUnitProvider implements IEnumUnitProvider {
 

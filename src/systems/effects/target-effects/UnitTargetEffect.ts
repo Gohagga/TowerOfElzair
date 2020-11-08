@@ -1,6 +1,5 @@
 import { TemplateEffect } from "../base/TemplateEffect";
 import { FormContext } from "../base/FormEffect";
-import { Point } from "w3ts";
 import { IOnSpellCastProvider } from "providers/interfaces/IOnSpellCastProvider";
 
 export class UnitTargetEffect extends TemplateEffect {

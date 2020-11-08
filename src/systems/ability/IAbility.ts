@@ -1,6 +1,6 @@
 import { Unit, Point } from "w3ts/index";
 import { AbilitySlot } from "./AbilitySlot";
-import { AbilityData } from "./Ability";
+import { AbilityData, AbilityType } from "./Ability";
 
 export interface IAbility extends AbilityData {
 
@@ -12,9 +12,13 @@ export interface IAbility extends AbilityData {
 
     name: string;
 
+    type: AbilityType;
+
+    cost: number;
+
     AddToUnit(unit: Unit): boolean;
 
     RemoveFromUnit(unit: Unit): boolean;
 
-    Execute(caster: Unit, origin: Point, destination: Point, target?: Unit): void;
+    Execute(caster: Unit, origin: Point, destination: Point, target: Unit): void;
 }

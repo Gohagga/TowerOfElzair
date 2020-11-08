@@ -64,14 +64,17 @@ function GenerateTabSelector(i: number, parent: Frame, cfg: ITabViewConfig.Tab):
     let mainImage = Frame.fromName("ScoreScreenButtonBackdrop", 0);
     let selectFrame = Frame.fromHandle(BlzCreateFrameByType("BACKDROP", "Selectedcfg", parent.handle, "", 0));
 
-    mainButton.setPoint(Fp.R, parent, Fp.TL, x, y);
-    mainButton.setSize(cfg.iconSize, cfg.iconSize);
+    mainButton
+        .setPoint(Fp.R, parent, Fp.TL, x, y)
+        .setSize(cfg.iconSize, cfg.iconSize);
 
-    mainImage.setTexture(cfg.defaultTexture, 0, true);
+    mainImage
+        .setTexture(cfg.defaultTexture, 0, true);
 
-    selectFrame.setSize(cfg.iconSize * cfg.selectionScale, cfg.iconSize * cfg.selectionScale);
-    selectFrame.setPoint(Fp.R, mainButton, Fp.L, cfg.selectionOffX, 0);
-    selectFrame.setTexture(cfg.activeTabTexture, 0, true);
+    selectFrame
+        .setSize(cfg.iconSize * cfg.selectionScale, cfg.iconSize * cfg.selectionScale)
+        .setPoint(Fp.R, mainButton, Fp.L, cfg.selectionOffX, 0)
+        .setTexture(cfg.activeTabTexture, 0, true);
 
     const retVal: ITabSelectorView = {
         mainButton: mainButton,

@@ -2,19 +2,19 @@ import { Ability, AbilityData } from "systems/ability/Ability";
 import { ISlotManager } from "systems/slottable/ISlotManager";
 import { NoEffectAbility } from "systems/ability/NoEffectAbility";
 import { Unit } from "w3ts";
-import { EventUnitUsedAbilityHandler } from "event-handlers/implementations/EventUnitUsedAbilityHandler";
+import { EventUnitUsedAbilityHandler } from "events/ability/EventUnitUsedAbilityHandler";
 import { InjectionContainer } from "providers/implementations/InjectionContainer";
-import { IEventUnitUsedAbilityHandler } from "event-handlers/interfaces/IEventUnitUsedAbilityHandler";
+import { IAbilityEventHandler } from "events/ability/IAbilityEventHandler";
 import { IAbility } from "systems/ability/IAbility";
 
 export class AbilityBuilder {
 
     private container: Record<string, new (svc: Record<string, any>, abilityData: AbilityData, ...args: any[]) => Ability> = {};
     private svc: Record<string, any>;
-    private spellEvent: IEventUnitUsedAbilityHandler;
+    private spellEvent: IAbilityEventHandler;
 
     constructor(svc: {
-        SpellEvent: IEventUnitUsedAbilityHandler
+        SpellEvent: IAbilityEventHandler
     }) {
         this.svc = svc;
         this.spellEvent = svc.SpellEvent;

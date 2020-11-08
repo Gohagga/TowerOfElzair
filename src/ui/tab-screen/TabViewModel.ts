@@ -47,6 +47,14 @@ export class TabViewModel {
             selector.mainButton.visible = false;
             selector.selectFrame.visible = false;
         }
+
+        event.Subscribe(FrameEventType.Click, closeButton, () => this.CloseView());
+    }
+
+    public CloseView() {
+
+        if (MapPlayer.fromLocal().id != this._watcher.id) return;
+        this.visible = false;
     }
 
     public get visible() {

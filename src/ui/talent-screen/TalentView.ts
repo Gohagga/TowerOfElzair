@@ -37,44 +37,51 @@ export function GenerateTalentView(parent: Frame, cfg: ITalentTreeConfig.Talent)
     BlzFrameSetTextAlignment(rankText.handle, TEXT_JUSTIFY_CENTER, TEXT_JUSTIFY_MIDDLE);
     BlzFrameSetTextAlignment(toolRank.handle, TEXT_JUSTIFY_TOP, TEXT_JUSTIFY_RIGHT);
 
-    buttonMain.setPoint(FramePoint.C, parent, FramePoint.C, 0, 0);
-    buttonMain.setSize(cfg.buttonWidth, cfg.buttonHeight);
-    buttonMain.setLevel(2);
+    buttonMain.setPoint(FramePoint.C, parent, FramePoint.C, 0, 0)
+        .setSize(cfg.buttonWidth, cfg.buttonHeight)
+        .setLevel(2);
 
-    toolBox.setPoint(FramePoint.TL, parent, FramePoint.TR, 0, 0);
-    toolBox.setSize(cfg.tooltip.width, cfg.tooltip.height);
+    toolBox
+        .setPoint(FramePoint.TL, parent, FramePoint.TR, 0, 0)
+        .setSize(cfg.tooltip.width, cfg.tooltip.height);
 
-    toolText.clearPoints();
-    toolText.setPoint(FramePoint.C, toolBox, FramePoint.C, cfg.tooltip.textY, cfg.tooltip.textY)
-    toolText.setSize(cfg.tooltip.textWidth, cfg.tooltip.textHeight);
-    toolText.text = cfg.tooltip.defaultText;
+    toolText.clearPoints()
+        .setPoint(FramePoint.C, toolBox, FramePoint.C, cfg.tooltip.textY, cfg.tooltip.textY)
+        .setSize(cfg.tooltip.textWidth, cfg.tooltip.textHeight)
+        .text = cfg.tooltip.defaultText;
 
-    rankImage.setPoint(FramePoint.BR, buttonMain, FramePoint.BR, cfg.rank.x, cfg.rank.y);
-    rankImage.setSize(cfg.rank.size.width, cfg.rank.size.height);
-    rankImage.setTexture(cfg.rank.texture, 0, true);
+    rankImage
+        .setPoint(FramePoint.BR, buttonMain, FramePoint.BR, cfg.rank.x, cfg.rank.y)
+        .setSize(cfg.rank.size.width, cfg.rank.size.height)
+        .setTexture(cfg.rank.texture, 0, true);
     
-    rankText.clearPoints();
-    rankText.setPoint(FramePoint.C, rankImage, FramePoint.C, 0, 0);
-    rankText.setSize(0.01, 0.012);
-    rankText.text = "0";
+    rankText
+        .clearPoints()
+        .setPoint(FramePoint.C, rankImage, FramePoint.C, 0, 0)
+        .setSize(0.01, 0.012)
+        .text = "0";
     
-    highlight.setPoint(FramePoint.C, buttonMain, FramePoint.C, 0, 0);
-    highlight.setSize(cfg.highlight.width, cfg.highlight.height);
-    highlight.setTexture(cfg.highlight.texture, 0, true);
+    highlight
+        .setPoint(FramePoint.C, buttonMain, FramePoint.C, 0, 0)
+        .setSize(cfg.highlight.width, cfg.highlight.height)
+        .setTexture(cfg.highlight.texture, 0, true);
 
-    buttonImage.setTexture(cfg.buttonTexture, 0, true);
+    buttonImage
+        .setTexture(cfg.buttonTexture, 0, true);
     
-    toolRank.clearPoints();
-    toolRank.setPoint(FramePoint.T, toolBox, FramePoint.T, 0.0, -0.015);
-    toolRank.setSize(cfg.tooltip.width - 0.03, cfg.tooltip.height - 0.03);
-    toolRank.text = "Rank 1/3";
+    toolRank
+        .clearPoints()
+        .setPoint(FramePoint.T, toolBox, FramePoint.T, 0.0, -0.015)
+        .setSize(cfg.tooltip.width - 0.03, cfg.tooltip.height - 0.03)
+        .text = "Rank 1/3";
 
     for (let link of links) {
-        link.setPoint(FramePoint.C, parent, FramePoint.C, 0, 0);
-        link.setSize(cfg.link.width, cfg.link.width);
-        link.setTexture(cfg.link.inactiveTexture, 0, true);
-        link.visible = false;
-        link.setLevel(1);
+        link
+            .setPoint(FramePoint.C, parent, FramePoint.C, 0, 0)
+            .setSize(cfg.link.width, cfg.link.width)
+            .setTexture(cfg.link.inactiveTexture, 0, true)
+            .setLevel(1)
+            .visible = false;
     }
     //  { point: true, pos: { pointSelf: FRAMEPOINT_BOTTOM, frameOther: this.frames.box, pointOther: FRAMEPOINT_CENTER, p: { x: xOffset, y: yOffset }}, size: { x: this.TalentWidth*0.10, y: yIncrem }, texture: this.InactiveLinkTexture };
     // config.horizontalLink = { point: true, pos: { pointSelf: FRAMEPOINT_LEFT, frameOther: this.frames.box, pointOther: FRAMEPOINT_CENTER, p: { x: xOffset, y: yOffset }}, size: { x: xIncrem, y: this.TalentHeight*0.10 }, texture: this.InactiveLinkTexture };

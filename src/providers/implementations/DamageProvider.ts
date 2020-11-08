@@ -13,7 +13,7 @@ export class DamageProvider implements IDamageProvider {
     }
 }
 
-export const attackTypes = {
+export const attackTypes: Record<DamageType, attacktype> = {
     [DamageType.PhysicalAutoattack]: ATTACK_TYPE_NORMAL,
     [DamageType.MagicalAutoattack]: ATTACK_TYPE_MAGIC,
     [DamageType.Physical]: ATTACK_TYPE_NORMAL,
@@ -24,7 +24,7 @@ export const attackTypes = {
     [DamageType.Piercing]: ATTACK_TYPE_NORMAL
 }
 
-export const damageTypes = {
+export const damageTypes: Record<DamageType, damagetype> = {
     [DamageType.PhysicalAutoattack]: DAMAGE_TYPE_NORMAL,
     [DamageType.MagicalAutoattack]: DAMAGE_TYPE_NORMAL,
     [DamageType.Physical]: DAMAGE_TYPE_UNIVERSAL,
