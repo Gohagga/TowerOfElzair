@@ -2,6 +2,7 @@ import { IAbilityEventHandler } from "events/ability/IAbilityEventHandler";
 import { IDamageProvider } from "providers/interfaces/IDamageProvider";
 import { AbilityData } from "systems/ability/Ability";
 import { SimpleAbility } from "systems/ability/SimpleAbility";
+import { DamageType } from "systems/damage/DamageType";
 import { Unit, Point } from "w3ts/index";
 import { TargetDamageAbility } from "../general/TargetDamageAbility";
 

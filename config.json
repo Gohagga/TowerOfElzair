@@ -6,7 +6,7 @@
   "gameMapFolder": "C:/Users/bartul.grbin/Documents/Warcraft III/Maps/Test",
   "mapName": "ToE.w3x",
   "outputFolderOld": "./dist/bin",
-  "outputFolder": "C:/Users/bartul.grbin/Documents/Warcraft III/Maps/Test",
+  "outputFolder": "C:/Users/Bartul/Documents/Warcraft III/Maps/Test",
   "launchArgs": [
     "-launch",
     "-windowmode",

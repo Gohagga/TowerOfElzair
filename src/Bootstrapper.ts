@@ -169,7 +169,7 @@ export class Bootstrapper {
         // print("MOMENTUM", 3)
 
         print("MOMENTUM", 0)
-        // print(BlzLoadTOCFile("SimpleProgressBar.toc"));
+        print(BlzLoadTOCFile("SimpleProgressBar.toc"));
     }
 
     static OnMapInit() {
