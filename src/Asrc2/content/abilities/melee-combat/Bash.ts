@@ -13,7 +13,8 @@ import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurab
 export type BashConfig = {
     Damage: number,
     IsAoeAttack: boolean,
-    Range: number
+    Range: number,
+    Cost: number,
 }
 
 export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
@@ -21,7 +22,8 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
     private unitConfig = new UnitConfigurable<BashConfig>({
         Damage: 45,
         IsAoeAttack: false,
-        Range: 0
+        Range: 0,
+        Cost: 45,
     });
 
     constructor(
@@ -31,10 +33,14 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
         private enumService: IEnumUnitService
     ) {
         super(data, damageService);
-        abilityEvent.OnAbilityEffect(this.id, this.Execute);
+        print(this.id);
+        abilityEvent.OnAbilityEffect(this.id, e => this.Execute(e));
     }
 
     Execute(e: AbilityEvent) {
+        
+        const caster = e.caster;
+        const target = e.targetUnit;
         const data = this.GetUnitConfig(e.caster);
 
         if (data.IsAoeAttack) {
@@ -48,13 +54,21 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
                 this.damageService.UnitDamageTarget(e.caster, t, data.Damage, DamageType.Magical);
             }
         }
-
+        
         this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, DamageType.Blunt);
 
         this.UpdateUnitConfig(e.caster,
-            config => config.Damage += 1);
+            config => config.Damage += 5);
+        
+        this.ApplyCost(caster, data.Cost);
     }
 
-    GetUnitConfig = this.unitConfig.GetUnitConfig;
-    UpdateUnitConfig = this.unitConfig.UpdateUnitConfig;
+    GetUnitConfig = (unit: Unit) => this.unitConfig.GetUnitConfig(unit);
+    UpdateUnitConfig = (unit: Unit, cb: (config: BashConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
+
+    GenerateDescription(unit: Unit): string {
+        const desc = 
+`Bashes the target in.`;
+        return desc;
+    }
 }

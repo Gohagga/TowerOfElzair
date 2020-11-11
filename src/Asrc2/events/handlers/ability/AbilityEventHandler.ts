@@ -35,10 +35,8 @@ export class AbilityEventHandler implements IAbilityEventHandler {
 
     public Register(type: AbilityEventType, abilityId: number) {
         let event: any;
-        if (type == AbilityEventType.Finished)
-            event = new AbilityFinishEvent();
-        else
-            event = new AbilityEvent();
+        if (type == AbilityEventType.Finished) event = new AbilityFinishEvent();
+        else event = new AbilityEvent();
 
         if (abilityId in this.handles[type].Subscriptions) {
             this.handles[type].Subscriptions[abilityId](event);

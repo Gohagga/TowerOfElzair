@@ -9,7 +9,6 @@ import { Discipline } from "./Discipline";
 import { AbilitySlot } from "../../systems/ability/AbilitySlot";
 import { UnitSlotManager } from "../../systems/slottable/UnitSlotManager";
 import { IAbility } from "systems/ability/IAbility";
-import { Bash } from "Asrc2/content/abilities/melee-combat/Bash";
 
 const { left, up, right, down } = TalentDepType;
 
@@ -128,8 +127,6 @@ export class MeleeCombat extends Discipline {
 
     private SetupTalent(ability: IAbility, col: number, row: number): Talent {
         
-        const bash: Bash;
-
         let name = GetAbilityName(ability.id);
         let desc = BlzGetAbilityResearchExtendedTooltip(ability.id, 0);
         let icon = BlzGetAbilityIcon(ability.id);

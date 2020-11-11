@@ -11,7 +11,7 @@ export abstract class Ability implements AbilityData {
     slot: AbilitySlot;
     name: string;
     type: AbilityType;
-    icon?: string;
+    icon: string;
     iconDisabled?: string;
 
     constructor(
@@ -28,15 +28,24 @@ export abstract class Ability implements AbilityData {
     }
 
     AddToUnit(unit: Unit): boolean {
-        return unit.addAbility(this.id);
+        const res = unit.addAbility(this.id);
+        if (res) {
+            const a = unit.getAbility(this.id);
+            const tooltip = this.GenerateDescription(unit);
+            BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+        }
+        return res;
     }
 
     RemoveFromUnit(unit: Unit): boolean {
         if (unit.getAbilityLevel(this.id) > 0) {
-            return unit.removeAbility(this.id);
+            const res = unit.removeAbility(this.id);
+            return res;
         }
         return false;
     }
+
+    abstract GenerateDescription(unit: Unit): string;
 
     ApplyCost(unit: Unit, cost: number) {
         

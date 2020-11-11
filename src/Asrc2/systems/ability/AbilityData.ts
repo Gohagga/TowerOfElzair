@@ -12,7 +12,7 @@ export type AbilityData = {
 
     type: AbilityType,
 
-    icon?: string,
+    icon: string,
 
     iconDisabled?: string,
 }
