@@ -4,6 +4,13 @@ gg_unit_Ofar_0003 = nil
 function InitGlobals()
 end
 
+function CreateAllItems()
+    local itemID
+    BlzCreateItemWithSkin(FourCC("ratc"), 123.8, -924.7, FourCC("ratc"))
+    BlzCreateItemWithSkin(FourCC("ratf"), 218.9, -871.1, FourCC("ratf"))
+    BlzCreateItemWithSkin(FourCC("rde1"), -7.9, -883.5, FourCC("rde1"))
+end
+
 function CreateUnitsForPlayer0()
     local p = Player(0)
     local u
@@ -83,6 +90,7 @@ function main()
     SetAmbientDaySound("LordaeronSummerDay")
     SetAmbientNightSound("LordaeronSummerNight")
     SetMapMusic("Music", true, 0)
+    CreateAllItems()
     CreateAllUnits()
     InitBlizzard()
     InitGlobals()

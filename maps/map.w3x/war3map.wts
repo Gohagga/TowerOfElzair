@@ -153,3 +153,69 @@ STRING 28
 R
 }
 
+STRING 29
+// Items: ratf (Toggle Inventory), Ubertip (Tooltip - Extended)
+{
+Switches between two inventories.
+}
+
+STRING 30
+// Items: ratf (Toggle Inventory), Name (Name)
+{
+Toggle Inventory
+}
+
+STRING 31
+// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Blunt Weapon
+}
+
+STRING 32
+// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Blunt Weapon
+}
+
+STRING 33
+// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Blunt Weapon
+}
+
+STRING 34
+// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Slashing Weapon
+}
+
+STRING 35
+// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Blunt Weapon
+}
+
+STRING 36
+// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Blunt Weapon
+}
+
+STRING 37
+// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Piercing Weapon
+}
+
+STRING 38
+// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Blunt Weapon
+}
+
+STRING 39
+// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+{
+Blunt Weapon
+}
+
