@@ -12,7 +12,7 @@ export class EnumUnitService implements IEnumUnitService {
         let u: unit;
         while ((u = FirstOfGroup(this.group)) != null) {
             GroupRemoveUnit(this.group, u);
-            let U = Unit.fromHandle(u);
+            let U = Unit.from(u);
             if (!filter || filter(U, source)) {
                 units.push(U);
             }

@@ -10,16 +10,23 @@ import { Sprint } from "./content/abilities/melee-combat/Sprint";
 import { Swing } from "./content/abilities/melee-combat/Swing";
 import { abilityDataRecord as abData } from "./content/AbilityData";
 import { MeleeCombat } from "./content/disciplines/MeleeCombat";
+import { ItemData } from "./content/items/ItemData";
 import { AbilityEvent } from "./events/handlers/ability/AbilityEvent";
 import { AbilityEventHandler } from "./events/handlers/ability/AbilityEventHandler";
 import { DamageEventHandler } from "./events/handlers/damage/DamageEventHandler";
 import { FrameEventHandler } from "./events/handlers/frame/FrameEventHandler";
 import { AbilityEventProvider } from "./events/providers/AbilityEventProvider";
+import { ItemEventProvider } from "./events/providers/ItemEventProvider";
 import { Unit } from "./models/Unit";
 import { DamageService } from "./services/implementations/DamageService";
 import { EnumUnitService } from "./services/implementations/EnumUnitService";
 import { AbilityData } from "./systems/ability/AbilityData";
 import { AbilitySlot, AbilityType } from "./systems/ability/AbilityEnums";
+import { DamageType } from "./systems/damage/DamageType";
+import { WeaponItemFactory } from "./systems/item/item-def-factories/WeaponItemDefinition";
+import { ItemDefinition } from "./systems/item/ItemDefinition";
+import { ItemManager } from "./systems/item/ItemManager";
+import { Log } from "./systems/log/Log";
 import { UnitSlotManager } from "./systems/slot/UnitSlotManager";
 import { GenerateTabView } from "./ui/tab-screen/TabView";
 import { TabViewModel } from "./ui/tab-screen/TabViewModel";
@@ -65,7 +72,7 @@ export class Bootstrapper {
 
         print(2)
 
-        let u = Unit.fromHandle(gg_unit_Hpal_0002);
+        let u = Unit.from(gg_unit_Hpal_0002);
 
         print(3)
 
@@ -108,6 +115,36 @@ export class Bootstrapper {
         });
 
         print(9)
+
+        //#region Items
+        // const itemDefs = ItemData.InitializeItemDefinitions();
+        const weaponFactory = new WeaponItemFactory();
+        
+        const wep = weaponFactory.CreateDefinition({
+            codeId: 'ratc',
+            name: 'Claws of Attack +12',
+            damageType: DamageType.Slashing,
+            enabledDamageTypes: [DamageType.Slashing],
+            OnAcquire: unit => unit.addAbility(FourCC('AItc')),
+            OnRelease: unit => unit.removeAbility(FourCC('AItc'))
+        });
+
+        const itemDefs: ItemDefinition[] = [
+            wep,
+            {
+                codeId: 'rde1',
+                name: 'Ring of Protection +2',
+                OnAcquire: unit => unit.addAbility(FourCC('AId2')),
+                OnRelease: unit => unit.removeAbility(FourCC('AId2')),
+                OnEquip: unit => Log.info("Equipped item rop2"),
+                OnUnequip: unit => Log.info("Unequipped item rop2"),
+                OnUse: unit => Log.info("Used item Rop2")
+            }
+        ];
+        const itemManager = new ItemManager(itemDefs);
+        const itemEventProvider = new ItemEventProvider(itemManager);
+
+        //#endregion
 
         // bash.AddToUnit(Unit.fromHandle(gg_unit_Hpal_0002));
     }

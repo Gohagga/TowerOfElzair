@@ -1,6 +1,6 @@
+import { Unit } from "Asrc2/models/Unit";
 import { ISlotManager } from "./ISlotManager";
 import { ISlottable } from "./ISlottable";
-import { Unit } from "w3ts";
 
 export class UnitSlotManager<SlotType extends number> implements ISlotManager<Unit, SlotType> {
     

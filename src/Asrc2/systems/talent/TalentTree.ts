@@ -1,4 +1,4 @@
-import { Unit } from "w3ts/index";
+import { Unit } from "Asrc2/models/Unit";
 import { Talent, TalentData } from "./Talent";
 import { TalentDependency, TalentDependencyIndex, TalentDepType } from "./TalentDependency";
 import { TalentState } from "./TalentState";

@@ -22,8 +22,8 @@ export class AutoattackEventProvider {
             const atkType = BlzGetEventAttackType();
             
             const event = new DamageEvent({
-                source: Unit.fromHandle(GetEventDamageSource()),
-                target: Unit.fromHandle(BlzGetEventDamageTarget()),
+                source: Unit.from(GetEventDamageSource()),
+                target: Unit.from(BlzGetEventDamageTarget()),
                 type: atkType == ATTACK_TYPE_MAGIC ? DamageType.MagicalAutoattack : DamageType.PhysicalAutoattack,
                 amount: GetEventDamage(),
             })

@@ -4,11 +4,11 @@ import { Unit } from "Asrc2/models/Unit";
 export class AbilityEvent {
 
     public get caster(): Unit {
-        return Unit.fromEvent();
+        return Unit.fromTrigger();
     }
 
     public get targetUnit(): Unit {
-        return Unit.fromHandle(GetSpellTargetUnit());
+        return Unit.from(GetSpellTargetUnit());
     }
 
     public get targetPoint(): Point {
@@ -25,8 +25,8 @@ export class AbilityEvent {
 }
 
 export class AbilityFinishEvent extends AbilityEvent {
-    public get caster(): Unit { return Unit.fromEvent(); }
-    public get targetUnit(): Unit { return Unit.fromHandle(GetSpellTargetUnit()); }
+    public get caster(): Unit { return Unit.fromTrigger(); }
+    public get targetUnit(): Unit { return Unit.from(GetSpellTargetUnit()); }
     public get abilityId(): number { return GetSpellAbilityId(); }
     public get abilityLevel(): number { return GetUnitAbilityLevel(GetTriggerUnit(), GetSpellAbilityId()); }
 }
