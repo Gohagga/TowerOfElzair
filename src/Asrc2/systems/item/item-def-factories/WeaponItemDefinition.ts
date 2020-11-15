@@ -6,7 +6,7 @@ import { ItemDefinition } from "../ItemDefinition";
 export class WeaponItemFactory {
 
     private upgrades: Record<number, number> = {
-        [DamageType.Blunt]: FourCC('R0W0'),
+        [DamageType.Crushing]: FourCC('R0W0'),
         [DamageType.Slashing]: FourCC('R0W1'),
         [DamageType.Piercing]: FourCC('R0W2')
     };
@@ -16,13 +16,9 @@ export class WeaponItemFactory {
     }
 
     private ResetDamageType(unit: Unit) {
-        Log.info("Slashing ", unit.owner.getTechCount(this.upgrades[DamageType.Slashing], true));
-        unit.owner.decTechResearched(this.upgrades[DamageType.Blunt], 1);
+        unit.owner.decTechResearched(this.upgrades[DamageType.Crushing], 1);
         unit.owner.decTechResearched(this.upgrades[DamageType.Slashing], 1);
         unit.owner.decTechResearched(this.upgrades[DamageType.Piercing], 1);
-        Log.info("Slashing ", unit.owner.getTechCount(this.upgrades[DamageType.Slashing], true));
-        unit.owner.setTechResearched(this.upgrades[DamageType.Slashing], 0);
-        Log.info("Slashing ", unit.owner.getTechCount(this.upgrades[DamageType.Slashing], true));
     }
 
     // private AppendCallback(actions: (unit: Unit) => void, current?: (this: any, unit: Unit) => void): (this: any, unit: Unit) => void {
@@ -48,7 +44,7 @@ export class WeaponItemFactory {
         def.OnAcquire = unit => {
             this.ResetDamageType(unit);
             for (let d of def.enabledDamageTypes) {
-                if (Number(d) in this.upgrades) unit.owner.setTechResearched(this.upgrades[Number(d)], 1);
+                if (Number(d) in this.upgrades) unit.owner.addTechResearched(this.upgrades[Number(d)], 1);
                 Log.info(Number(d).toString(), unit.owner.getTechCount(this.upgrades[Number(d)], true));
             }
             unit.damageType = def.damageType;

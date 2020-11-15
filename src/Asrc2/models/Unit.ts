@@ -4,6 +4,7 @@ import { Unit as ThUnit, Widget } from "w3ts/index";
 export class Unit extends ThUnit {
 
     private static damageTypes: Record<number, DamageType> = {};
+    private static resistances: Record<number, Record<DamageType, number>> = {};
 
     public static from(unit: unit): Unit {
         return this.getObject(unit);
@@ -19,5 +20,18 @@ export class Unit extends ThUnit {
 
     public set damageType(v: DamageType) {
         Unit.damageTypes[this.id] = v;
+    }
+
+    public get resistances(): Record<DamageType, number> {
+        return Unit.resistances[this.id] || {
+            [DamageType.Crushing]: 0,
+            [DamageType.Slashing]: 0,
+            [DamageType.Piercing]: 0,
+            [DamageType.Untyped]: 0
+        };
+    }
+
+    public set resistances(v: Record<DamageType, number>) {
+        Unit.resistances[this.id] = v;
     }
 }

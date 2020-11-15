@@ -10,24 +10,26 @@ export class DamageService implements IDamageService {
         private damageEventHandler: IDamageEventHandler
     ) { }
 
-    UnitDamageTarget(source: Unit, target: Unit, amount: number, type: DamageType): void {
+    UnitDamageTarget(source: Unit, target: Unit, amount: number, types: DamageType[], isCrit: boolean = false): void {
         let event = new DamageEvent({
             source: source,
             target: target,
-            type: type,
-            amount: amount
+            types: types,
+            amount: amount,
+            isCrit: isCrit
         });
 
         event = this.damageEventHandler.Register(event);
-        source.damageTarget(event.target.handle, event.amount, 0, false, false, this.attackTypes[event.type], this.damageTypes[event.type], WEAPON_TYPE_WHOKNOWS);
+        source.damageTarget(event.target.handle, event.amount, 0, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
     }
 
-    UnitHealTarget(source: Unit, target: Unit, amount: number, type: DamageType): void {
+    UnitHealTarget(source: Unit, target: Unit, amount: number, types: DamageType[], isCrit: boolean = false): void {
         let event = new DamageEvent({
             source: source,
             target: target,
-            type: type,
-            amount: amount
+            types: types,
+            amount: amount,
+            isCrit: isCrit
         });
 
         event = this.damageEventHandler.Register(event);
@@ -36,23 +38,15 @@ export class DamageService implements IDamageService {
     }
     
     private readonly attackTypes: Record<DamageType, attacktype> = {
-        [DamageType.PhysicalAutoattack]: ATTACK_TYPE_NORMAL,
-        [DamageType.MagicalAutoattack]: ATTACK_TYPE_MAGIC,
-        [DamageType.Physical]: ATTACK_TYPE_NORMAL,
-        [DamageType.Magical]: ATTACK_TYPE_NORMAL,
         [DamageType.Untyped]: ATTACK_TYPE_CHAOS,
-        [DamageType.Blunt]: ATTACK_TYPE_NORMAL,
+        [DamageType.Crushing]: ATTACK_TYPE_NORMAL,
         [DamageType.Slashing]: ATTACK_TYPE_NORMAL,
         [DamageType.Piercing]: ATTACK_TYPE_NORMAL
     }
     
     private readonly damageTypes: Record<DamageType, damagetype> = {
-        [DamageType.PhysicalAutoattack]: DAMAGE_TYPE_NORMAL,
-        [DamageType.MagicalAutoattack]: DAMAGE_TYPE_NORMAL,
-        [DamageType.Physical]: DAMAGE_TYPE_UNIVERSAL,
-        [DamageType.Magical]: DAMAGE_TYPE_MAGIC,
         [DamageType.Untyped]: DAMAGE_TYPE_UNIVERSAL,
-        [DamageType.Blunt]: DAMAGE_TYPE_UNIVERSAL,
+        [DamageType.Crushing]: DAMAGE_TYPE_UNIVERSAL,
         [DamageType.Slashing]: DAMAGE_TYPE_UNIVERSAL,
         [DamageType.Piercing]: DAMAGE_TYPE_UNIVERSAL
     }

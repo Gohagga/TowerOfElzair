@@ -61,7 +61,7 @@ export abstract class Ability implements AbilityData {
                 // Dummy cast something
             } else {
                 // True damage
-                this.damageService.UnitDamageTarget(unit, unit, overflow, DamageType.Untyped);
+                this.damageService.UnitDamageTarget(unit, unit, overflow, [DamageType.Untyped]);
             }
 
         } else {

@@ -3,7 +3,7 @@ import { DamageType } from "Asrc2/systems/damage/DamageType";
 
 export interface IDamageService {
 
-    UnitDamageTarget(source: Unit, target: Unit, amount: number, type: DamageType): void;
+    UnitDamageTarget(source: Unit, target: Unit, amount: number, types: DamageType[]): void;
 
-    UnitHealTarget(source: Unit, target: Unit, amount: number, type: DamageType): void;
+    UnitHealTarget(source: Unit, target: Unit, amount: number, types: DamageType[]): void;
 }

@@ -40,26 +40,9 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
     Execute(e: AbilityEvent) {
         
         const caster = e.caster;
-        const target = e.targetUnit;
         const data = this.GetUnitConfig(e.caster);
-
-        if (data.IsAoeAttack) {
-
-            let targets = this.enumService.EnumUnitsInRange(e.caster.point, data.Range, (target: Unit) => 
-                    target.isAlive() &&
-                    target.isUnitType(UNIT_TYPE_PEON)
-            );
-
-            for (let t of targets) {
-                this.damageService.UnitDamageTarget(e.caster, t, data.Damage, DamageType.Magical);
-            }
-        }
         
-        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, DamageType.Blunt);
-
-        this.UpdateUnitConfig(e.caster,
-            config => config.Damage += 5);
-        
+        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, [DamageType.Crushing]);
         this.ApplyCost(caster, data.Cost);
     }
 
@@ -70,5 +53,19 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
         const desc = 
 `Bashes the target in.`;
         return desc;
+    }
+
+    AddToUnit(unit: Unit): boolean {
+        const res = unit.addAbility(this.id);
+        if (res) {
+            const a = unit.getAbility(this.id);
+            const tooltip = this.GenerateDescription(unit);
+            const cd = 1;
+
+            unit.setAbilityCooldown(this.id, 0, 3);
+            // BlzSetUnitAbilityManaCost(unit.handle, this.id, 0, data.ManaCost);
+            BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+        }
+        return res;
     }
 }

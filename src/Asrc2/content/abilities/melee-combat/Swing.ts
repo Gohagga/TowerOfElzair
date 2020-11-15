@@ -51,11 +51,11 @@ export class Swing extends Ability implements IUnitConfigurable<SwingConfig> {
             );
 
             for (let t of targets) {
-                this.damageService.UnitDamageTarget(e.caster, t, data.Damage, DamageType.Magical);
+                // this.damageService.UnitDamageTarget(e.caster, t, data.Damage, DamageType.Magical);
             }
         }
         
-        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, DamageType.Blunt);
+        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, [DamageType.Crushing]);
 
         this.UpdateUnitConfig(e.caster,
             config => config.Damage += 5);

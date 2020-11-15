@@ -16,12 +16,15 @@ import { AbilityEventHandler } from "./events/handlers/ability/AbilityEventHandl
 import { DamageEventHandler } from "./events/handlers/damage/DamageEventHandler";
 import { FrameEventHandler } from "./events/handlers/frame/FrameEventHandler";
 import { AbilityEventProvider } from "./events/providers/AbilityEventProvider";
+import { AutoattackEventProvider } from "./events/providers/AutoattackEventProvider";
 import { ItemEventProvider } from "./events/providers/ItemEventProvider";
 import { Unit } from "./models/Unit";
 import { DamageService } from "./services/implementations/DamageService";
 import { EnumUnitService } from "./services/implementations/EnumUnitService";
 import { AbilityData } from "./systems/ability/AbilityData";
 import { AbilitySlot, AbilityType } from "./systems/ability/AbilityEnums";
+import { CritManager } from "./systems/crit/CritManager";
+import { DamageDisplayManager } from "./systems/damage-display/DamageDisplayManager";
 import { DamageType } from "./systems/damage/DamageType";
 import { WeaponItemFactory } from "./systems/item/item-def-factories/WeaponItemDefinition";
 import { ItemDefinition } from "./systems/item/ItemDefinition";
@@ -54,6 +57,10 @@ export class Bootstrapper {
         const damageService = new DamageService(damageEventHandler);
         print(0.4)
         const enumService = new EnumUnitService();
+
+        const critManager = new CritManager(damageEventHandler);
+        const damageDisplayManager = new DamageDisplayManager(damageEventHandler);
+        const autoattackEventProvider = new AutoattackEventProvider(damageEventHandler);
 
         print(1)
         const abilityEventProvider = new AbilityEventProvider(abilityEvent);
@@ -119,7 +126,7 @@ export class Bootstrapper {
         //#region Items
         // const itemDefs = ItemData.InitializeItemDefinitions();
         const weaponFactory = new WeaponItemFactory();
-        
+
         const wep = weaponFactory.CreateDefinition({
             codeId: 'ratc',
             name: 'Claws of Attack +12',

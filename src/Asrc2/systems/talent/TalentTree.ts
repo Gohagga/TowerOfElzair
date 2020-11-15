@@ -180,6 +180,14 @@ export abstract class TalentTree {
         this._tempRankState = undefined;
     }
 
+    public AllocateTalent(x: number, y: number, level: number) {
+
+        let index = x + y * this._columns;
+        for (let i = 0; i < level; i++) {
+            this.ApplyTalentTemporary(index);
+        }
+    }
+
     protected SetTalentLevel(x: number, y: number, level: number) {
 
         let i = x + y * this._columns;
