@@ -178,7 +178,7 @@ Blunt Weapon
 }
 
 STRING 33
-// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
 {
 Blunt Weapon
 }
@@ -196,7 +196,7 @@ Blunt Weapon
 }
 
 STRING 36
-// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
 {
 Blunt Weapon
 }
@@ -213,9 +213,9 @@ STRING 38
 Blunt Weapon
 }
 
-STRING 39
-// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
+STRING 40
+// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
 {
-Blunt Weapon
+Crushing Weapon
 }
 
