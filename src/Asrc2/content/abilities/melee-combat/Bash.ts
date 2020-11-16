@@ -6,6 +6,7 @@ import { IDamageService } from "Asrc2/services/interfaces/IDamageService";
 import { IEnumUnitService } from "Asrc2/services/interfaces/IEnumUnitService";
 import { Ability } from "Asrc2/systems/ability/Ability";
 import { AbilityData } from "Asrc2/systems/ability/AbilityData";
+import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigurable";
 import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
@@ -15,15 +16,17 @@ export type BashConfig = {
     IsAoeAttack: boolean,
     Range: number,
     Cost: number,
+    Cooldown: number,
 }
 
 export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
 
     private unitConfig = new UnitConfigurable<BashConfig>({
-        Damage: 45,
+        Damage: 20,
         IsAoeAttack: false,
         Range: 0,
-        Cost: 45,
+        Cost: 13,
+        Cooldown: 2.5,
     });
 
     constructor(
@@ -42,7 +45,7 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
         const caster = e.caster;
         const data = this.GetUnitConfig(e.caster);
         
-        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, [DamageType.Crushing]);
+        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, AttackType.Physical, data.Damage, DamageType.Bludgeon);
         this.ApplyCost(caster, data.Cost);
     }
 
@@ -58,12 +61,11 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
     AddToUnit(unit: Unit): boolean {
         const res = unit.addAbility(this.id);
         if (res) {
+            const data = this.GetUnitConfig(unit);
             const a = unit.getAbility(this.id);
             const tooltip = this.GenerateDescription(unit);
-            const cd = 1;
 
-            unit.setAbilityCooldown(this.id, 0, 3);
-            // BlzSetUnitAbilityManaCost(unit.handle, this.id, 0, data.ManaCost);
+            unit.setAbilityCooldown(this.id, 0, data.Cooldown);
             BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
         }
         return res;

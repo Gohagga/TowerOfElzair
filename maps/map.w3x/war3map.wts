@@ -213,9 +213,39 @@ STRING 38
 Blunt Weapon
 }
 
-STRING 40
+STRING 41
+// Items: I000 (Great Hammer), Name (Name)
+{
+Great Hammer
+}
+
+STRING 42
+// Items: I000 (Great Hammer), Ubertip (Tooltip - Extended)
+{
+Increases the attack damage of the Hero by 9 when worn.
+}
+
+STRING 43
+// Items: I000 (Great Hammer), Description (Description)
+{
+Increases the attack damage of the Hero by 9 when worn.
+}
+
+STRING 44
+// Items: I001 (Sword), Name (Name)
+{
+Sword
+}
+
+STRING 45
+// Items: I001 (Sword), Ubertip (Tooltip - Extended)
+{
+Increases the attack damage of the Hero by 6 when worn.
+}
+
+STRING 46
 // Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
 {
-Crushing Weapon
+Bludgeoning Weapon
 }
 

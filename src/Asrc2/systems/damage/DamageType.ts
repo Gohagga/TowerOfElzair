@@ -1,11 +1,14 @@
 export const enum DamageType {
 
-    Untyped,
+    Untyped = 1 << 0,
+
+    /**Damage that is caused by strain overlfow.*/
+    Strain = 1 << 1,
 
     /**Deals strain damage based on damage dealt.*/
-    Crushing,
+    Bludgeon = 1 << 2,
     /**On critical strike applies or increases a permanent bleed effect.*/
-    Slashing,
+    Slashing = 1 << 3,
     /**Deals 100% bonus damage on critical strike.*/
-    Piercing,
+    Piercing = 1 << 4,
 }

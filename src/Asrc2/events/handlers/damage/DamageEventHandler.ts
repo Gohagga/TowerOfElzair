@@ -1,4 +1,5 @@
 import { Unit } from "Asrc2/models/Unit";
+import { Log } from "Asrc2/systems/log/Log";
 import { ActionOrder } from "../../../systems/damage/ActionOrder";
 import { DamageEvent } from "./DamageEvent";
 import { DamageEventSubscription } from "./DamageEventSubscription";
@@ -12,6 +13,7 @@ export class DamageEventHandler implements IDamageEventHandler {
     Subscribe(type: ActionOrder, callback: (e: DamageEvent, sub: DamageEventSubscription) => void, filter: { source?: Unit, target?: Unit }): DamageEventSubscription;
     Subscribe(type: ActionOrder, callback: (e: DamageEvent, sub: DamageEventSubscription) => void, filter?: { source?: Unit, target?: Unit }): DamageEventSubscription {
         
+        print("Subscription")
         let newSubscription: DamageEventSubscription;
         // If filter exists, apply the thing
         if (filter && filter.source && filter.target) {
@@ -23,6 +25,7 @@ export class DamageEventHandler implements IDamageEventHandler {
                 return true;
             });
         } else if (filter && filter.source) {
+            Log.info("Source filter");
             let src = filter.source.handle;
             newSubscription = new DamageEventSubscription(Number(type), (e: DamageEvent, sub: DamageEventSubscription) => {
                 if (src == GetEventDamageSource())
@@ -65,7 +68,7 @@ export class DamageEventHandler implements IDamageEventHandler {
         }
 
         // If someone modified the event, reflect those changes in the game
-        BlzSetEventDamage(event.amount);
+        BlzSetEventDamage(event.damage);
         // BlzSetEventDamageType()
         // BlzSetEventAttackType()
 

@@ -6,8 +6,8 @@ end
 
 function CreateAllItems()
     local itemID
-    BlzCreateItemWithSkin(FourCC("ratc"), 123.8, -924.7, FourCC("ratc"))
-    BlzCreateItemWithSkin(FourCC("ratf"), 218.9, -871.1, FourCC("ratf"))
+    BlzCreateItemWithSkin(FourCC("I000"), 180.8, -946.1, FourCC("I000"))
+    BlzCreateItemWithSkin(FourCC("I001"), 92.6, -919.6, FourCC("I001"))
     BlzCreateItemWithSkin(FourCC("rde1"), -7.9, -883.5, FourCC("rde1"))
 end
 
@@ -26,7 +26,7 @@ function CreateUnitsForPlayer1()
     local unitID
     local t
     local life
-    gg_unit_Ofar_0003 = BlzCreateUnitWithSkin(p, FourCC("Ofar"), 44.4, 533.6, 231.896, FourCC("Ofar"))
+    gg_unit_Ofar_0003 = BlzCreateUnitWithSkin(p, FourCC("Ofar"), 38.2, 328.8, 231.896, FourCC("Ofar"))
 end
 
 function CreatePlayerBuildings()

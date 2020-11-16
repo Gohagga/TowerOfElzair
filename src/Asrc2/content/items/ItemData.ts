@@ -9,17 +9,23 @@ export class ItemData {
 
         const weaponFactory = new WeaponItemFactory();
 
-        const wep = weaponFactory.CreateDefinition({
-            codeId: 'ratc',
-            name: 'Claws of Attack +12',
-            damageType: DamageType.Slashing,
-            enabledDamageTypes: [DamageType.Slashing],
-            OnAcquire: unit => unit.addAbility(FourCC('AItc')),
-            OnRelease: unit => unit.removeAbility(FourCC('AItc'))
-        });
-
         const items: ItemDefinition[] = [
-            wep,
+            weaponFactory.CreateDefinition({
+                codeId: 'I000',
+                name: 'Great Hammer',
+                damageType: DamageType.Bludgeon,
+                enabledDamageTypes: [DamageType.Bludgeon],
+                OnAcquire: unit => unit.addAbility(FourCC('AIt9')),
+                OnRelease: unit => unit.removeAbility(FourCC('AIt9'))
+            }),
+            weaponFactory.CreateDefinition({
+                codeId: 'I001',
+                name: 'Iron Sword',
+                damageType: DamageType.Slashing,
+                enabledDamageTypes: [DamageType.Slashing],
+                OnAcquire: unit => unit.addAbility(FourCC('AIt6')),
+                OnRelease: unit => unit.removeAbility(FourCC('AIt6'))
+            }),
             {
                 codeId: 'rde1',
                 name: 'Ring of Protection +2',

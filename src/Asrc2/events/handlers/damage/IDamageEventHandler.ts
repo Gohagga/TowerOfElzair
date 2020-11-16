@@ -5,8 +5,8 @@ import { DamageEventSubscription } from "./DamageEventSubscription";
 
 export interface IDamageEventHandler {
 
-    Subscribe(type: ActionOrder, callback: (e: DamageEvent) => void): DamageEventSubscription;
-    Subscribe(type: ActionOrder, callback: (e: DamageEvent) => void, filter: { source?: Unit, target?: Unit }): DamageEventSubscription;
+    Subscribe(type: ActionOrder, callback: (e: DamageEvent, sub: DamageEventSubscription) => void): DamageEventSubscription;
+    Subscribe(type: ActionOrder, callback: (e: DamageEvent, sub: DamageEventSubscription) => void, filter: { source?: Unit, target?: Unit }): DamageEventSubscription;
 
     Register(event: DamageEvent): DamageEvent;
 }

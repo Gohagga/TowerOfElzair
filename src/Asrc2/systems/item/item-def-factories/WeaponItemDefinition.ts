@@ -6,7 +6,7 @@ import { ItemDefinition } from "../ItemDefinition";
 export class WeaponItemFactory {
 
     private upgrades: Record<number, number> = {
-        [DamageType.Crushing]: FourCC('R0W0'),
+        [DamageType.Bludgeon]: FourCC('R0W0'),
         [DamageType.Slashing]: FourCC('R0W1'),
         [DamageType.Piercing]: FourCC('R0W2')
     };
@@ -16,7 +16,7 @@ export class WeaponItemFactory {
     }
 
     private ResetDamageType(unit: Unit) {
-        unit.owner.decTechResearched(this.upgrades[DamageType.Crushing], 1);
+        unit.owner.decTechResearched(this.upgrades[DamageType.Bludgeon], 1);
         unit.owner.decTechResearched(this.upgrades[DamageType.Slashing], 1);
         unit.owner.decTechResearched(this.upgrades[DamageType.Piercing], 1);
     }

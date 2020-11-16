@@ -1,4 +1,5 @@
 import { Unit } from "Asrc2/models/Unit";
+import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { Group, Trigger } from "w3ts/index";
 import { DamageEvent } from "../handlers/damage/DamageEvent";
@@ -25,8 +26,11 @@ export class AutoattackEventProvider {
             const event = new DamageEvent({
                 source,
                 target,
-                types: [source.damageType],
-                amount: GetEventDamage(),
+                damageType: source.damageType,
+                damageTypeCount: 1,
+                attackType: AttackType.Autoattack,
+                damage: GetEventDamage(),
+                strain: 0,
                 isCrit: false
             })
 

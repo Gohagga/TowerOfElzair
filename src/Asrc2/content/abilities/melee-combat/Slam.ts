@@ -6,6 +6,7 @@ import { IDamageService } from "Asrc2/services/interfaces/IDamageService";
 import { IEnumUnitService } from "Asrc2/services/interfaces/IEnumUnitService";
 import { Ability } from "Asrc2/systems/ability/Ability";
 import { AbilityData } from "Asrc2/systems/ability/AbilityData";
+import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigurable";
 import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
@@ -15,15 +16,17 @@ export type SlamConfig = {
     IsAoeAttack: boolean,
     Range: number,
     Cost: number,
+    Cooldown: number,
 }
 
 export class Slam extends Ability implements IUnitConfigurable<SlamConfig> {
 
     private unitConfig = new UnitConfigurable<SlamConfig>({
-        Damage: 45,
+        Damage: 40,
         IsAoeAttack: false,
         Range: 0,
-        Cost: 45,
+        Cost: 40,
+        Cooldown: 5,
     });
 
     constructor(
@@ -40,26 +43,9 @@ export class Slam extends Ability implements IUnitConfigurable<SlamConfig> {
     Execute(e: AbilityEvent) {
         
         const caster = e.caster;
-        const target = e.targetUnit;
         const data = this.GetUnitConfig(e.caster);
-
-        if (data.IsAoeAttack) {
-
-            let targets = this.enumService.EnumUnitsInRange(e.caster.point, data.Range, (target: Unit) => 
-                    target.isAlive() &&
-                    target.isUnitType(UNIT_TYPE_PEON)
-            );
-
-            for (let t of targets) {
-                // this.damageService.UnitDamageTarget(e.caster, t, data.Damage, DamageType.Magical);
-            }
-        }
         
-        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, [DamageType.Crushing]);
-
-        this.UpdateUnitConfig(e.caster,
-            config => config.Damage += 5);
-        
+        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, AttackType.Physical, data.Damage, DamageType.Bludgeon);
         this.ApplyCost(caster, data.Cost);
     }
 
@@ -70,5 +56,18 @@ export class Slam extends Ability implements IUnitConfigurable<SlamConfig> {
         const desc = 
 `Slams the target in.`;
         return desc;
+    }
+
+    AddToUnit(unit: Unit): boolean {
+        const res = unit.addAbility(this.id);
+        if (res) {
+            const data = this.GetUnitConfig(unit);
+            const a = unit.getAbility(this.id);
+            const tooltip = this.GenerateDescription(unit);
+
+            unit.setAbilityCooldown(this.id, 0, data.Cooldown);
+            BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+        }
+        return res;
     }
 }

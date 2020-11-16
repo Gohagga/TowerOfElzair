@@ -5,12 +5,12 @@ import { Random } from "../random/Random";
 
 export class CritManager {
 
-    private critChance: Record<DamageType, number> = {
-        [DamageType.Untyped]: 0,
-        [DamageType.Crushing]: 0.2,
-        [DamageType.Slashing]: 0.35,
-        [DamageType.Piercing]: 0.5,
-    };
+    private dmgStats: { type: DamageType, critChance: number, critMulti: number }[] = [
+        { type: DamageType.Untyped, critChance: 0, critMulti: 0 },
+        { type: DamageType.Bludgeon, critChance: 0.2, critMulti: 0.5 },
+        { type: DamageType.Slashing, critChance: 0.35, critMulti: 0.5 },
+        { type: DamageType.Piercing, critChance: 0.5, critMulti: 1.5 },
+    ]
 
     constructor(
         private damageEventHandler: IDamageEventHandler
@@ -18,23 +18,30 @@ export class CritManager {
         damageEventHandler.Subscribe(ActionOrder.CritCalculation, e => {
 
             const resistances = e.target.resistances;
-
-            let chance = 0;
-            let totalDmg = e.amount;
-            let critMulti = 1;
-            let count = e.types.length;
+            let count = 0;
             
-            for (let d of e.types) {
-                chance += this.critChance[d];
-                totalDmg -= resistances[d];
+            if (e.isCrit == false) {
 
-                if (d == DamageType.Piercing) critMulti += 1;
-            }
-            chance /= count;
-            
-            if (Random.real() < chance) {
-                e.amount *= critMulti;
-                e.isCrit = true;
+                let totalDmg = e.damage;
+                let chance = 0;
+                let critMulti = 1;
+
+                for (let d of this.dmgStats) {
+                    
+                    if ((e.damageType & d.type) == d.type) {
+                        count++;
+                        chance += d.critChance * e.damage / resistances[d.type];
+                        totalDmg -= resistances[d.type];
+        
+                        critMulti += d.critMulti;
+                    }
+                }
+                chance /= count;
+                
+                if (Random.real() < chance) {
+                    e.damage *= critMulti;
+                    e.isCrit = true;
+                }
             }
         });
     }

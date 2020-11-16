@@ -1,5 +1,6 @@
 import { Point } from "Asrc2/models/Point";
 import { Unit } from "Asrc2/models/Unit";
+import { Log } from "Asrc2/systems/log/Log";
 import { IEnumUnitService } from "../interfaces/IEnumUnitService";
 
 export class EnumUnitService implements IEnumUnitService {
@@ -20,8 +21,32 @@ export class EnumUnitService implements IEnumUnitService {
         return units;
     }
 
-    EnumUnitsInCone(origin: Point, range: number, angle: number, filter?: (target: Unit, caster: Unit) => boolean): Unit[] {
-        return [];
+    EnumUnitsInCone(origin: Point, range: number, targetAngle: number, angleRange: number, filter?: (target: Unit, caster?: Unit) => boolean, source?: Unit): Unit[] {
+        
+        const { x, y } = origin;
+        const targets = this.EnumUnitsInRange(origin, range, filter, source);
+        Log.info("Found", targets.length, "viable targets");
+
+        // type SortData = { index: number, angle: number, angleToTarget: number };
+        // let sorted: SortData[] = [];
+        let units: Unit[] = [];
+        Log.info("Angle range", targetAngle * bj_RADTODEG);
+
+        for (let i = 0; i < targets.length; i++) {
+            let unit = targets[i];
+            let angle = math.atan(y - unit.y, x - unit.x) + math.pi;
+            let angleNormalized = (angle + (math.pi - targetAngle)) % (math.pi*2);
+            let min = math.abs(angleNormalized - math.pi);// math.pi - math.abs(math.abs(angle - angleTarget) - math.pi);
+            if (min <= angleRange) {
+                units.push(unit);
+                // sorted.push({
+                //     index: i,
+                //     angle: angleNormalized,
+                //     angleToTarget: min
+                // });
+            }
+        }
+        return units;
     }
 
     EnumUnitsInLine(origin: Point, destination: Point, width: number, filter?: (target: Unit, caster: Unit) => boolean): Unit[] {

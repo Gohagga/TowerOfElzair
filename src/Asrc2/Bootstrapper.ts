@@ -26,6 +26,7 @@ import { AbilitySlot, AbilityType } from "./systems/ability/AbilityEnums";
 import { CritManager } from "./systems/crit/CritManager";
 import { DamageDisplayManager } from "./systems/damage-display/DamageDisplayManager";
 import { DamageType } from "./systems/damage/DamageType";
+import { BludgeonDamageManager } from "./systems/damage/type-specific/BludgeonDamageManager";
 import { WeaponItemFactory } from "./systems/item/item-def-factories/WeaponItemDefinition";
 import { ItemDefinition } from "./systems/item/ItemDefinition";
 import { ItemManager } from "./systems/item/ItemManager";
@@ -61,6 +62,7 @@ export class Bootstrapper {
         const critManager = new CritManager(damageEventHandler);
         const damageDisplayManager = new DamageDisplayManager(damageEventHandler);
         const autoattackEventProvider = new AutoattackEventProvider(damageEventHandler);
+        const bludgeonDamageManager = new BludgeonDamageManager(damageService, damageEventHandler);
 
         print(1)
         const abilityEventProvider = new AbilityEventProvider(abilityEvent);
@@ -72,7 +74,7 @@ export class Bootstrapper {
             groundSmash: new GroundSmash(abData.groundSmash, damageService, abilityEvent, enumService),
 
             swing: new Swing(abData.swing, damageService, abilityEvent, enumService),
-            charge: new Charge(abData.charge, damageService, abilityEvent, enumService),
+            charge: new Charge(abData.charge, damageService, abilityEvent, enumService, damageEventHandler),
             cleave: new Cleave(abData.cleave, damageService, abilityEvent, enumService),
             battleRush: new BattleRush(abData.battleRush, damageService, abilityEvent, enumService),
         }
@@ -124,30 +126,7 @@ export class Bootstrapper {
         print(9)
 
         //#region Items
-        // const itemDefs = ItemData.InitializeItemDefinitions();
-        const weaponFactory = new WeaponItemFactory();
-
-        const wep = weaponFactory.CreateDefinition({
-            codeId: 'ratc',
-            name: 'Claws of Attack +12',
-            damageType: DamageType.Slashing,
-            enabledDamageTypes: [DamageType.Slashing],
-            OnAcquire: unit => unit.addAbility(FourCC('AItc')),
-            OnRelease: unit => unit.removeAbility(FourCC('AItc'))
-        });
-
-        const itemDefs: ItemDefinition[] = [
-            wep,
-            {
-                codeId: 'rde1',
-                name: 'Ring of Protection +2',
-                OnAcquire: unit => unit.addAbility(FourCC('AId2')),
-                OnRelease: unit => unit.removeAbility(FourCC('AId2')),
-                OnEquip: unit => Log.info("Equipped item rop2"),
-                OnUnequip: unit => Log.info("Unequipped item rop2"),
-                OnUse: unit => Log.info("Used item Rop2")
-            }
-        ];
+        const itemDefs = ItemData.InitializeItemDefinitions();
         const itemManager = new ItemManager(itemDefs);
         const itemEventProvider = new ItemEventProvider(itemManager);
 

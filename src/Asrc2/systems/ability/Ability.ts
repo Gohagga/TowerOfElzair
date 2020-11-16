@@ -1,5 +1,6 @@
 import { Unit } from "Asrc2/models/Unit";
 import { IDamageService } from "Asrc2/services/interfaces/IDamageService";
+import { AttackType } from "../damage/AttackType";
 import { DamageType } from "../damage/DamageType";
 import { AbilityData } from "./AbilityData";
 import { AbilitySlot, AbilityType } from "./AbilityEnums";
@@ -10,7 +11,7 @@ export abstract class Ability implements AbilityData {
     codeId: string;
     slot: AbilitySlot;
     name: string;
-    type: AbilityType;
+    type: AttackType;
     icon: string;
     iconDisabled?: string;
 
@@ -49,23 +50,6 @@ export abstract class Ability implements AbilityData {
 
     ApplyCost(unit: Unit, cost: number) {
         
-        const max = unit.maxMana;
-        const curr = unit.mana;
-        const overflow = curr + cost - max;
-
-        if (overflow > 0) {
-            unit.mana = max;
-
-            // Handle overflow
-            if (this.type == AbilityType.Magic) {
-                // Dummy cast something
-            } else {
-                // True damage
-                this.damageService.UnitDamageTarget(unit, unit, overflow, [DamageType.Untyped]);
-            }
-
-        } else {
-            unit.mana += cost;
-        }
+        
     }
 }

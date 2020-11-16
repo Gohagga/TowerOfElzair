@@ -1,3 +1,4 @@
+import { AttackType } from "../damage/AttackType";
 import { AbilitySlot, AbilityType } from "./AbilityEnums";
 
 export type AbilityData = {
@@ -10,7 +11,7 @@ export type AbilityData = {
 
     name: string,
 
-    type: AbilityType,
+    type: AttackType,
 
     icon: string,
 

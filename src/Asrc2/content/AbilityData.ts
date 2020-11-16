@@ -1,5 +1,6 @@
 import { AbilityData } from "Asrc2/systems/ability/AbilityData";
-import { AbilitySlot, AbilityType } from "Asrc2/systems/ability/AbilityEnums";
+import { AbilitySlot } from "Asrc2/systems/ability/AbilityEnums";
+import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { IconPath } from "IconPath";
 
 export const abilityDataRecord = {
@@ -7,28 +8,28 @@ export const abilityDataRecord = {
         codeId: "A001",
         name: "Bash",
         slot: AbilitySlot.Q,
-        type: AbilityType.Physical,
+        type: AttackType.Physical,
         icon: IconPath.BTNDeathPact
     },
     sprint: {
         codeId: "A002",
         name: "Sprint",
         slot: AbilitySlot.W,
-        type: AbilityType.Physical,
+        type: AttackType.Physical,
         icon: IconPath.BTNWindWalkOn
     },
     slam: {
         codeId: "A003",
         name: "Slam",
         slot: AbilitySlot.E,
-        type: AbilityType.Physical,
+        type: AttackType.Physical,
         icon: IconPath.BTNSpikedBarricades
     },
     groundSmash: {
         codeId: "A004",
         name: "Ground Smash",
         slot: AbilitySlot.R,
-        type: AbilityType.Physical,
+        type: AttackType.Physical,
         icon: IconPath.BTNEarthquake
     },
 
@@ -36,21 +37,23 @@ export const abilityDataRecord = {
         codeId: "A005",
         name: "Swing",
         slot: AbilitySlot.Q,
-        type: AbilityType.Physical,
+        type: AttackType.Physical,
         icon: IconPath.BTNOrcMeleeUpOne
     },
     charge: {
         codeId: "A006",
         name: "Charge",
         slot: AbilitySlot.W,
-        type: AbilityType.Physical,
+        buffId: "BOwk",
+        auraId: "",
+        type: AttackType.Physical,
         icon: IconPath.BTNUpgradeRegenerationAura
     },
     cleave: {
         codeId: "A007",
         name: "Cleave",
         slot: AbilitySlot.E,
-        type: AbilityType.Physical,
+        type: AttackType.Physical,
         icon: IconPath.BTNCleavingAttack
     },
     battleRush: {
@@ -58,7 +61,7 @@ export const abilityDataRecord = {
         name: "BattleRush",
         slot: AbilitySlot.R,
         icon: IconPath.BTNGhoulFrenzy,
-        type: AbilityType.Physical,
+        type: AttackType.Physical,
     }
 };
 

@@ -6,24 +6,28 @@ import { IDamageService } from "Asrc2/services/interfaces/IDamageService";
 import { IEnumUnitService } from "Asrc2/services/interfaces/IEnumUnitService";
 import { Ability } from "Asrc2/systems/ability/Ability";
 import { AbilityData } from "Asrc2/systems/ability/AbilityData";
+import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
+import { Log } from "Asrc2/systems/log/Log";
 import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigurable";
 import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
 
 export type CleaveConfig = {
     Damage: number,
-    IsAoeAttack: boolean,
     Range: number,
+    AngleRange: number,
     Cost: number,
+    Cooldown: number,
 }
 
 export class Cleave extends Ability implements IUnitConfigurable<CleaveConfig> {
 
     private unitConfig = new UnitConfigurable<CleaveConfig>({
-        Damage: 45,
-        IsAoeAttack: false,
-        Range: 0,
-        Cost: 45,
+        Damage: 30,
+        Range: 200,
+        AngleRange: 120,
+        Cost: 30,
+        Cooldown: 4,
     });
 
     constructor(
@@ -40,26 +44,19 @@ export class Cleave extends Ability implements IUnitConfigurable<CleaveConfig> {
     Execute(e: AbilityEvent) {
         
         const caster = e.caster;
+        const owner = caster.owner;
         const target = e.targetUnit;
         const data = this.GetUnitConfig(e.caster);
+        const angleTarget = math.atan(caster.y - target.y, caster.x - target.x) + math.pi;
 
-        if (data.IsAoeAttack) {
+        let targets = this.enumService.EnumUnitsInCone(e.caster.point, data.Range, angleTarget, data.AngleRange * bj_DEGTORAD, (t: Unit) =>
+            t.isEnemy(owner) &&
+            t.isAlive()
+        );
 
-            let targets = this.enumService.EnumUnitsInRange(e.caster.point, data.Range, (target: Unit) => 
-                    target.isAlive() &&
-                    target.isUnitType(UNIT_TYPE_PEON)
-            );
-
-            for (let t of targets) {
-                // this.damageService.UnitDamageTarget(e.caster, t, data.Damage, DamageType.Magical);
-            }
+        for (let t of targets) {
+            this.damageService.UnitDamageTarget(e.caster, e.targetUnit, AttackType.Physical, data.Damage, DamageType.Slashing);
         }
-        
-        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, data.Damage, [DamageType.Crushing]);
-
-        this.UpdateUnitConfig(e.caster,
-            config => config.Damage += 5);
-        
         this.ApplyCost(caster, data.Cost);
     }
 
@@ -68,7 +65,20 @@ export class Cleave extends Ability implements IUnitConfigurable<CleaveConfig> {
 
     GenerateDescription(unit: Unit): string {
         const desc = 
-`Cleavees the target in.`;
+`Cleaves the targets in.`;
         return desc;
+    }
+
+    AddToUnit(unit: Unit): boolean {
+        const res = unit.addAbility(this.id);
+        if (res) {
+            const data = this.GetUnitConfig(unit);
+            const a = unit.getAbility(this.id);
+            const tooltip = this.GenerateDescription(unit);
+
+            unit.setAbilityCooldown(this.id, 0, data.Cooldown);
+            BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+        }
+        return res;
     }
 }

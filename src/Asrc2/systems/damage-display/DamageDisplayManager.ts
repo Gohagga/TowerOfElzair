@@ -11,14 +11,21 @@ export class DamageDisplayManager {
         
         damageEventHandler.Subscribe(ActionOrder.DamageDisplay, e => {
             
-            let damage = e.amount;
+            let damage = e.damage;
             const source = e.source;
             const target = e.target.handle;
             const owner = source.owner.handle;
             
             let size = (damage / 60) * 3 + 8;
 
-            let rgb = [ 100, 100, 100 ];
+            let rgb = [ 100, 70, 70];
+            if (e.isCrit) {
+                rgb = [100, 0, 100];
+            } else if (damage == 0 && e.strain > 0) {
+                rgb = [40, 40, 100];
+                damage = e.strain;
+            }
+
             // switch (e.types)
             // if (attackType == ATTACK_TYPE_MELEE) rgb = [ 100, 75, 50 ];
             // else if (attackType == ATTACK_TYPE_MAGIC) rgb = [ 40, 70, 100 ];

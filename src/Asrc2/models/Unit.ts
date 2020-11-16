@@ -24,7 +24,7 @@ export class Unit extends ThUnit {
 
     public get resistances(): Record<DamageType, number> {
         return Unit.resistances[this.id] || {
-            [DamageType.Crushing]: 0,
+            [DamageType.Bludgeon]: 0,
             [DamageType.Slashing]: 0,
             [DamageType.Piercing]: 0,
             [DamageType.Untyped]: 0
