@@ -1,5 +1,5 @@
-import { Ability } from "Asrc2/systems/ability/Ability";
+// import { Ability } from "Asrc2/systems/ability/Ability";
 
-export class Firebolt extends Ability {
-    
-}
+// export class Firebolt extends Ability {
+
+// }

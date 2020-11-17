@@ -1,16 +1,16 @@
-import { SubstanceEffect } from "../base/SubstanceEffect";
-import { IDummySpellProvider } from "providers/interfaces/IDummySpellProvider";
+// import { SubstanceEffect } from "../base/SubstanceEffect";
+// import { IDummySpellProvider } from "providers/interfaces/IDummySpellProvider";
 
-export class DummyCastEffect extends SubstanceEffect {
+// export class DummyCastEffect extends SubstanceEffect {
     
-    constructor(
-        private readonly provider: IDummySpellProvider,
-    ) { super(); }
+//     constructor(
+//         private readonly provider: IDummySpellProvider,
+//     ) { super(); }
     
-    public Resolve(): void {
+//     public Resolve(): void {
         
-        if (!this.context) return;
+//         if (!this.context) return;
         
-        this.provider.CastAt(this.context.focus);
-    }
-}
+//         this.provider.CastAt(this.context.focus);
+//     }
+// }

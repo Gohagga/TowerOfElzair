@@ -1,13 +1,10 @@
-import ILogger from "systems/logger/ILogger";
-import ITabViewConfig from "ui/tab-screen/interface/ITabConfig";
-import { ITalentTreeConfig } from "ui/talent-screen/interface/ITalentTreeConfig";
-import { IUnitInfoPanelConfig } from "ui/unit-info-panel/interface/IUnitInfoPanelConfig";
-import { IDummySpellProviderConfig } from "providers/implementations/DummySpellProvider";
-import { IProgressBarViewConfig } from "ui/progress-bar/IProgressBarViewConfig";
+import { IProgressBarViewConfig } from "Asrc2/ui/progress-bar/IProgressBarViewConfig";
+import ITabViewConfig from "Asrc2/ui/tab-screen/interface/ITabConfig";
+import { ITalentTreeConfig } from "Asrc2/ui/talent-screen/interface/ITalentTreeConfig";
+import { IUnitInfoPanelConfig } from "Asrc2/ui/unit-info-panel/interface/IUnitInfoPanelConfig";
 import { IconPath } from "IconPath";
 
-export class Config implements ILogger.Config, IDummySpellProviderConfig { // 
-    loggerLevel = ILogger.Level.None;
+export class Config { // 
     
     dummyOwningPlayer = 0;
     dummyUnitId = FourCC('nDUM');

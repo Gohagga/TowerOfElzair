@@ -4,7 +4,6 @@ import { Unit } from "Asrc2/models/Unit";
 import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { Log } from "Asrc2/systems/log/Log";
-import { damageTypes } from "providers/implementations/DamageProvider";
 import { IDamageService } from "../interfaces/IDamageService";
 
 export class DamageService implements IDamageService {

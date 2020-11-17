@@ -3,7 +3,6 @@ import { FramePoint } from "../view-models/Frame";
 import { Frame } from "w3ts";
 import { ITalentTreeView } from "./interface/ITalentTreeView";
 import { ITalentView } from "./interface/ITalentView";
-import { TalentDepType } from "systems/talents/TalentDependency";
 
 export function GenerateNTalentViews(amount: number, parent: Frame, cfg: ITalentTreeConfig.Talent): ITalentView[] {
     

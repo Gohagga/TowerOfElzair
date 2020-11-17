@@ -1,6 +1,6 @@
-import { Timer, Unit, Point } from "w3ts";
+// import { Timer, Unit, Point } from "w3ts";
 
-export interface Effect {
+// export interface Effect {
 
-    Resolve(): void;
-}
+//     Resolve(): void;
+// }

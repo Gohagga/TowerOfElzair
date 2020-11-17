@@ -1,10 +1,10 @@
 import { ITalentSlot } from "./interface/ITalentSlot";
-import { ITalentView } from "./interface/ITalentView";
+import { ITalentView } from "./interface/ITalentView"; // yes
 import { Frame, MapPlayer } from "w3ts/index";
-import { FramePoint } from "ui/view-models/Frame";
 import { Talent } from "Asrc2/systems/talent/Talent";
 import { TalentState } from "Asrc2/systems/talent/TalentState";
 import { TalentDepType } from "Asrc2/systems/talent/TalentDependency";
+import { FramePoint } from "../view-models/Frame";
 
 
 export class TalentViewModel implements ITalentSlot {

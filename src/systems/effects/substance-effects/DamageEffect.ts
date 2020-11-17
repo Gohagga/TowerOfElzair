@@ -1,20 +1,20 @@
-import { SubstanceEffect, SubstanceContext } from "../base/SubstanceEffect";
-import { FormEffect } from "../base/FormEffect";
-import { IDamageProvider } from "providers/interfaces/IDamageProvider";
-import { DamageType } from "systems/damage/DamageType";
+// import { SubstanceEffect, SubstanceContext } from "../base/SubstanceEffect";
+// import { FormEffect } from "../base/FormEffect";
+// import { IDamageProvider } from "providers/interfaces/IDamageProvider";
+// import { DamageType } from "systems/damage/DamageType";
 
-export class DamageEffect extends SubstanceEffect {
+// export class DamageEffect extends SubstanceEffect {
 
-    constructor(
-        private readonly amount: number,
-        private readonly type: DamageType,
-        private readonly provider: IDamageProvider
-    ) { super(); }
+//     constructor(
+//         private readonly amount: number,
+//         private readonly type: DamageType,
+//         private readonly provider: IDamageProvider
+//     ) { super(); }
 
-    public Resolve(): void {
+//     public Resolve(): void {
         
-        if (!this.context) return;
+//         if (!this.context) return;
         
-        this.provider.UnitDamageTarget(this.context.sourceUnit, this.context.focus, this.amount, this.type);
-    }
-}
+//         this.provider.UnitDamageTarget(this.context.sourceUnit, this.context.focus, this.amount, this.type);
+//     }
+// }

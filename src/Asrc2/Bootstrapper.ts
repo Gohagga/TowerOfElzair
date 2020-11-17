@@ -1,5 +1,5 @@
 import { Config } from "Config";
-import { MapPlayer, Trigger } from "w3ts/index";
+import { Frame, MapPlayer, Trigger } from "w3ts/index";
 import { Bash } from "./content/abilities/melee-combat/Bash";
 import { BattleRush } from "./content/abilities/melee-combat/BattleRush";
 import { Charge } from "./content/abilities/melee-combat/Charge";
@@ -11,7 +11,6 @@ import { Swing } from "./content/abilities/melee-combat/Swing";
 import { abilityDataRecord as abData } from "./content/AbilityData";
 import { MeleeCombat } from "./content/disciplines/MeleeCombat";
 import { ItemData } from "./content/items/ItemData";
-import { AbilityEvent } from "./events/handlers/ability/AbilityEvent";
 import { AbilityEventHandler } from "./events/handlers/ability/AbilityEventHandler";
 import { DamageEventHandler } from "./events/handlers/damage/DamageEventHandler";
 import { FrameEventHandler } from "./events/handlers/frame/FrameEventHandler";
@@ -21,18 +20,11 @@ import { ItemEventProvider } from "./events/providers/ItemEventProvider";
 import { Unit } from "./models/Unit";
 import { DamageService } from "./services/implementations/DamageService";
 import { EnumUnitService } from "./services/implementations/EnumUnitService";
-import { AbilityData } from "./systems/ability/AbilityData";
-import { AbilitySlot, AbilityType } from "./systems/ability/AbilityEnums";
 import { AbilitySlotManager } from "./systems/ability/AbilitySlotManager";
 import { CritManager } from "./systems/crit/CritManager";
 import { DamageDisplayManager } from "./systems/damage-display/DamageDisplayManager";
-import { DamageType } from "./systems/damage/DamageType";
 import { BludgeonDamageManager } from "./systems/damage/type-specific/BludgeonDamageManager";
-import { WeaponItemFactory } from "./systems/item/item-def-factories/WeaponItemDefinition";
-import { ItemDefinition } from "./systems/item/ItemDefinition";
 import { ItemManager } from "./systems/item/ItemManager";
-import { Log } from "./systems/log/Log";
-import { UnitSlotManager } from "./systems/slot/UnitSlotManager";
 import { GenerateTabView } from "./ui/tab-screen/TabView";
 import { TabViewModel } from "./ui/tab-screen/TabViewModel";
 import { ITalentView } from "./ui/talent-screen/interface/ITalentView";
@@ -115,7 +107,7 @@ export class Bootstrapper {
         let t = new Trigger();
         t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
         t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
-        t.addAction(() => {
+        t.addAction(() => {  
             print("tt")
             switch (MapPlayer.fromEvent()) {
                 case MapPlayer.fromIndex(0):

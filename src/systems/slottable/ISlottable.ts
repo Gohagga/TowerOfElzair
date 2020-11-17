@@ -1,1 +1,0 @@
-export type ISlottable<Owner> = (owner: Owner) => void;
