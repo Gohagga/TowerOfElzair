@@ -1,4 +1,4 @@
-import { Config } from "Config";
+import { Config } from "Asrc2/config/Config";
 import { Frame, MapPlayer, Trigger } from "w3ts/index";
 import { Bash } from "./content/abilities/melee-combat/Bash";
 import { BattleRush } from "./content/abilities/melee-combat/BattleRush";
@@ -8,6 +8,7 @@ import { GroundSmash } from "./content/abilities/melee-combat/GroundSmash";
 import { Slam } from "./content/abilities/melee-combat/Slam";
 import { Sprint } from "./content/abilities/melee-combat/Sprint";
 import { Swing } from "./content/abilities/melee-combat/Swing";
+import { Firebolt } from "./content/abilities/pyromancy/Firebolt";
 import { abilityDataRecord as abData } from "./content/AbilityData";
 import { MeleeCombat } from "./content/disciplines/MeleeCombat";
 import { ItemData } from "./content/items/ItemData";
@@ -24,7 +25,10 @@ import { AbilitySlotManager } from "./systems/ability/AbilitySlotManager";
 import { CritManager } from "./systems/crit/CritManager";
 import { DamageDisplayManager } from "./systems/damage-display/DamageDisplayManager";
 import { BludgeonDamageManager } from "./systems/damage/type-specific/BludgeonDamageManager";
+import { DummyManager } from "./systems/dummy/DummyManager";
+import { InputManager } from "./systems/input/InputManager";
 import { ItemManager } from "./systems/item/ItemManager";
+import { MissileManager } from "./systems/missile/MissileManager";
 import { GenerateTabView } from "./ui/tab-screen/TabView";
 import { TabViewModel } from "./ui/tab-screen/TabViewModel";
 import { ITalentView } from "./ui/talent-screen/interface/ITalentView";
@@ -57,6 +61,10 @@ export class Bootstrapper {
         const autoattackEventProvider = new AutoattackEventProvider(damageEventHandler);
         const bludgeonDamageManager = new BludgeonDamageManager(damageService, damageEventHandler);
 
+        const inputManager = new InputManager(10);
+        const missileManager = new MissileManager();
+        const dummyManager = new DummyManager(config.dummyOwningPlayer, config.dummyUnitId);
+
         print(1)
         const abilityEventProvider = new AbilityEventProvider(abilityEvent);
     
@@ -70,6 +78,8 @@ export class Bootstrapper {
             charge: new Charge(abData.charge, damageService, abilityEvent, enumService, damageEventHandler),
             cleave: new Cleave(abData.cleave, damageService, abilityEvent, enumService),
             battleRush: new BattleRush(abData.battleRush, damageService, abilityEvent, enumService),
+
+            firebolt: new Firebolt(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
         }
 
         print(2)
@@ -125,7 +135,7 @@ export class Bootstrapper {
 
         //#endregion
 
-        // bash.AddToUnit(Unit.fromHandle(gg_unit_Hpal_0002));
+        abilities.firebolt.AddToUnit(Unit.from(gg_unit_Hpal_0002));
     }
     
     static OnMapInit() {

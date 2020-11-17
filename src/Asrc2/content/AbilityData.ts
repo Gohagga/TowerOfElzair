@@ -1,7 +1,7 @@
 import { AbilityData } from "Asrc2/systems/ability/AbilityData";
 import { AbilitySlot } from "Asrc2/systems/ability/AbilityEnums";
 import { AttackType } from "Asrc2/systems/damage/AttackType";
-import { IconPath } from "IconPath";
+import { IconPath } from "Asrc2/config/IconPath";
 
 export const abilityDataRecord = {
     bash: {
@@ -62,6 +62,14 @@ export const abilityDataRecord = {
         slot: AbilitySlot.R,
         icon: IconPath.BTNGhoulFrenzy,
         type: AttackType.Physical,
+    },
+
+    firebolt: {
+        codeId: "A009",
+        name: "Firebolt",
+        slot: AbilitySlot.Q,
+        icon: IconPath.BTNBreathOfFire,
+        type: AttackType.Magic,
     }
 };
 

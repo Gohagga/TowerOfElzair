@@ -249,3 +249,21 @@ STRING 46
 Bludgeoning Weapon
 }
 
+STRING 47
+// Units: nDUM (DUMMY), Name (Name)
+{
+DUMMY
+}
+
+STRING 48
+// Abilities: A009 (Firebolt), Name (Name)
+{
+Firebolt
+}
+
+STRING 49
+// Abilities: A009 (Firebolt), Hotkey (Hotkey - Normal)
+{
+Q
+}
+

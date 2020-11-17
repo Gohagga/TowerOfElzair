@@ -1,5 +1,116 @@
-// import { Ability } from "Asrc2/systems/ability/Ability";
+import { ModelPath } from "Asrc2/config/ModelPath";
+import { AbilityEvent } from "Asrc2/events/handlers/ability/AbilityEvent";
+import { AbilityEventHandler } from "Asrc2/events/handlers/ability/AbilityEventHandler";
+import { IAbilityEventHandler } from "Asrc2/events/handlers/ability/IAbilityEventHandler";
+import { Unit } from "Asrc2/models/Unit";
+import { IDamageService } from "Asrc2/services/interfaces/IDamageService";
+import { IEnumUnitService } from "Asrc2/services/interfaces/IEnumUnitService";
+import { Ability } from "Asrc2/systems/ability/Ability";
+import { AbilityData } from "Asrc2/systems/ability/AbilityData";
+import { AttackType } from "Asrc2/systems/damage/AttackType";
+import { DamageType } from "Asrc2/systems/damage/DamageType";
+import { DummyManager } from "Asrc2/systems/dummy/DummyManager";
+import { InputManager } from "Asrc2/systems/input/InputManager";
+import { Log } from "Asrc2/systems/log/Log";
+import { MissileManager } from "Asrc2/systems/missile/MissileManager";
+import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigurable";
+import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
+import { Effect, Timer } from "w3ts/index";
 
-// export class Firebolt extends Ability {
+export type FireboltConfig = {
+    Damage: number,
+    Range: number,
+    Cost: number,
+    Cooldown: number,
+    Speed: number,
+}
 
-// }
+export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfig> {
+
+    private unitConfig = new UnitConfigurable<FireboltConfig>({
+        Damage: 20,
+        Range: 0,
+        Cost: 13,
+        Cooldown: 2.5,
+        Speed: 1000,
+    });
+
+    constructor(
+        data: AbilityData,
+        damageService: IDamageService,
+        abilityEvent: IAbilityEventHandler,
+        private enumService: IEnumUnitService,
+        private missileManager: MissileManager,
+        private dummyManager: DummyManager,
+        private inputManager: InputManager,
+    ) {
+        super(data, damageService);
+        abilityEvent.OnAbilityEffect(this.id, e => this.Execute(e));
+    }
+
+    Execute(e: AbilityEvent) {
+        
+        const caster = e.caster;
+        const data = this.GetUnitConfig(e.caster);
+
+        let { x, y } = caster;
+        let tx = e.targetPoint.x;
+        let ty = e.targetPoint.y;
+        let speed = data.Speed * 0.03;
+        let angle = math.atan(ty - y, tx - x);
+        let distance = 1500;
+        let dx = math.cos(angle) * speed;
+        let dy = math.sin(angle) * speed;
+        print("Angle", angle);
+
+        let missile = this.dummyManager.GetMissileDummy();
+        missile.x = x;
+        missile.y = y;
+        missile.setFacingEx(angle);
+        missile.setflyHeight(60, 0);
+        let effect = missile.addEffect(ModelPath.ArchmageFireball, "origin");
+
+        let tim = new Timer();
+        tim.start(0.03, true, () => {
+            missile.x += dx;
+            missile.y += dy;
+            distance -= speed;
+            if (distance < 0) {
+                effect.destroy();
+                missile.kill();
+                tim.destroy();
+            }
+        });
+
+        if (this.inputManager.IsCtrlDown(caster.owner)) {
+            Log.info("Ability casts in special way!");
+        } else {
+            Log.info("Ability casts normally");
+        }
+        
+        this.damageService.UnitDamageTarget(e.caster, e.targetUnit, AttackType.Physical, data.Damage, DamageType.Bludgeon);
+        this.ApplyCost(caster, data.Cost);
+    }
+
+    GenerateDescription(unit: Unit): string {
+        const desc = 
+`Firebolts the target in.`;
+        return desc;
+    }
+
+    GetUnitConfig = (unit: Unit) => this.unitConfig.GetUnitConfig(unit);
+    UpdateUnitConfig = (unit: Unit, cb: (config: FireboltConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
+
+    AddToUnit(unit: Unit): boolean {
+        const res = unit.addAbility(this.id);
+        if (res) {
+            const data = this.GetUnitConfig(unit);
+            const a = unit.getAbility(this.id);
+            const tooltip = this.GenerateDescription(unit);
+
+            unit.setAbilityCooldown(this.id, 0, data.Cooldown);
+            BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+        }
+        return res;
+    }
+}

@@ -4,7 +4,7 @@ import { AbilitySlot } from "Asrc2/systems/ability/AbilityEnums";
 import { AbilitySlotManager } from "Asrc2/systems/ability/AbilitySlotManager";
 import { UnitSlotManager } from "Asrc2/systems/slot/UnitSlotManager";
 import { TalentDepType } from "Asrc2/systems/talent/TalentDependency";
-import { IconPath } from "IconPath";
+import { IconPath } from "Asrc2/config/IconPath";
 import { Bash } from "../abilities/melee-combat/Bash";
 import { BattleRush } from "../abilities/melee-combat/BattleRush";
 import { Charge } from "../abilities/melee-combat/Charge";

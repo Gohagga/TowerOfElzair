@@ -1,5 +1,5 @@
 import { DamageType } from "Asrc2/systems/damage/DamageType";
-import { Unit as ThUnit, Widget } from "w3ts/index";
+import { Effect, Unit as ThUnit, Widget } from "w3ts/index";
 
 export class Unit extends ThUnit {
 
@@ -33,5 +33,9 @@ export class Unit extends ThUnit {
 
     public set resistances(v: Record<DamageType, number>) {
         Unit.resistances[this.id] = v;
+    }
+
+    addEffect(modelName: string, attachPointName: string) {
+        return new Effect(modelName, this, attachPointName);
     }
 }

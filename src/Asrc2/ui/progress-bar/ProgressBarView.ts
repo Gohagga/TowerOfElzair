@@ -1,4 +1,4 @@
-import { IconPath } from "IconPath";
+import { IconPath } from "Asrc2/config/IconPath";
 import { FramePoint } from "ui/view-models/Frame";
 import { Frame } from "w3ts/index";
 import { IProgressBarView } from "./IProgressBarView";

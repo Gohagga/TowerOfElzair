@@ -2,11 +2,12 @@ import { IProgressBarViewConfig } from "Asrc2/ui/progress-bar/IProgressBarViewCo
 import ITabViewConfig from "Asrc2/ui/tab-screen/interface/ITabConfig";
 import { ITalentTreeConfig } from "Asrc2/ui/talent-screen/interface/ITalentTreeConfig";
 import { IUnitInfoPanelConfig } from "Asrc2/ui/unit-info-panel/interface/IUnitInfoPanelConfig";
-import { IconPath } from "IconPath";
+import { IconPath } from "Asrc2/config/IconPath";
+import { MapPlayer } from "w3ts/index";
 
 export class Config { // 
     
-    dummyOwningPlayer = 0;
+    dummyOwningPlayer = MapPlayer.fromIndex(0);
     dummyUnitId = FourCC('nDUM');
     dummyDuration = 1;
 
