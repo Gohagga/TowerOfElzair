@@ -4,7 +4,7 @@ import { ISlottable } from "./ISlottable";
 
 export class UnitSlotManager<SlotType extends number> implements ISlotManager<Unit, SlotType> {
     
-    private _instances: Record<number, Record<SlotType, ISlottable<Unit>>> = {};
+    protected _instances: Record<number, Record<SlotType, ISlottable<Unit>>> = {};
 
     constructor() {
         

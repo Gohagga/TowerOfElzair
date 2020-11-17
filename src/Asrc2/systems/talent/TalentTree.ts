@@ -127,11 +127,17 @@ export abstract class TalentTree {
             state[index]++;
 
             // Fire talent allocate event
-            if (talent.onAllocate) talent.onAllocate(this.unit);
+            if (talent.onAllocate && talent.onAllocate(this.unit)) {
 
-            if (talent.nextRank) {
-                this._talents[index] = talent.nextRank;
+                if (talent.nextRank) {
+                    this._talents[index] = talent.nextRank;
+                }
+            } else {
+                // Rollback
+                this.pointsAvailable += talent.cost;
+                state[index]--;
             }
+
         }
     }
 

@@ -2,7 +2,7 @@ import { Unit } from "Asrc2/models/Unit";
 import { ITalentTree } from "./ITalentTree";
 import { TalentDependency } from "./TalentDependency";
 
-export type OnTalentStateChange = (unit: Unit) => void;
+export type OnTalentStateChange = (unit: Unit) => boolean;
 export type TalentRequirements = (tree: ITalentTree, unit: Unit) => [ boolean, string ];
 
 export type TalentData = {
@@ -28,10 +28,10 @@ export class Talent {
     private _description: string = "";
     private _iconEnabled: string = "";
     private _iconDisabled: string = "";
-    private _onAllocate: OnTalentStateChange = () => null;
-    private _onDeallocate: OnTalentStateChange = () => null;
-    private _onActivate: OnTalentStateChange = () => null;
-    private _onDeactivate: OnTalentStateChange = () => null;
+    private _onAllocate: OnTalentStateChange = () => true;
+    private _onDeallocate: OnTalentStateChange = () => true;
+    private _onActivate: OnTalentStateChange = () => true;
+    private _onDeactivate: OnTalentStateChange = () => true;
     private _dependency: TalentDependency = {};
     private _requirements: TalentRequirements = () => [true, ""];
     private _nextRank?: Talent;

@@ -1,6 +1,7 @@
 import { Unit } from "Asrc2/models/Unit";
 import { AbilityData } from "Asrc2/systems/ability/AbilityData";
 import { AbilitySlot } from "Asrc2/systems/ability/AbilityEnums";
+import { AbilitySlotManager } from "Asrc2/systems/ability/AbilitySlotManager";
 import { UnitSlotManager } from "Asrc2/systems/slot/UnitSlotManager";
 import { TalentDepType } from "Asrc2/systems/talent/TalentDependency";
 import { IconPath } from "IconPath";
@@ -27,7 +28,7 @@ export class MeleeCombat extends Discipline {
 
     constructor(
         unit: Unit,
-        slotManager: UnitSlotManager<AbilitySlot>,
+        slotManager: AbilitySlotManager,
         abilities: {
             bash: Bash, sprint: Sprint, slam: Slam, groundSmash: GroundSmash,
             swing: Swing, charge: Charge, cleave: Cleave, battleRush: BattleRush,
@@ -58,6 +59,7 @@ export class MeleeCombat extends Discipline {
                     if (t.dependency) t.dependency[left] = 0;
                 }
                 this.SetTempTalentLevel(0, 3, 1);
+                return true;
             },
             OnDeallocate: u => {
                 for (let t of this.masterySecondAbilities) {
@@ -66,6 +68,7 @@ export class MeleeCombat extends Discipline {
                     this.slotManager.RemoveSlot(this.unit, ab.slot);
                 }
                 this.SetTalentLevel(0, 3, 0);
+                return true;
             }
         });
     }
@@ -84,6 +87,7 @@ export class MeleeCombat extends Discipline {
                     if (t.dependency) t.dependency[left] = 0;
                 }
                 this.SetTempTalentLevel(0, 4, 1);
+                return true;
             },
             OnDeallocate: u => {
                 for (let t of this.masteryFirstAbilities) {
@@ -92,6 +96,7 @@ export class MeleeCombat extends Discipline {
                     this.slotManager.RemoveSlot(this.unit, ab.slot);
                 }
                 this.SetTalentLevel(0, 4, 0);
+                return true;
             }
         });
 
@@ -100,6 +105,7 @@ export class MeleeCombat extends Discipline {
             Name: bash.name,
             Description: bash.GenerateDescription(this.unit),
             Dependency: { [left]: -1 },
+            // Requirements: (tree, unit) => this.slotManager
             Icon: bash.icon,
             IconDisabled: bash.iconDisabled,
             Requirements: () => {
@@ -108,12 +114,15 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, bash.slot, u => {
+                if (this.slotManager.ApplySlot(u, bash, u => {
                     bash.RemoveFromUnit(u);
                     this.SetTalentLevel(1, 5, 0);
-                });
-                bash.AddToUnit(u);
-                this.SetTalentLevel(1, 5, 1);
+                })) {
+                    bash.AddToUnit(u);
+                    this.SetTalentLevel(1, 5, 1);
+                    return true;
+                }
+                return false;
             },
             Tag: bash
         }));
@@ -131,12 +140,15 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, sprint.slot, u => {
+                if (this.slotManager.ApplySlot(u, sprint, u => {
                     sprint.RemoveFromUnit(u);
                     this.SetTalentLevel(2, 5, 0);
-                });
-                sprint.AddToUnit(u);
-                this.SetTalentLevel(2, 5, 1);
+                })) {
+                    sprint.AddToUnit(u);
+                    this.SetTalentLevel(2, 5, 1);
+                    return true;
+                }
+                return false;
             },
             Tag: sprint
         }));
@@ -154,12 +166,15 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, slam.slot, u => {
+                if (this.slotManager.ApplySlot(u, slam, u => {
                     slam.RemoveFromUnit(u);
                     this.SetTalentLevel(3, 5, 0);
-                });
-                slam.AddToUnit(u);
-                this.SetTalentLevel(3, 5, 1);
+                })) {
+                    slam.AddToUnit(u);
+                    this.SetTalentLevel(3, 5, 1);
+                    return true;
+                }
+                return false;
             },
             Tag: slam
         }));
@@ -171,20 +186,23 @@ export class MeleeCombat extends Discipline {
             Dependency: { [left]: -1 },
             Icon: groundSmash.icon,
             IconDisabled: groundSmash.iconDisabled,
-            Requirements: () => {
+            Requirements: (tree, u) => {
                 const lvl = this.GetAllocatedTalentLevel(0, 5);
                 const talent = this.talents[5 * this.columns];
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, groundSmash.slot, u => {
+                if (this.slotManager.ApplySlot(u, groundSmash, u => {
                     groundSmash.RemoveFromUnit(u);
                     print("Remove from unit");
                     this.SetTalentLevel(4, 5, 0);
-                });
-                print("Add to unit");
-                groundSmash.AddToUnit(u);
-                this.SetTalentLevel(4, 5, 1);
+                })) {
+                    print("Add to unit");
+                    groundSmash.AddToUnit(u);
+                    this.SetTalentLevel(4, 5, 1);
+                    return true;
+                }
+                return false;
             },
             Tag: groundSmash
         }));
@@ -208,12 +226,15 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, swing.slot, u => {
+                if (this.slotManager.ApplySlot(u, swing, u => {
                     swing.RemoveFromUnit(u);
                     this.SetTalentLevel(1, 4, 0);
-                });
-                swing.AddToUnit(u);
-                this.SetTalentLevel(1, 4, 1);
+                })) {
+                    swing.AddToUnit(u);
+                    this.SetTalentLevel(1, 4, 1);
+                    return true;
+                }
+                return false;
             },
             Tag: swing
         }));
@@ -231,12 +252,15 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, charge.slot, u => {
+                if (this.slotManager.ApplySlot(u, charge, u => {
                     charge.RemoveFromUnit(u);
                     this.SetTalentLevel(2, 4, 0);
-                });
-                charge.AddToUnit(u);
-                this.SetTalentLevel(2, 4, 1);
+                })) {
+                    charge.AddToUnit(u);
+                    this.SetTalentLevel(2, 4, 1);
+                    return true;
+                }
+                return false;
             },
             Tag: charge
         }));
@@ -254,12 +278,15 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, cleave.slot, u => {
+                if (this.slotManager.ApplySlot(u, cleave, u => {
                     cleave.RemoveFromUnit(u);
                     this.SetTalentLevel(3, 4, 0);
-                });
-                cleave.AddToUnit(u);
-                this.SetTalentLevel(3, 4, 1);
+                })) {
+                    cleave.AddToUnit(u);
+                    this.SetTalentLevel(3, 4, 1);
+                    return true;
+                };
+                return false;
             },
             Tag: cleave
         }));
@@ -277,12 +304,15 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
-                this.slotManager.ApplySlot(u, battleRush.slot, u => {
+                if (this.slotManager.ApplySlot(u, battleRush, u => {
                     battleRush.RemoveFromUnit(u);
                     this.SetTalentLevel(4, 4, 0);
-                });
-                battleRush.AddToUnit(u);
-                this.SetTalentLevel(4, 4, 1);
+                })) {
+                    battleRush.AddToUnit(u);
+                    this.SetTalentLevel(4, 4, 1);
+                    return true;
+                }
+                return false;
             },
             Tag: battleRush
         }));

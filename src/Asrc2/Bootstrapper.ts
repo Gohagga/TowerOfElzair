@@ -23,6 +23,7 @@ import { DamageService } from "./services/implementations/DamageService";
 import { EnumUnitService } from "./services/implementations/EnumUnitService";
 import { AbilityData } from "./systems/ability/AbilityData";
 import { AbilitySlot, AbilityType } from "./systems/ability/AbilityEnums";
+import { AbilitySlotManager } from "./systems/ability/AbilitySlotManager";
 import { CritManager } from "./systems/crit/CritManager";
 import { DamageDisplayManager } from "./systems/damage-display/DamageDisplayManager";
 import { DamageType } from "./systems/damage/DamageType";
@@ -101,7 +102,7 @@ export class Bootstrapper {
 
         print(5)
 
-        const slotManager = new UnitSlotManager<AbilitySlot>();
+        const slotManager = new AbilitySlotManager();
         const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
         print(6)
         tab1.tree = new MeleeCombat(u, slotManager, abilities);
