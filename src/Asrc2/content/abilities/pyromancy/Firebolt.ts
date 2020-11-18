@@ -12,7 +12,9 @@ import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { DummyManager } from "Asrc2/systems/dummy/DummyManager";
 import { InputManager } from "Asrc2/systems/input/InputManager";
 import { Log } from "Asrc2/systems/log/Log";
+import { Missile } from "Asrc2/systems/missile/Missile";
 import { MissileManager } from "Asrc2/systems/missile/MissileManager";
+import { MissileType } from "Asrc2/systems/missile/MissileType";
 import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigurable";
 import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
 import { Effect, Timer } from "w3ts/index";
@@ -29,7 +31,7 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
 
     private unitConfig = new UnitConfigurable<FireboltConfig>({
         Damage: 20,
-        Range: 0,
+        Range: 1000,
         Cost: 13,
         Cooldown: 2.5,
         Speed: 1000,
@@ -54,33 +56,21 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
         const data = this.GetUnitConfig(e.caster);
 
         let { x, y } = caster;
-        let tx = e.targetPoint.x;
-        let ty = e.targetPoint.y;
-        let speed = data.Speed * 0.03;
-        let angle = math.atan(ty - y, tx - x);
-        let distance = 1500;
-        let dx = math.cos(angle) * speed;
-        let dy = math.sin(angle) * speed;
-        print("Angle", angle);
-
-        let missile = this.dummyManager.GetMissileDummy();
-        missile.x = x;
-        missile.y = y;
-        missile.setFacingEx(angle);
-        missile.setflyHeight(60, 0);
-        let effect = missile.addEffect(ModelPath.ArchmageFireball, "origin");
-
-        let tim = new Timer();
-        tim.start(0.03, true, () => {
-            missile.x += dx;
-            missile.y += dy;
-            distance -= speed;
-            if (distance < 0) {
+        let dummy = this.dummyManager.GetMissileDummy();
+        let effect = dummy.addEffect(ModelPath.ArchmageFireball, "origin");
+        dummy.x = x;
+        dummy.y = y;
+        let m = new Missile(dummy, data.Speed, MissileType.Fire)
+            .OnDestroy(miss => {
                 effect.destroy();
-                missile.kill();
-                tim.destroy();
-            }
-        });
+            })
+            .SetDestination(e.targetPoint.x, e.targetPoint.y, data.Range);
+
+        this.missileManager.Fire(m);
+        
+        dummy.setFacingEx(m.angle);
+        dummy.setflyHeight(60, 0);
+
 
         if (this.inputManager.IsCtrlDown(caster.owner)) {
             Log.info("Ability casts in special way!");
