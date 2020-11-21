@@ -1,0 +1,7 @@
+Orb weapon - grants certain spell to the player
+Spellbook offhand - Grants its spell/spells to the player's spellbook
+
+
+Rage - Increases melee attack damage
+Cauterize
+Dispels
