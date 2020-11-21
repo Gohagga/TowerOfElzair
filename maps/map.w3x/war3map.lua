@@ -27,6 +27,12 @@ function CreateUnitsForPlayer1()
     local t
     local life
     gg_unit_Ofar_0003 = BlzCreateUnitWithSkin(p, FourCC("Ofar"), 38.2, 328.8, 231.896, FourCC("Ofar"))
+    u = BlzCreateUnitWithSkin(p, FourCC("Ofar"), -496.3, 251.4, 231.896, FourCC("Ofar"))
+    u = BlzCreateUnitWithSkin(p, FourCC("Ofar"), -591.2, 159.7, 231.896, FourCC("Ofar"))
+    u = BlzCreateUnitWithSkin(p, FourCC("Ofar"), -536.2, 66.9, 231.896, FourCC("Ofar"))
+    u = BlzCreateUnitWithSkin(p, FourCC("Ofar"), -382.8, 243.5, 231.896, FourCC("Ofar"))
+    u = BlzCreateUnitWithSkin(p, FourCC("Ofar"), -649.4, -106.4, 231.896, FourCC("Ofar"))
+    u = BlzCreateUnitWithSkin(p, FourCC("Ofar"), -711.6, 56.6, 231.896, FourCC("Ofar"))
 end
 
 function CreatePlayerBuildings()
