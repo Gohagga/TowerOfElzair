@@ -8,6 +8,7 @@ import { GroundSmash } from "./content/abilities/melee-combat/GroundSmash";
 import { Slam } from "./content/abilities/melee-combat/Slam";
 import { Sprint } from "./content/abilities/melee-combat/Sprint";
 import { Swing } from "./content/abilities/melee-combat/Swing";
+import { Fireball } from "./content/abilities/pyromancy/Fireball";
 import { Firebolt } from "./content/abilities/pyromancy/Firebolt";
 import { abilityDataRecord as abData } from "./content/AbilityData";
 import { MeleeCombat } from "./content/disciplines/MeleeCombat";
@@ -22,6 +23,7 @@ import { Unit } from "./models/Unit";
 import { DamageService } from "./services/implementations/DamageService";
 import { EnumUnitService } from "./services/implementations/EnumUnitService";
 import { AbilitySlotManager } from "./systems/ability/AbilitySlotManager";
+import { AutoattackFactory } from "./systems/autoattack/AutoattackFactory";
 import { CritManager } from "./systems/crit/CritManager";
 import { DamageDisplayManager } from "./systems/damage-display/DamageDisplayManager";
 import { BludgeonDamageManager } from "./systems/damage/type-specific/BludgeonDamageManager";
@@ -79,7 +81,7 @@ export class Bootstrapper {
             cleave: new Cleave(abData.cleave, damageService, abilityEvent, enumService),
             battleRush: new BattleRush(abData.battleRush, damageService, abilityEvent, enumService),
 
-            firebolt: new Firebolt(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
+            firebolt: new Fireball(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
         }
 
         print(2)
@@ -128,8 +130,11 @@ export class Bootstrapper {
 
         print(9)
 
+        // Factories
+        const autoattackFactory = new AutoattackFactory(dummyManager, missileManager, damageService);
+
         //#region Items
-        const itemDefs = ItemData.InitializeItemDefinitions();
+        const itemDefs = ItemData.InitializeItemDefinitions(missileManager, autoattackFactory);
         const itemManager = new ItemManager(itemDefs);
         const itemEventProvider = new ItemEventProvider(itemManager);
 

@@ -13,7 +13,7 @@ export class DamageDisplayManager {
             
             let damage = e.damage;
             const source = e.source;
-            const target = e.target.handle;
+            const target = e.targetUnit.handle;
             const owner = source.owner.handle;
             
             let size = (damage / 60) * 3 + 8;

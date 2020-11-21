@@ -1,4 +1,5 @@
 import { Unit } from "Asrc2/models/Unit";
+import { WeaponAnimationName } from "Asrc2/models/WeaponAnimationName";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { Log } from "Asrc2/systems/log/Log";
 import { ItemDefinition } from "../ItemDefinition";
@@ -35,13 +36,19 @@ export class WeaponItemFactory {
 
     public CreateDefinition(def: {
         damageType: DamageType,
-        enabledDamageTypes: DamageType[]
+        enabledDamageTypes: DamageType[],
+        attackRange: number,
+        weaponAnimationName: WeaponAnimationName
     } & ItemDefinition): ItemDefinition {
 
         // def.OnAcquire = this.AppendCallback(actions, def.OnAcquire);
         // def.OnRelease = this.AppendCallback(actions, def.OnRelease);
         let cbAcq = def.OnAcquire;
         def.OnAcquire = unit => {
+            unit.weaponAnimationName = def.weaponAnimationName;
+            // unit.acquireRange = def.attackRange;
+            unit.attackRange = def.attackRange;
+            
             this.ResetDamageType(unit);
             for (let d of def.enabledDamageTypes) {
                 if (Number(d) in this.upgrades) unit.owner.addTechResearched(this.upgrades[Number(d)], 1);
@@ -53,6 +60,11 @@ export class WeaponItemFactory {
 
         let cbRel = def.OnRelease;
         def.OnRelease = unit => {
+            unit.weaponAnimationName = WeaponAnimationName.None;
+            // unit.acquireRange = 200;
+            print("Dec to 0")
+            unit.attackRange = 100;
+            
             this.ResetDamageType(unit);
             if (cbRel) cbRel(unit);
         }

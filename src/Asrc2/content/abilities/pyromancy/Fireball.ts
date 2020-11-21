@@ -19,7 +19,7 @@ import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigur
 import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
 import { Effect, Timer } from "w3ts/index";
 
-export type FireboltConfig = {
+export type FireballConfig = {
     Damage: number,
     Range: number,
     Cost: number,
@@ -27,14 +27,14 @@ export type FireboltConfig = {
     Speed: number,
 }
 
-export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfig> {
+export class Fireball extends Ability implements IUnitConfigurable<FireballConfig> {
 
-    private unitConfig = new UnitConfigurable<FireboltConfig>({
-        Damage: 20,
+    private unitConfig = new UnitConfigurable<FireballConfig>({
+        Damage: 45,
         Range: 1000,
-        Cost: 13,
-        Cooldown: 1.75,
-        Speed: 1200,
+        Cost: 45,
+        Cooldown: 2,
+        Speed: 800,
     });
 
     constructor(
@@ -57,35 +57,50 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
         const data = this.GetUnitConfig(e.caster);
 
         let { x, y } = caster;
-        // let angle = math.atan(y - e.targetPoint.y, x - e.targetPoint.x);
         let angle = math.atan(e.targetPoint.y - y, e.targetPoint.x - x);
         let dummy = this.dummyManager.GetMissileDummy();
         // let effect = dummy.addEffect(ModelPath.RainOfFire, "origin");
-        let effect = new Effect(ModelPath.DeathlessRainOfFire, x, y);
+        let effect = new Effect(ModelPath.FireboltRoughMedium, x, y);
         effect.setYaw(angle);
+        // effect.scale = 2.0;
         dummy.x = x;
         dummy.y = y;
-        // dummy.setScale(0.3, 0.3, 0.3);
+        effect.z = 70;
+        let popped = false;
         let m = new Missile(dummy, data.Speed, MissileType.Fire)
             .OnUpdate(miss => {
 
-                const targets = this.enumService.EnumUnitsInRange(miss.point, 60, target =>
+                let targets = this.enumService.EnumUnitsInRange(miss.point, 60, target => 
                     target.isAlly(owner) == false &&
                     target.isAlive());
 
-                let ex = dummy.x;
-                let ey = dummy.y;
-                effect.x = ex;
-                effect.y = ey;
+                // let ex = dummy.x;
+                // let ey = dummy.y;
+                // effect.x = miss.x;
+                // effect.y = miss.y;
+                effect.setPosition(miss.x, miss.y, 70);
+                // miss.speed *= 1.05;
                     
                 if (targets.length > 0) {
-                    this.damageService.UnitDamageTarget(caster, targets[0], data.Damage, this.type, DamageType.Fire);
-                    effect.destroy();
-                    new Effect(ModelPath.RainOfFire, ex, ey).destroy();
+                    popped = true;
                     miss.alive = false;
                 }
             })
             .OnDestroy(miss => {
+                if (popped) {
+                    let targets = this.enumService.EnumUnitsInRange(miss.point, 300, target =>
+                        target.isAlly(owner) == false &&
+                        target.isAlive());
+    
+                    for (let t of targets) {
+                        this.damageService.UnitDamageTarget(caster, t, data.Damage, this.type, DamageType.Fire);
+                    }
+                    
+                    // new Effect(ModelPath.RainOfFire, miss.x, miss.y).destroy();
+                } else {
+                    effect.addSubAnimation(SUBANIM_TYPE_ALTERNATE_EX);
+                    effect.playAnimation(ANIM_TYPE_DEATH);
+                }
                 effect.destroy();
             })
             .SetDestination(e.targetPoint.x, e.targetPoint.y, data.Range);
@@ -108,12 +123,12 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
 
     GenerateDescription(unit: Unit): string {
         const desc = 
-`Firebolts the target in.`;
+`Fireballs the target in.`;
         return desc;
     }
 
     GetUnitConfig = (unit: Unit) => this.unitConfig.GetUnitConfig(unit);
-    UpdateUnitConfig = (unit: Unit, cb: (config: FireboltConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
+    UpdateUnitConfig = (unit: Unit, cb: (config: FireballConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
 
     AddToUnit(unit: Unit): boolean {
         const res = unit.addAbility(this.id);

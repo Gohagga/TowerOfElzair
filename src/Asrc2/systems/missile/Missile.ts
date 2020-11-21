@@ -1,8 +1,9 @@
 import { Unit } from "Asrc2/models/Unit";
 import { Log } from "../log/Log";
+import { IMissile } from "./IMissile";
 import { MissileType } from "./MissileType";
 
-export class Missile {
+export class Missile implements IMissile {
     
     private _id: number;
     private _onUpdate?: (missile: Missile) => void;
@@ -10,82 +11,95 @@ export class Missile {
 
     public alive: boolean = true;
 
-    private missileBehavior = "none";
-
     private dx: number = -1;
     private dy: number = -1;
     private distance: number = -1;
     public angle: number = 0;
 
+    public x: number;
+    public y: number;
+
     constructor(
         private unit: Unit,
         public speed: number,
-        public type: MissileType
+        public type: MissileType,
     ) {
         this._id = unit.id;
         this.speed *= 0.03;
+        this.x = unit.x;
+        this.y = unit.y;
     }
 
     public get id() {
         return this._id;
     }
 
+    public get point() {
+        return this.unit.point;
+    }
+
     Build() {
 
-        Log.info("build", 1)
+        this.x = this.unit.x;
+        this.y = this.unit.y;
+
         // If missile travels certain distance
         if (this.distance != -1 && this.dx != -1 && this.dy != -1) {
 
-        Log.info("build", 2)
-
             if (this._onUpdate && this._onDestroy) {
-
-        Log.info("build", 2.1)
-
                 let onDestroy = this._onDestroy;
                 let onUpdate = this._onUpdate;
                 this.Update = () => {
-                    this.unit.x += this.dx;
-                    this.unit.y += this.dy;
+                    this.x += this.dx;
+                    this.y += this.dy;
+                    this.unit.x = this.x;
+                    this.unit.y = this.y;
                     this.distance -= this.speed;
                     if (this.distance < 0) {
                         this.alive = false;
-                        onDestroy(this);
-                        this.unit.kill();
-                        // tim.destroy();
                     }
                     onUpdate(this);
                 }
+
+                this.Destroy = () => {
+                    RemoveUnit(this.unit.handle);
+                    onDestroy(this);
+                }
             } else if (this._onDestroy) {
 
-                Log.info("This one should run");
                 // Only ondestroy case
                 let onDestroy = this._onDestroy;
                 this.Update = () => {
-                    this.unit.x += this.dx;
-                    this.unit.y += this.dy;
+                    this.x += this.dx;
+                    this.y += this.dy;
+                    this.unit.x = this.x;
+                    this.unit.y = this.y;
                     this.distance -= this.speed;
                     if (this.distance < 0) {
                         this.alive = false;
-                        onDestroy(this);
-                        this.unit.kill();
                     }
+                }
+                this.Destroy = () => {
+                    RemoveUnit(this.unit.handle);
+                    onDestroy(this);
                 }
             } else if (this._onUpdate) {
                 // Only onupdate case
 
-        Log.info("build", 2.3)
-
                 let onUpdate = this._onUpdate;
                 this.Update = () => {
-                    this.unit.x += this.dx;
-                    this.unit.y += this.dy;
+                    this.x += this.dx;
+                    this.y += this.dy;
+                    this.unit.x = this.x;
+                    this.unit.y = this.y;
                     this.distance -= this.speed;
                     if (this.distance < 0) {
                         this.alive = false;
-                        this.unit.kill();
                     }
                     onUpdate(this);
+                }
+                this.Destroy = () => {
+                    RemoveUnit(this.unit.handle);
                 }
             }
         } else {
@@ -95,6 +109,8 @@ export class Missile {
     }
 
     Update: () => void = () => null;
+
+    Destroy: () => void = () => null;
 
     OnUpdate(action: (this: any, missile: Missile) => void) {
         this._onUpdate = action.bind(this);

@@ -11,4 +11,6 @@ export const enum DamageType {
     Slashing = 1 << 3,
     /**Deals 100% bonus damage on critical strike.*/
     Piercing = 1 << 4,
+
+    Fire = 1 << 5,
 }

@@ -1,4 +1,5 @@
 import { Unit } from "Asrc2/models/Unit";
+// import { Widget } from "Asrc2/models/Widget";
 import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { DamageEventSubscription } from "./DamageEventSubscription";
@@ -6,7 +7,8 @@ import { DamageEventSubscription } from "./DamageEventSubscription";
 export class DamageEvent {
     
     private _source: Unit;
-    private _target: Unit;
+    private _targetUnit: Unit;
+    // private _targetWidget: Widget;
     private _damageType: DamageType;
     private _damageTypeCount: number;
     private _damage: number;
@@ -16,7 +18,8 @@ export class DamageEvent {
 
     constructor(data: {
         source: Unit,
-        target: Unit,
+        targetUnit: Unit,
+        // targetWidget: Widget,
         damageType: DamageType,
         damageTypeCount: number,
         attackType: AttackType,
@@ -25,17 +28,19 @@ export class DamageEvent {
         isCrit: boolean,
     }) { 
         this._source = data.source;
-        this._target = data.target;
+        this._targetUnit = data.targetUnit;
         this._damageType = data.damageType;
         this._damageTypeCount = data.damageTypeCount;
         this._attackType = data.attackType;
         this._damage = data.damage;
         this._strain = data.strain;
         this._isCrit = data.isCrit;
+        // this._targetWidget = data.targetWidget;
     }
 
     public get source(): Unit { return this._source; }
-    public get target(): Unit { return this._target; }
+    public get targetUnit(): Unit { return this._targetUnit; }
+    // public get targetWidget(): Widget { return this._targetWidget; }
     public get damageType(): DamageType { return this._damageType; }
     public get damageTypeCount(): number { return this._damageTypeCount; }
     public get attackType(): AttackType { return this._attackType; }

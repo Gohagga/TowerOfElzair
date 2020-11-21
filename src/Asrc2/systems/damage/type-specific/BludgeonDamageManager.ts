@@ -15,7 +15,7 @@ export class BludgeonDamageManager {
             
             // Damage specific effects
             if ((e.damageType & DamageType.Bludgeon) == DamageType.Bludgeon) {
-                this.damageService.UnitCauseStrain(e.source, e.target, e.damage, AttackType.Physical);
+                this.damageService.UnitCauseStrain(e.source, e.targetUnit, e.damage, AttackType.Physical);
             }
         });
     }

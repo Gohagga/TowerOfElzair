@@ -80,7 +80,7 @@ export class DamageService implements IDamageService {
 
         let event = new DamageEvent({
             source: source,
-            target: target,
+            targetUnit: target,
             damageType: damageType,
             damageTypeCount: count,
             attackType: attackType,
@@ -105,7 +105,7 @@ export class DamageService implements IDamageService {
 
         event = this.damageEventHandler.Register(event);
         print("DAMAGING TARGET FOR", event.damage);
-        source.damageTarget(event.target.handle, event.damage, 0, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
+        source.damageTarget(event.targetUnit.handle, event.damage, 0, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
     }
 
     UnitHealTarget(source: Unit, target: Unit, amount: number, attackType: AttackType, damageType: DamageType, isCrit: boolean = false): void {
@@ -119,21 +119,7 @@ export class DamageService implements IDamageService {
         });
 
         event = this.damageEventHandler.Register(event);
-        let targetUnit = event.target.handle;
+        let targetUnit = event.targetUnit.handle;
         SetWidgetLife(targetUnit, GetWidgetLife(targetUnit) - event.damage);
-    }
-    
-    private readonly attackTypes: Record<DamageType, attacktype> = {
-        [DamageType.Untyped]: ATTACK_TYPE_CHAOS,
-        [DamageType.Bludgeon]: ATTACK_TYPE_NORMAL,
-        [DamageType.Slashing]: ATTACK_TYPE_NORMAL,
-        [DamageType.Piercing]: ATTACK_TYPE_NORMAL,
-    }
-    
-    private readonly damageTypes: Record<DamageType, damagetype> = {
-        [DamageType.Untyped]: DAMAGE_TYPE_UNIVERSAL,
-        [DamageType.Bludgeon]: DAMAGE_TYPE_UNIVERSAL,
-        [DamageType.Slashing]: DAMAGE_TYPE_UNIVERSAL,
-        [DamageType.Piercing]: DAMAGE_TYPE_UNIVERSAL,
     }
 }
