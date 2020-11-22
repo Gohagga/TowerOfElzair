@@ -72,6 +72,7 @@ export class TabViewModel {
     public set activeTabIndex(index: number) {
 
         const i = this._activeTabIndex;
+        print("Swapping tab", i, "to", index);
 
         let hideSelector: ITabSelectorView | null = null;
         let showSelector: ITabSelectorView | null = null;

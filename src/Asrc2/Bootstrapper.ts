@@ -8,10 +8,12 @@ import { GroundSmash } from "./content/abilities/melee-combat/GroundSmash";
 import { Slam } from "./content/abilities/melee-combat/Slam";
 import { Sprint } from "./content/abilities/melee-combat/Sprint";
 import { Swing } from "./content/abilities/melee-combat/Swing";
+import { FieryEscape } from "./content/abilities/pyromancy/FieryEscape";
 import { Fireball } from "./content/abilities/pyromancy/Fireball";
 import { Firebolt } from "./content/abilities/pyromancy/Firebolt";
 import { abilityDataRecord as abData } from "./content/AbilityData";
 import { MeleeCombat } from "./content/disciplines/MeleeCombat";
+import { Pyromancy } from "./content/disciplines/Pyromancy";
 import { ItemData } from "./content/items/ItemData";
 import { AbilityEventHandler } from "./events/handlers/ability/AbilityEventHandler";
 import { DamageEventHandler } from "./events/handlers/damage/DamageEventHandler";
@@ -81,7 +83,9 @@ export class Bootstrapper {
             cleave: new Cleave(abData.cleave, damageService, abilityEvent, enumService),
             battleRush: new BattleRush(abData.battleRush, damageService, abilityEvent, enumService),
 
-            firebolt: new Fireball(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
+            firebolt: new Firebolt(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
+            // fieryEscape: new FieryEscape()
+            fireball: new Fireball(abData.fireball, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
         }
 
         print(2)
@@ -109,10 +113,13 @@ export class Bootstrapper {
         const slotManager = new AbilitySlotManager();
         const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
         print(6)
-        tab1.tree = new MeleeCombat(u, slotManager, abilities);
+        tab1.tree = new MeleeCombat(u, slotManager, inputManager, abilities);
+
+        const tab2 = talentTreeViewBuilder.Build();
+        tab2.tree = new Pyromancy(u, slotManager, inputManager, abilities);
 
         print(7)
-        talentTabs.tabContent = [ tab1 ];
+        talentTabs.tabContent = [ tab1, tab2 ];
         talentTabs.activeTabIndex = 0;
 
         print(8)
@@ -139,8 +146,6 @@ export class Bootstrapper {
         const itemEventProvider = new ItemEventProvider(itemManager);
 
         //#endregion
-
-        abilities.firebolt.AddToUnit(Unit.from(gg_unit_Hpal_0002));
     }
     
     static OnMapInit() {

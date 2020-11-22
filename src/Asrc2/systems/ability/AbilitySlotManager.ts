@@ -21,7 +21,7 @@ export class AbilitySlotManager {
         }
     }
 
-    ApplySlot(owner: Unit, ability: Ability, release: ISlottable<Unit>): boolean {
+    ApplySlot(owner: Unit, ability: Ability, release: ISlottable<Unit>, slot: AbilitySlot = ability.slot): boolean {
 
         if (this.CanApply(owner, ability) == false) return false;
         let item: AbilitySlotItem = {
@@ -29,7 +29,9 @@ export class AbilitySlotManager {
             release
         };
 
-        let slot = ability.slot;
+        print("SLOT", slot);
+
+        // if (!slot) slot = ability.slot;
         let unitSlots = this._instances[owner.id] || {} as Record<AbilitySlot, AbilitySlotItem>;
         if (slot in unitSlots) unitSlots[slot].release(owner);
 
@@ -41,7 +43,9 @@ export class AbilitySlotManager {
         new Timer().start(0, false, () => {
             let slots = Object.keys(unitSlots) as unknown as AbilitySlot[];
             for (let s of slots) {
-                let abilityId = unitSlots[s].ability.id;
+                let extId = unitSlots[s].ability.extId;
+                let abilityId = s >= 4 && extId ? extId : unitSlots[s].ability.id;
+
                 if (owner.getAbilityCooldownRemaining(abilityId, 0) < 10) {
                     owner.startAbilityCooldown(abilityId, 10);
                 }

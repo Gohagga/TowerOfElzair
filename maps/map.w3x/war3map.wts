@@ -267,3 +267,27 @@ STRING 49
 Q
 }
 
+STRING 50
+// Abilities: A00A (Fireball), Name (Name)
+{
+Fireball
+}
+
+STRING 52
+// Abilities: A00B (Firebolt), Name (Name)
+{
+Firebolt
+}
+
+STRING 54
+// Abilities: A00A (Fireball), Hotkey (Hotkey - Normal)
+{
+R
+}
+
+STRING 55
+// Abilities: A00B (Firebolt), Hotkey (Hotkey - Normal)
+{
+D
+}
+

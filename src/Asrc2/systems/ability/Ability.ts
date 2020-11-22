@@ -8,6 +8,7 @@ import { AbilitySlot, AbilityType } from "./AbilityEnums";
 export abstract class Ability implements AbilityData {
 
     id: number;
+    extId?: number;
     codeId: string;
     slot: AbilitySlot;
     name: string;
@@ -20,6 +21,7 @@ export abstract class Ability implements AbilityData {
         protected damageService: IDamageService
     ) {
         this.id = FourCC(data.codeId);
+        if (data.extCodeId) this.extId = FourCC(data.extCodeId);
         this.codeId = data.codeId;
         this.slot = data.slot;
         this.name = data.name;
@@ -36,6 +38,12 @@ export abstract class Ability implements AbilityData {
             BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
         }
         return res;
+    }
+
+    AddToUnitBase(unit: Unit, extended?: boolean) {
+        if (extended && !this.extId) print("Extended ID not configured!");
+        else if (extended && this.extId) return unit.addAbility(this.extId);
+        return unit.addAbility(this.id);
     }
 
     RemoveFromUnit(unit: Unit): boolean {

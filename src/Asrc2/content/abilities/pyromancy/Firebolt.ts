@@ -29,7 +29,7 @@ export type FireboltConfig = {
 
 export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfig> {
 
-    private unitConfig = new UnitConfigurable<FireboltConfig>({
+    public unitConfig = new UnitConfigurable<FireboltConfig>({
         Damage: 20,
         Range: 1000,
         Cost: 13,
@@ -48,6 +48,7 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
     ) {
         super(data, damageService);
         abilityEvent.OnAbilityEffect(this.id, e => this.Execute(e));
+        if (this.extId) abilityEvent.OnAbilityEffect(this.extId, e => this.Execute(e));
     }
 
     Execute(e: AbilityEvent) {
@@ -115,8 +116,8 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
     GetUnitConfig = (unit: Unit) => this.unitConfig.GetUnitConfig(unit);
     UpdateUnitConfig = (unit: Unit, cb: (config: FireboltConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
 
-    AddToUnit(unit: Unit): boolean {
-        const res = unit.addAbility(this.id);
+    AddToUnit(unit: Unit, extended?: boolean): boolean {
+        const res = this.AddToUnitBase(unit, extended);
         if (res) {
             const data = this.GetUnitConfig(unit);
             const a = unit.getAbility(this.id);

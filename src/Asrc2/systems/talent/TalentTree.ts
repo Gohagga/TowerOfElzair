@@ -1,4 +1,5 @@
 import { Unit } from "Asrc2/models/Unit";
+import { MapPlayer } from "w3ts/index";
 import { Talent, TalentData } from "./Talent";
 import { TalentDependency, TalentDependencyIndex, TalentDepType } from "./TalentDependency";
 import { TalentState } from "./TalentState";
@@ -8,6 +9,7 @@ export type TalentGenerator = (rank: number) => TalentData
 export abstract class TalentTree {
 
     private _unit: Unit;
+    private _owner: MapPlayer;
     private _title: string = "";
     private _pointsAvailable: number = 0;
     private _talents: Talent[] = [];
@@ -22,6 +24,7 @@ export abstract class TalentTree {
     constructor(unit: Unit) {
         this.Initialize();
         this._unit = unit;
+        this._owner = unit.owner;
     }
 
     public abstract Initialize(): void;
@@ -235,6 +238,7 @@ export abstract class TalentTree {
     // Actions that Fire events
     public set unit(v : Unit) {
         this._unit = v;
+        this._owner = v.owner;
     }
     public set title(v : string) {
         this._title = v;
@@ -251,6 +255,9 @@ export abstract class TalentTree {
     }
     public get unit(): Unit {
         return this._unit;
+    }
+    public get owner(): MapPlayer {
+        return this._owner;
     }
     public get pointsAvailable(): number {
         return this._pointsAvailable;

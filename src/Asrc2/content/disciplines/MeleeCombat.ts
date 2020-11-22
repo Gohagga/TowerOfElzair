@@ -14,6 +14,7 @@ import { Slam } from "../abilities/melee-combat/Slam";
 import { Sprint } from "../abilities/melee-combat/Sprint";
 import { Swing } from "../abilities/melee-combat/Swing";
 import { Discipline } from "../Discipline";
+import { InputManager } from "Asrc2/systems/input/InputManager";
 
 const { left, up, right, down } = TalentDepType;
 
@@ -29,13 +30,14 @@ export class MeleeCombat extends Discipline {
     constructor(
         unit: Unit,
         slotManager: AbilitySlotManager,
+        inputManager: InputManager,
         abilities: {
             bash: Bash, sprint: Sprint, slam: Slam, groundSmash: GroundSmash,
             swing: Swing, charge: Charge, cleave: Cleave, battleRush: BattleRush,
 
         }
     ) {
-        super(unit, slotManager);
+        super(unit, slotManager, inputManager);
 
         this.InitializeTier1(abilities.bash, abilities.sprint, abilities.slam, abilities.groundSmash,
             abilities.swing, abilities.charge, abilities.cleave, abilities.battleRush);

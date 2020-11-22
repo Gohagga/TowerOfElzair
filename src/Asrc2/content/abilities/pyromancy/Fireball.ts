@@ -48,6 +48,7 @@ export class Fireball extends Ability implements IUnitConfigurable<FireballConfi
     ) {
         super(data, damageService);
         abilityEvent.OnAbilityEffect(this.id, e => this.Execute(e));
+        if (this.extId) abilityEvent.OnAbilityEffect(this.extId, e => this.Execute(e));
     }
 
     Execute(e: AbilityEvent) {

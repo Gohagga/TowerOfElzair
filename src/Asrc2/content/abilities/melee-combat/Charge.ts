@@ -66,7 +66,7 @@ export class Charge extends Ability implements IUnitConfigurable<ChargeConfig> {
         const sub = this.damageEventHandler.Subscribe(ActionOrder.ChargeBonus, (e, sub) => {
             Log.info("Charge damage event");
 
-            let physDmg = DamageType.Bludgeon | DamageType.Piercing | DamageType.Slashing;            
+            let physDmg = DamageType.Bludgeon | DamageType.Piercing | DamageType.Slashing;
             if ((e.damageType & physDmg) == physDmg) {
                 Log.info("Is physical damage type");
                 e.damage += bonus;

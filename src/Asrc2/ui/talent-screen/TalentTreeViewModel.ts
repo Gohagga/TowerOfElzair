@@ -59,8 +59,10 @@ export class TalentTreeViewModel implements ITabContent {
 
     OnTalentClicked(slot: ITalentSlot, index: number) {
         
+        print(this.tree?.title, this._watched, slot.talent)
         if (!this._watched || !slot.talent || !this._tree) return;
 
+        print(2)
         let tempState = this._tree.tempRankState[index];
         if (this._tree.pointsAvailable >= slot.talent.cost && tempState < slot.talent.maxRank) {
 
@@ -192,6 +194,7 @@ export class TalentTreeViewModel implements ITabContent {
     Show(button: Frame): void {
 
         this._watched = true;
+        print(this._tree?.title, "watched?", this._watched);
         if (!this._tree) return;
         
         print("Tree exists, we will not return...");
@@ -237,6 +240,7 @@ export class TalentTreeViewModel implements ITabContent {
 
     Hide(button: Frame): void {
         this._watched = false;
+        print(this._tree?.title, "watched?", this._watched);
 
         for (let i = 0; i < this._slots.length; i++) {
             this._slots[i].visible = false;

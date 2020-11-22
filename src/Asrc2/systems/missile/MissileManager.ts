@@ -32,7 +32,7 @@ export class MissileManager {
 
     Update() {
 
-        let last = this.updateList.length - 1;
+        let last = this.updateList.length;
         for (let i = this.updateList.length - 1; i >= 0; i--) {
 
             let m = this.updateList[i];

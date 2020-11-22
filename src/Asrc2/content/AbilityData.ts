@@ -66,9 +66,24 @@ export const abilityDataRecord = {
 
     firebolt: {
         codeId: "A009",
+        extCodeId: "A00B",
         name: "Firebolt",
         slot: AbilitySlot.Q,
         icon: IconPath.BTNBreathOfFire,
+        type: AttackType.Magic,
+    },
+    fieryEscape: {
+        codeId: "A009",
+        name: "Fiery Escape",
+        slot: AbilitySlot.W,
+        icon: IconPath.BTNBreathOfFire,
+        type: AttackType.Magic,
+    },
+    fireball: {
+        codeId: "A00A",
+        name: "Fireball",
+        slot: AbilitySlot.R,
+        icon: IconPath.BTNFireBolt,
         type: AttackType.Magic,
     }
 };
