@@ -1,1 +1,1 @@
-export type ISlottable<Owner> = (owner: Owner) => void;
+export type ISlottable<Owner> = (owner: Owner) => boolean;

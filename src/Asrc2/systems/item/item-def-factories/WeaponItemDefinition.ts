@@ -62,7 +62,6 @@ export class WeaponItemFactory {
         def.OnRelease = unit => {
             unit.weaponAnimationName = WeaponAnimationName.None;
             // unit.acquireRange = 200;
-            print("Dec to 0")
             unit.attackRange = 100;
             
             this.ResetDamageType(unit);

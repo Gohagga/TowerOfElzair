@@ -120,12 +120,13 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
         const res = this.AddToUnitBase(unit, extended);
         if (res) {
             const data = this.GetUnitConfig(unit);
-            const a = unit.getAbility(this.id);
+            const a = unit.getAbility(res);
             const tooltip = this.GenerateDescription(unit);
 
-            unit.setAbilityCooldown(this.id, 0, data.Cooldown);
+            unit.setAbilityCooldown(res, 0, data.Cooldown);
             BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+            return true;
         }
-        return res;
+        return false;
     }
 }

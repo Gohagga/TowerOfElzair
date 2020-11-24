@@ -13,7 +13,6 @@ export class DamageEventHandler implements IDamageEventHandler {
     Subscribe(type: ActionOrder, callback: (e: DamageEvent, sub: DamageEventSubscription) => void, filter: { source?: Unit, target?: Unit }): DamageEventSubscription;
     Subscribe(type: ActionOrder, callback: (e: DamageEvent, sub: DamageEventSubscription) => void, filter?: { source?: Unit, target?: Unit }): DamageEventSubscription {
         
-        print("Subscription")
         let newSubscription: DamageEventSubscription;
         // If filter exists, apply the thing
         if (filter && filter.source && filter.target) {

@@ -8,9 +8,13 @@ import { GroundSmash } from "./content/abilities/melee-combat/GroundSmash";
 import { Slam } from "./content/abilities/melee-combat/Slam";
 import { Sprint } from "./content/abilities/melee-combat/Sprint";
 import { Swing } from "./content/abilities/melee-combat/Swing";
+import { Backburn } from "./content/abilities/pyromancy/Backburn";
 import { FieryEscape } from "./content/abilities/pyromancy/FieryEscape";
 import { Fireball } from "./content/abilities/pyromancy/Fireball";
 import { Firebolt } from "./content/abilities/pyromancy/Firebolt";
+import { FlameBlast } from "./content/abilities/pyromancy/FlameBlast";
+import { HellTouch } from "./content/abilities/pyromancy/HellTouch";
+import { Ignition } from "./content/abilities/pyromancy/Ignition";
 import { abilityDataRecord as abData } from "./content/AbilityData";
 import { MeleeCombat } from "./content/disciplines/MeleeCombat";
 import { Pyromancy } from "./content/disciplines/Pyromancy";
@@ -45,19 +49,12 @@ export class Bootstrapper {
     
     static registerComponents() {
         
-        print(-1)
         const config = new Config();
     
-        print(0)
-
         const damageEventHandler = new DamageEventHandler();
-        print(0.1)
         const abilityEvent = new AbilityEventHandler();
-        print(0.2)
         const frameEvent = new FrameEventHandler();
-        print(0.3)
         const damageService = new DamageService(damageEventHandler);
-        print(0.4)
         const enumService = new EnumUnitService();
 
         const critManager = new CritManager(damageEventHandler);
@@ -69,7 +66,6 @@ export class Bootstrapper {
         const missileManager = new MissileManager();
         const dummyManager = new DummyManager(config.dummyOwningPlayer, config.dummyUnitId);
 
-        print(1)
         const abilityEventProvider = new AbilityEventProvider(abilityEvent);
     
         let abilities = {
@@ -84,20 +80,24 @@ export class Bootstrapper {
             battleRush: new BattleRush(abData.battleRush, damageService, abilityEvent, enumService),
 
             firebolt: new Firebolt(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
-            // fieryEscape: new FieryEscape()
+            fieryEscape: new FieryEscape(abData.fieryEscape, damageService, abilityEvent, enumService, inputManager),
+            ignition: new Ignition(abData.ignition, damageService, abilityEvent, enumService),
             fireball: new Fireball(abData.fireball, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
+
+            hellTouch: new HellTouch(abData.hellTouch, damageService, abilityEvent),
+            // fireShield,
+            // igniteWeapon,
+            // 
+
+            flameBlast: new FlameBlast(abData.flameBlast, damageService, abilityEvent, enumService, inputManager),
+            backburn: new Backburn(abData.backburn, damageService, abilityEvent, enumService, missileManager),
         }
 
-        print(2)
 
         let u = Unit.from(gg_unit_Hpal_0002);
 
-        print(3)
-
         const talentTabView = GenerateTabView(config.TalentScreen);
         const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), frameEvent, talentTabView);
-
-        print(4)
 
         const talentTreeViewBuilder = new TalentTreeViewModelBuilder()
             .SetConfig(config.talentTree)
@@ -108,21 +108,16 @@ export class Bootstrapper {
                 talentTabView.box, config.talentTree.talent))
             .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
 
-        print(5)
-
         const slotManager = new AbilitySlotManager();
         const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
-        print(6)
         tab1.tree = new MeleeCombat(u, slotManager, inputManager, abilities);
 
         const tab2 = talentTreeViewBuilder.Build();
         tab2.tree = new Pyromancy(u, slotManager, inputManager, abilities);
 
-        print(7)
         talentTabs.tabContent = [ tab1, tab2 ];
         talentTabs.activeTabIndex = 0;
 
-        print(8)
         let t = new Trigger();
         t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
         t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
@@ -134,8 +129,6 @@ export class Bootstrapper {
                     break;
             }
         });
-
-        print(9)
 
         // Factories
         const autoattackFactory = new AutoattackFactory(dummyManager, missileManager, damageService);

@@ -116,11 +116,16 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
+                let slot = this.GetSlot(bash);
                 if (this.slotManager.ApplySlot(u, bash, u => {
+                    print(this.title);
                     bash.RemoveFromUnit(u);
+                    print(4);
                     this.SetTalentLevel(1, 5, 0);
-                })) {
-                    bash.AddToUnit(u);
+                    print(5);
+                    return true;
+                }, slot)) {
+                    bash.AddToUnit(u, slot >= 4);
                     this.SetTalentLevel(1, 5, 1);
                     return true;
                 }
@@ -142,11 +147,13 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
+                let slot = this.GetSlot(sprint);
                 if (this.slotManager.ApplySlot(u, sprint, u => {
                     sprint.RemoveFromUnit(u);
                     this.SetTalentLevel(2, 5, 0);
-                })) {
-                    sprint.AddToUnit(u);
+                    return true;
+                }, slot)) {
+                    sprint.AddToUnit(u, slot >= 4);
                     this.SetTalentLevel(2, 5, 1);
                     return true;
                 }
@@ -168,11 +175,13 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
+                let slot = this.GetSlot(slam);
                 if (this.slotManager.ApplySlot(u, slam, u => {
                     slam.RemoveFromUnit(u);
                     this.SetTalentLevel(3, 5, 0);
-                })) {
-                    slam.AddToUnit(u);
+                    return true;
+                }, slot)) {
+                    slam.AddToUnit(u, slot >= 4);
                     this.SetTalentLevel(3, 5, 1);
                     return true;
                 }
@@ -196,10 +205,9 @@ export class MeleeCombat extends Discipline {
             OnAllocate: u => {
                 if (this.slotManager.ApplySlot(u, groundSmash, u => {
                     groundSmash.RemoveFromUnit(u);
-                    print("Remove from unit");
                     this.SetTalentLevel(4, 5, 0);
+                    return true;
                 })) {
-                    print("Add to unit");
                     groundSmash.AddToUnit(u);
                     this.SetTalentLevel(4, 5, 1);
                     return true;
@@ -228,11 +236,13 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
+                let slot = this.GetSlot(swing);
                 if (this.slotManager.ApplySlot(u, swing, u => {
                     swing.RemoveFromUnit(u);
                     this.SetTalentLevel(1, 4, 0);
-                })) {
-                    swing.AddToUnit(u);
+                    return true;
+                }, slot)) {
+                    swing.AddToUnit(u, slot >= 4);
                     this.SetTalentLevel(1, 4, 1);
                     return true;
                 }
@@ -254,11 +264,13 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
+                let slot = this.GetSlot(charge);
                 if (this.slotManager.ApplySlot(u, charge, u => {
                     charge.RemoveFromUnit(u);
                     this.SetTalentLevel(2, 4, 0);
-                })) {
-                    charge.AddToUnit(u);
+                    return true;
+                }, slot)) {
+                    charge.AddToUnit(u, slot >= 4);
                     this.SetTalentLevel(2, 4, 1);
                     return true;
                 }
@@ -280,11 +292,13 @@ export class MeleeCombat extends Discipline {
                 return [lvl > 0, talent.name];
             },
             OnAllocate: u => {
+                let slot = this.GetSlot(cleave);
                 if (this.slotManager.ApplySlot(u, cleave, u => {
                     cleave.RemoveFromUnit(u);
                     this.SetTalentLevel(3, 4, 0);
-                })) {
-                    cleave.AddToUnit(u);
+                    return true;
+                }, slot)) {
+                    cleave.AddToUnit(u, slot >= 4);
                     this.SetTalentLevel(3, 4, 1);
                     return true;
                 };
@@ -309,6 +323,7 @@ export class MeleeCombat extends Discipline {
                 if (this.slotManager.ApplySlot(u, battleRush, u => {
                     battleRush.RemoveFromUnit(u);
                     this.SetTalentLevel(4, 4, 0);
+                    return true;
                 })) {
                     battleRush.AddToUnit(u);
                     this.SetTalentLevel(4, 4, 1);

@@ -5,6 +5,7 @@ import { ITalentSlot } from "./interface/ITalentSlot";
 import { ITalentTreeConfig } from "./interface/ITalentTreeConfig";
 import { TalentTreeViewModel } from "./TalentTreeViewModel";
 import { IFrameEventHandler } from "Asrc2/events/handlers/frame/IFrameEventHandler";
+import { Log } from "Asrc2/systems/log/Log";
 
 export class TalentTreeViewModelBuilder {
 
@@ -22,37 +23,37 @@ export class TalentTreeViewModelBuilder {
     Build(): TalentTreeViewModel {
 
         if (!this._parentFrame) {
-            print("|cffff2222Parent frame missing.|r")
+            Log.info("|cffff2222Parent frame missing.|r")
             throw new Error("Parent frame missing.");
         }
         
         if (!this._baseView) {
-            print("|cffff2222Talent tree view missing.|r")
+            Log.info("|cffff2222Talent tree view missing.|r")
             throw new Error("Talent tree view missing.");
         }
 
         if (!this._clickHandler) {
-            print("|cffff2222Frame event handler missing.|r")
+            Log.info("|cffff2222Frame event handler missing.|r")
             throw new Error("Frame event handler missing.");
         }
         
         if (!this._talentViews) {
-            print("|cffff2222Talent views missing.|r")
+            Log.info("|cffff2222Talent views missing.|r")
             throw new Error("Talent views missing.");
         }
         
         if (!this._config) {
-            print("|cffff2222Configuration missing.|r")
+            Log.info("|cffff2222Configuration missing.|r")
             throw new Error("Configuration missing.");
         }
         
         if (!this._talentVMFactory) {
-            print("|cffff2222Talent slot factory missing.|r")
+            Log.info("|cffff2222Talent slot factory missing.|r")
             throw new Error("Talent slot factory missing.");
         }
 
         if (!this._watcher) {
-            print("|cffff2222Watching player missing.|r")
+            Log.info("|cffff2222Watching player missing.|r")
             throw new Error("Watching player missing.");
         }
         

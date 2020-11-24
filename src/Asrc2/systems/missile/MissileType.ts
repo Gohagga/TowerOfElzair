@@ -5,4 +5,5 @@ export const enum MissileType {
     Fire = 1 << 1,
     Cold = 1 << 2,
     Arrow = 1 << 3,
+    Person = 1 << 4,
 }

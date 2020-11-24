@@ -17,6 +17,12 @@ import { Discipline } from "../Discipline";
 import { Firebolt } from "../abilities/pyromancy/Firebolt";
 import { Fireball } from "../abilities/pyromancy/Fireball";
 import { InputManager } from "Asrc2/systems/input/InputManager";
+import { FieryEscape } from "../abilities/pyromancy/FieryEscape";
+import { Ignition } from "../abilities/pyromancy/Ignition";
+import { HellTouch } from "../abilities/pyromancy/HellTouch";
+import { FlameBlast } from "../abilities/pyromancy/FlameBlast";
+import { Log } from "Asrc2/systems/log/Log";
+import { Backburn } from "../abilities/pyromancy/Backburn";
 
 const { left, up, right, down } = TalentDepType;
 
@@ -34,18 +40,21 @@ export class Pyromancy extends Discipline {
         slotManager: AbilitySlotManager,
         inputManager: InputManager,
         abilities: {
-            firebolt: Firebolt, fireball: Fireball,
+            firebolt: Firebolt, fieryEscape: FieryEscape, ignition: Ignition, fireball: Fireball, 
+            hellTouch: HellTouch,
+            flameBlast: FlameBlast, backburn: Backburn
         }
     ) {
         super(unit, slotManager, inputManager);
 
-        this.InitializeTier1(abilities.firebolt, abilities.fireball);
+        this.InitializeTier1(abilities.firebolt, abilities.fieryEscape, abilities.ignition, abilities.fireball, abilities.hellTouch,
+            abilities.flameBlast);
 
-        // this.InitializeTier2();
+        this.InitializeTier2(abilities.flameBlast, abilities.backburn);
         
     }
 
-    InitializeTier2() {
+    InitializeTier2(flameBlast: FlameBlast, backburn: Backburn) {
         let dmgBonus = 7.5;
 
         // Second mastery
@@ -53,7 +62,7 @@ export class Pyromancy extends Discipline {
             Name: "Pyromancy 2",
             Cost: 1,
             Description: `Unlocks abilities and increases all physical damage done by ${dmgBonus}%.`,
-            Icon: IconPath.BTNOrcMeleeUpTwo,
+            Icon: IconPath.BTNFireBolt,
             Dependency: { [up]: 1 },
             OnAllocate: u => {
                 for (let t of this.masterySecondAbilities) {
@@ -72,16 +81,79 @@ export class Pyromancy extends Discipline {
                 return true;
             }
         });
+
+        // Flame Blast
+        this.masterySecondAbilities.push(this.AddTalent(1, 3, {
+            Name: flameBlast.name,
+            Description: flameBlast.GenerateDescription(this.unit),
+            Dependency: { [left]: -1 },
+            // Requirements: (tree, unit) => this.slotManager
+            Icon: flameBlast.icon,
+            IconDisabled: flameBlast.iconDisabled,
+            Requirements: () => {
+                const lvl = this.GetAllocatedTalentLevel(0, 3);
+                const talent = this.talents[3 * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                let slot = this.GetSlot(flameBlast);
+                Log.info("slot", slot)
+                if (this.slotManager.ApplySlot(u, flameBlast, u => {
+                    Log.info("Removing FLAME BLAST");
+                    flameBlast.RemoveFromUnit(u);
+                    this.SetTalentLevel(1, 3, 0);
+                    return true;
+                }, slot)) {
+                    flameBlast.AddToUnit(u, slot >= 4);
+                    this.SetTalentLevel(1, 3, 1);
+                    return true;
+                }
+                return false;
+            },
+            Tag: flameBlast
+        }));
+
+        // Backburn
+        this.masterySecondAbilities.push(this.AddTalent(2, 3, {
+            Name: backburn.name,
+            Description: backburn.GenerateDescription(this.unit),
+            Dependency: { [left]: -1 },
+            // Requirements: (tree, unit) => this.slotManager
+            Icon: backburn.icon,
+            IconDisabled: backburn.iconDisabled,
+            Requirements: () => {
+                const lvl = this.GetAllocatedTalentLevel(0, 3);
+                const talent = this.talents[3 * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                let slot = this.GetSlot(backburn);
+                if (this.slotManager.ApplySlot(u, backburn, u => {
+                    Log.info("Removing FLAME BLAST");
+                    backburn.RemoveFromUnit(u);
+                    this.SetTalentLevel(2, 3, 0);
+                    return true;
+                }, slot)) {
+                    backburn.AddToUnit(u, slot >= 4);
+                    this.SetTalentLevel(2, 3, 1);
+                    return true;
+                }
+                return false;
+            },
+            Tag: flameBlast
+        }));
     }
 
-    InitializeTier1(firebolt: Firebolt, fireball: Fireball) {
+    InitializeTier1(firebolt: Firebolt, fieryEscape: FieryEscape, ignition: Ignition, fireball: Fireball,
+        hellTouch: HellTouch,
+        flameBlast: FlameBlast) {
 
         let dmgBonus = 7.5;
         let mastery1 = this.AddTalent(0, 5, {
             Name: "Pyromancy 1",
             Cost: 1,
             Description: `Unlocks abilities and increases all physical damage done by ${dmgBonus}%.`,
-            Icon: IconPath.BTNOrcMeleeUpOne,
+            Icon: IconPath.BTNFireBolt,
             OnAllocate: u => {
                 for (let t of this.masteryFirstAbilities) {
                     if (t.dependency) t.dependency[left] = 0;
@@ -116,8 +188,10 @@ export class Pyromancy extends Discipline {
             OnAllocate: u => {
                 let slot = this.GetSlot(firebolt);
                 if (this.slotManager.ApplySlot(u, firebolt, u => {
+                    Log.info("Removing FIREBOLT");
                     firebolt.RemoveFromUnit(u);
                     this.SetTalentLevel(1, 5, 0);
+                    return true;
                 }, slot)) {
                     firebolt.AddToUnit(u, slot >= 4);
                     this.SetTalentLevel(1, 5, 1);
@@ -128,59 +202,63 @@ export class Pyromancy extends Discipline {
             Tag: firebolt
         }));
 
-        // Sprint 2, 5
-        // this.masteryFirstAbilities.push(this.AddTalent(2, 5, {
-        //     Name: sprint.name,
-        //     Description: sprint.GenerateDescription(this.unit),
-        //     Dependency: { [left]: -1 },
-        //     Icon: sprint.icon,
-        //     IconDisabled: sprint.iconDisabled,
-        //     Requirements: () => {
-        //         const lvl = this.GetAllocatedTalentLevel(0, 5);
-        //         const talent = this.talents[5 * this.columns];
-        //         return [lvl > 0, talent.name];
-        //     },
-        //     OnAllocate: u => {
-        //         if (this.slotManager.ApplySlot(u, sprint, u => {
-        //             sprint.RemoveFromUnit(u);
-        //             this.SetTalentLevel(2, 5, 0);
-        //         })) {
-        //             sprint.AddToUnit(u);
-        //             this.SetTalentLevel(2, 5, 1);
-        //             return true;
-        //         }
-        //         return false;
-        //     },
-        //     Tag: sprint
-        // }));
+        // Fiery Escape 2, 5
+        this.masteryFirstAbilities.push(this.AddTalent(2, 5, {
+            Name: fieryEscape.name,
+            Description: fieryEscape.GenerateDescription(this.unit),
+            Dependency: { [left]: -1 },
+            Icon: fieryEscape.icon,
+            IconDisabled: fieryEscape.iconDisabled,
+            Requirements: () => {
+                const lvl = this.GetAllocatedTalentLevel(0, 5);
+                const talent = this.talents[5 * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                let slot = this.GetSlot(fieryEscape);
+                if (this.slotManager.ApplySlot(u, fieryEscape, u => {
+                    fieryEscape.RemoveFromUnit(u);
+                    this.SetTalentLevel(2, 5, 0);
+                    return true;
+                }, slot)) {
+                    fieryEscape.AddToUnit(u, slot >= 4);
+                    this.SetTalentLevel(2, 5, 1);
+                    return true;
+                }
+                return false;
+            },
+            Tag: fieryEscape
+        }));
 
-        // // Slam
-        // this.masteryFirstAbilities.push(this.AddTalent(3, 5, {
-        //     Name: slam.name,
-        //     Description: slam.GenerateDescription(this.unit),
-        //     Dependency: { [left]: -1 },
-        //     Icon: slam.icon,
-        //     IconDisabled: slam.iconDisabled,
-        //     Requirements: () => {
-        //         const lvl = this.GetAllocatedTalentLevel(0, 5);
-        //         const talent = this.talents[5 * this.columns];
-        //         return [lvl > 0, talent.name];
-        //     },
-        //     OnAllocate: u => {
-        //         if (this.slotManager.ApplySlot(u, slam, u => {
-        //             slam.RemoveFromUnit(u);
-        //             this.SetTalentLevel(3, 5, 0);
-        //         })) {
-        //             slam.AddToUnit(u);
-        //             this.SetTalentLevel(3, 5, 1);
-        //             return true;
-        //         }
-        //         return false;
-        //     },
-        //     Tag: slam
-        // }));
+        // Ignition
+        this.masteryFirstAbilities.push(this.AddTalent(3, 5, {
+            Name: ignition.name,
+            Description: ignition.GenerateDescription(this.unit),
+            Dependency: { [left]: -1 },
+            Icon: ignition.icon,
+            IconDisabled: ignition.iconDisabled,
+            Requirements: () => {
+                const lvl = this.GetAllocatedTalentLevel(0, 5);
+                const talent = this.talents[5 * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                let slot = this.GetSlot(ignition);
+                if (this.slotManager.ApplySlot(u, ignition, u => {
+                    ignition.RemoveFromUnit(u);
+                    this.SetTalentLevel(3, 5, 0);
+                    return true;
+                }, slot)) {
+                    ignition.AddToUnit(u, slot >= 4);
+                    this.SetTalentLevel(3, 5, 1);
+                    return true;
+                }
+                return false;
+            },
+            Tag: ignition
+        }));
 
-        // Ground Smash
+        // Fireball
         this.masteryFirstAbilities.push(this.AddTalent(4, 5, {
             Name: fireball.name,
             Description: fireball.GenerateDescription(this.unit),
@@ -195,10 +273,9 @@ export class Pyromancy extends Discipline {
             OnAllocate: u => {
                 if (this.slotManager.ApplySlot(u, fireball, u => {
                     fireball.RemoveFromUnit(u);
-                    print("Remove from unit");
                     this.SetTalentLevel(4, 5, 0);
-                }, this.GetSlot(fireball))) {
-                    print("Add to unit");
+                    return true;
+                })) {
                     fireball.AddToUnit(u);
                     this.SetTalentLevel(4, 5, 1);
                     return true;
@@ -208,37 +285,39 @@ export class Pyromancy extends Discipline {
             Tag: fireball
         }));
 
-        // this.AddTalent(0, 4, {
-        //     Name: "Pyromancy 1",
-        //     IsLink: true,
-        //     Dependency: { [up]: 1 },
-        // });
+        this.AddTalent(0, 4, {
+            Name: "Pyromancy 1",
+            IsLink: true,
+            Dependency: { [up]: 1 },
+        });
 
-        // // Swing
-        // this.masteryFirstAbilities.push(this.AddTalent(1, 4, {
-        //     Name: swing.name,
-        //     Description: swing.GenerateDescription(this.unit),
-        //     Dependency: { [left]: -1 },
-        //     Icon: swing.icon,
-        //     IconDisabled: swing.iconDisabled,
-        //     Requirements: () => {
-        //         const lvl = this.GetAllocatedTalentLevel(0, 4);
-        //         const talent = this.talents[4 * this.columns];
-        //         return [lvl > 0, talent.name];
-        //     },
-        //     OnAllocate: u => {
-        //         if (this.slotManager.ApplySlot(u, swing, u => {
-        //             swing.RemoveFromUnit(u);
-        //             this.SetTalentLevel(1, 4, 0);
-        //         })) {
-        //             swing.AddToUnit(u);
-        //             this.SetTalentLevel(1, 4, 1);
-        //             return true;
-        //         }
-        //         return false;
-        //     },
-        //     Tag: swing
-        // }));
+        // Hell Touch
+        this.masteryFirstAbilities.push(this.AddTalent(1, 4, {
+            Name: hellTouch.name,
+            Description: hellTouch.GenerateDescription(this.unit),
+            Dependency: { [left]: -1 },
+            Icon: hellTouch.icon,
+            IconDisabled: hellTouch.iconDisabled,
+            Requirements: () => {
+                const lvl = this.GetAllocatedTalentLevel(0, 4);
+                const talent = this.talents[4 * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                let slot = this.GetSlot(hellTouch);
+                if (this.slotManager.ApplySlot(u, hellTouch, u => {
+                    hellTouch.RemoveFromUnit(u);
+                    this.SetTalentLevel(1, 4, 0);
+                    return true;
+                }, slot)) {
+                    hellTouch.AddToUnit(u, slot >= 4);
+                    this.SetTalentLevel(1, 4, 1);
+                    return true;
+                }
+                return false;
+            },
+            Tag: hellTouch
+        }));
 
         // // Charge
         // this.masteryFirstAbilities.push(this.AddTalent(2, 4, {

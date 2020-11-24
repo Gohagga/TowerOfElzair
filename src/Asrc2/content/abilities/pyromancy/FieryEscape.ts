@@ -15,7 +15,7 @@ import { Effect } from "w3ts/index";
 
 export type FieryEscapeConfig = {
     Damage: number,
-    Range: number,
+    Radius: number,
     Cost: number,
     Cooldown: number,
     Speed: number,
@@ -25,7 +25,7 @@ export class FieryEscape extends Ability implements IUnitConfigurable<FieryEscap
 
     private unitConfig = new UnitConfigurable<FieryEscapeConfig>({
         Damage: 20,
-        Range: 1000,
+        Radius: 200,
         Cost: 13,
         Cooldown: 8,
         Speed: 1200,
@@ -40,6 +40,7 @@ export class FieryEscape extends Ability implements IUnitConfigurable<FieryEscap
     ) {
         super(data, damageService);
         abilityEvent.OnAbilityEffect(this.id, e => this.Execute(e));
+        if (this.extId) abilityEvent.OnAbilityEffect(this.extId, e => this.Execute(e));
     }
 
     Execute(e: AbilityEvent) {
@@ -49,17 +50,18 @@ export class FieryEscape extends Ability implements IUnitConfigurable<FieryEscap
         const data = this.GetUnitConfig(e.caster);
 
         let { x, y } = caster;
-        new Effect(ModelPath.RainOfFire, x, y).destroy();
+        new Effect(ModelPath.Rocket, x, y).destroy();
 
-        const targets = this.enumService.EnumUnitsInRange(caster.point, 100, target =>
+        const targets = this.enumService.EnumUnitsInRange(caster.point, 200, target =>
             target.isAlly(owner) == false &&
             target.isAlive());
 
         if (targets.length > 0) {
+            Log.info("targets", targets.length);
             for (let t of targets) {
-                
+                Log.info(t.name);
                 this.damageService.UnitDamageTarget(caster, t, data.Damage, this.type, DamageType.Fire);
-                t.addEffect(ModelPath.Incinerate, "origin").destroy();
+                t.addEffect(ModelPath.ArchmageFireball, "origin").destroy();
             }
         }
 
@@ -81,16 +83,17 @@ export class FieryEscape extends Ability implements IUnitConfigurable<FieryEscap
     GetUnitConfig = (unit: Unit) => this.unitConfig.GetUnitConfig(unit);
     UpdateUnitConfig = (unit: Unit, cb: (config: FieryEscapeConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
 
-    AddToUnit(unit: Unit): boolean {
-        const res = unit.addAbility(this.id);
+    AddToUnit(unit: Unit, extended?: boolean): boolean {
+        const res = this.AddToUnitBase(unit, extended);
         if (res) {
             const data = this.GetUnitConfig(unit);
-            const a = unit.getAbility(this.id);
+            const a = unit.getAbility(res);
             const tooltip = this.GenerateDescription(unit);
 
             unit.setAbilityCooldown(this.id, 0, data.Cooldown);
             BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+            return true;
         }
-        return res;
+        return false;
     }
 }

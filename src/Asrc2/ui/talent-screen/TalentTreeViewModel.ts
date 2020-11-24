@@ -1,4 +1,5 @@
 import { IFrameEventHandler } from "Asrc2/events/handlers/frame/IFrameEventHandler";
+import { Log } from "Asrc2/systems/log/Log";
 import { Talent } from "Asrc2/systems/talent/Talent";
 import { TalentDepType } from "Asrc2/systems/talent/TalentDependency";
 import { TalentState } from "Asrc2/systems/talent/TalentState";
@@ -59,10 +60,8 @@ export class TalentTreeViewModel implements ITabContent {
 
     OnTalentClicked(slot: ITalentSlot, index: number) {
         
-        print(this.tree?.title, this._watched, slot.talent)
         if (!this._watched || !slot.talent || !this._tree) return;
 
-        print(2)
         let tempState = this._tree.tempRankState[index];
         if (this._tree.pointsAvailable >= slot.talent.cost && tempState < slot.talent.maxRank) {
 
@@ -78,7 +77,7 @@ export class TalentTreeViewModel implements ITabContent {
         if (MapPlayer.fromEvent() != this._watcher) return;
         if (!this._tree || !this._watched) return;
 
-        print("Saving talent choices");
+        Log.info("Saving talent choices");
 
         this._tree.SaveTalentRankState();
 
@@ -194,10 +193,8 @@ export class TalentTreeViewModel implements ITabContent {
     Show(button: Frame): void {
 
         this._watched = true;
-        print(this._tree?.title, "watched?", this._watched);
         if (!this._tree) return;
         
-        print("Tree exists, we will not return...");
         // Reorganize the talents
         const tree = this._tree;
         const talents = tree.talents;
@@ -206,8 +203,6 @@ export class TalentTreeViewModel implements ITabContent {
         
         let xIncrem = (this._config.box.width * (1 - this._config.base.sideMargin)) / (cols + 1);
         let yIncrem = (this._config.box.height * (1 - this._config.base.verticalMargin)) / (rows + 1);
-        
-        print("Increments calculated", xIncrem, yIncrem);
         
         // Get max talent count
         let maxTalents = this._slots.length
@@ -235,12 +230,11 @@ export class TalentTreeViewModel implements ITabContent {
         
         this._confirm.mainButton.visible = true;
         this._cancel.mainButton.visible = true;
-        print("Confirm and cancel buttons shown.");
+        // Log.info("Confirm and cancel buttons shown.");
     }
 
     Hide(button: Frame): void {
         this._watched = false;
-        print(this._tree?.title, "watched?", this._watched);
 
         for (let i = 0; i < this._slots.length; i++) {
             this._slots[i].visible = false;

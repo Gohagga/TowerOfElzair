@@ -31,19 +31,13 @@ export class DamageService implements IDamageService {
         const curr = target.mana;
         let overflow = curr + event.strain - max;
 
-        print("overflow: ", overflow);
-        
         if (overflow > 0) {
-            print(1)
             target.mana = max;
 
-            print(2)
             // Handle overflow
             if (event.attackType == AttackType.Magic) {
-                print(2.1)
                 // Dummy cast something
             } else if (event.attackType == AttackType.Physical) {
-                print(2.2)
                 // True damage, never change this damage type to Bludgeon because of an infinite loop
                 Log.info("Causing damage to unit", overflow)
                 this.UnitDamageTarget(target, target, overflow, AttackType.Untyped, DamageType.Strain, false);
@@ -104,7 +98,7 @@ export class DamageService implements IDamageService {
         });
 
         event = this.damageEventHandler.Register(event);
-        print("DAMAGING TARGET FOR", event.damage);
+        Log.info("DAMAGING TARGET FOR", event.damage);
         source.damageTarget(event.targetUnit.handle, event.damage, 0, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
     }
 

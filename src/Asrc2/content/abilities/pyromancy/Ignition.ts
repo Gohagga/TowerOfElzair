@@ -1,3 +1,4 @@
+import { ModelPath } from "Asrc2/config/ModelPath";
 import { AbilityEvent } from "Asrc2/events/handlers/ability/AbilityEvent";
 import { AbilityEventHandler } from "Asrc2/events/handlers/ability/AbilityEventHandler";
 import { IAbilityEventHandler } from "Asrc2/events/handlers/ability/IAbilityEventHandler";
@@ -8,25 +9,32 @@ import { Ability } from "Asrc2/systems/ability/Ability";
 import { AbilityData } from "Asrc2/systems/ability/AbilityData";
 import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
+import { DummyManager } from "Asrc2/systems/dummy/DummyManager";
+import { InputManager } from "Asrc2/systems/input/InputManager";
+import { Log } from "Asrc2/systems/log/Log";
+import { Missile } from "Asrc2/systems/missile/Missile";
+import { MissileManager } from "Asrc2/systems/missile/MissileManager";
+import { MissileType } from "Asrc2/systems/missile/MissileType";
 import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigurable";
 import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
+import { Effect, Timer } from "w3ts/index";
 
-export type GroundSmashConfig = {
+export type IgnitionConfig = {
     Damage: number,
-    IsAoeAttack: boolean,
-    Range: number,
+    Radius: number,
     Cost: number,
     Cooldown: number,
+    Speed: number,
 }
 
-export class GroundSmash extends Ability implements IUnitConfigurable<GroundSmashConfig> {
+export class Ignition extends Ability implements IUnitConfigurable<IgnitionConfig> {
 
-    private unitConfig = new UnitConfigurable<GroundSmashConfig>({
-        Damage: 45,
-        IsAoeAttack: false,
-        Range: 0,
-        Cost: 45,
-        Cooldown: 15,
+    public unitConfig = new UnitConfigurable<IgnitionConfig>({
+        Damage: 20,
+        Radius: 250,
+        Cost: 13,
+        Cooldown: 1.75,
+        Speed: 1200,
     });
 
     constructor(
@@ -37,42 +45,29 @@ export class GroundSmash extends Ability implements IUnitConfigurable<GroundSmas
     ) {
         super(data, damageService);
         abilityEvent.OnAbilityEffect(this.id, e => this.Execute(e));
+        if (this.extId) abilityEvent.OnAbilityEffect(this.extId, e => this.Execute(e));
     }
 
     Execute(e: AbilityEvent) {
         
         const caster = e.caster;
-        const target = e.targetUnit;
+        const owner = caster.owner;
         const data = this.GetUnitConfig(e.caster);
 
-        if (data.IsAoeAttack) {
-
-            let targets = this.enumService.EnumUnitsInRange(e.caster.point, data.Range, (target: Unit) => 
-                    target.isAlive() &&
-                    target.isUnitType(UNIT_TYPE_PEON)
-            );
-
-            for (let t of targets) {
-                // this.damageService.UnitDamageTarget(e.caster, t, data.Damage, DamageType.Magical);
-            }
-        }
-        
+        let { x, y } = e.targetPoint;
+        let effect = new Effect(ModelPath.Damnation, x, y);
         this.damageService.UnitDamageTarget(e.caster, e.targetUnit, AttackType.Physical, data.Damage, DamageType.Bludgeon);
-
-        this.UpdateUnitConfig(e.caster,
-            config => config.Damage += 5);
-        
         this.ApplyCost(caster, data.Cost);
     }
 
-    GetUnitConfig = (unit: Unit) => this.unitConfig.GetUnitConfig(unit);
-    UpdateUnitConfig = (unit: Unit, cb: (config: GroundSmashConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
-
     GenerateDescription(unit: Unit): string {
         const desc = 
-`GroundSmashes the target in.`;
+`Ignitions the target in.`;
         return desc;
     }
+
+    GetUnitConfig = (unit: Unit) => this.unitConfig.GetUnitConfig(unit);
+    UpdateUnitConfig = (unit: Unit, cb: (config: IgnitionConfig) => void) => this.unitConfig.UpdateUnitConfig(unit, cb);
 
     AddToUnit(unit: Unit, extended?: boolean): boolean {
         const res = this.AddToUnitBase(unit, extended);
@@ -83,6 +78,7 @@ export class GroundSmash extends Ability implements IUnitConfigurable<GroundSmas
 
             unit.setAbilityCooldown(res, 0, data.Cooldown);
             BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+            BlzSetAbilityRealLevelField(a, ABILITY_RLF_AREA_OF_EFFECT, 0, data.Radius);
             return true;
         }
         return false;

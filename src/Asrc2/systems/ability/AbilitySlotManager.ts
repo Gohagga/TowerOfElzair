@@ -1,5 +1,7 @@
+import { Constants } from "Asrc2/config/Constants";
 import { Unit } from "Asrc2/models/Unit";
 import { Timer } from "w3ts/index";
+import { Log } from "../log/Log";
 import { ISlotManager } from "../slot/ISlotManager";
 import { ISlottable } from "../slot/ISlottable";
 import { UnitSlotManager } from "../slot/UnitSlotManager";
@@ -29,14 +31,15 @@ export class AbilitySlotManager {
             release
         };
 
-        print("SLOT", slot);
+        Log.info("SLOT", slot);
 
         // if (!slot) slot = ability.slot;
         let unitSlots = this._instances[owner.id] || {} as Record<AbilitySlot, AbilitySlotItem>;
-        if (slot in unitSlots) unitSlots[slot].release(owner);
+        if (slot in unitSlots) {
+            if (unitSlots[slot].release(owner) == false) return false;
+        }
 
         unitSlots[slot] = item;
-
         this._instances[owner.id] = unitSlots;
         
         // Start all unit's ability cooldown with 10 seconds
@@ -46,8 +49,8 @@ export class AbilitySlotManager {
                 let extId = unitSlots[s].ability.extId;
                 let abilityId = s >= 4 && extId ? extId : unitSlots[s].ability.id;
 
-                if (owner.getAbilityCooldownRemaining(abilityId, 0) < 10) {
-                    owner.startAbilityCooldown(abilityId, 10);
+                if (owner.getAbilityCooldownRemaining(abilityId, 0) < Constants.AbilitySwapCooldown) {
+                    owner.startAbilityCooldown(abilityId, Constants.AbilitySwapCooldown);
                 }
             }
         });

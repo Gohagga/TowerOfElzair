@@ -36,7 +36,6 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
         private enumService: IEnumUnitService
     ) {
         super(data, damageService);
-        print(this.id);
         abilityEvent.OnAbilityEffect(this.id, e => this.Execute(e));
     }
 
@@ -58,16 +57,17 @@ export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
         return desc;
     }
 
-    AddToUnit(unit: Unit): boolean {
-        const res = unit.addAbility(this.id);
+    AddToUnit(unit: Unit, extended?: boolean): boolean {
+        const res = this.AddToUnitBase(unit, extended);
         if (res) {
             const data = this.GetUnitConfig(unit);
-            const a = unit.getAbility(this.id);
+            const a = unit.getAbility(res);
             const tooltip = this.GenerateDescription(unit);
 
-            unit.setAbilityCooldown(this.id, 0, data.Cooldown);
+            unit.setAbilityCooldown(res, 0, data.Cooldown);
             BlzSetAbilityStringLevelField(a, ABILITY_SLF_TOOLTIP_NORMAL_EXTENDED, 0, tooltip);
+            return true;
         }
-        return res;
+        return false;
     }
 }

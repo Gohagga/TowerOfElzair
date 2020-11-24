@@ -11,13 +11,9 @@ export class UnitConfigurable<T> implements IUnitConfigurable<T>{
 
     public GetUnitConfig(unit: Unit): T {
         const id = unit.id;
-        print(id);
-        print(this);
-        print(typeof(this.instances));
         if (id in this.instances) {
             return this.instances[id];
         }
-        print("yes");
         return this.defaultValue;
     }
 
