@@ -291,3 +291,237 @@ STRING 55
 D
 }
 
+STRING 56
+// Abilities: A00D (Fiery Escape), Name (Name)
+{
+Fiery Escape
+}
+
+STRING 60
+// Abilities: A00C (Fiery Escape), Name (Name)
+{
+Fiery Escape
+}
+
+STRING 64
+// Abilities: A00D (Fiery Escape), Hotkey (Hotkey - Normal)
+{
+F
+}
+
+STRING 65
+// Abilities: A00E (Ignition), Name (Name)
+{
+Ignition
+}
+
+STRING 66
+// Abilities: A00E (Ignition), Hotkey (Hotkey - Normal)
+{
+F
+}
+
+STRING 67
+// Abilities: A00F (Ignition), Name (Name)
+{
+Ignition
+}
+
+STRING 68
+// Abilities: A00F (Ignition), Hotkey (Hotkey - Normal)
+{
+E
+}
+
+STRING 69
+// Abilities: A00G (Hell Touch), Name (Name)
+{
+Hell Touch
+}
+
+STRING 70
+// Abilities: A00G (Hell Touch), Hotkey (Hotkey - Normal)
+{
+Q
+}
+
+STRING 71
+// Abilities: A00H (Bash), Name (Name)
+{
+Bash
+}
+
+STRING 72
+// Abilities: A00H (Bash), Hotkey (Hotkey - Normal)
+{
+D
+}
+
+STRING 73
+// Abilities: A00I (Hell Touch), Name (Name)
+{
+Hell Touch
+}
+
+STRING 74
+// Abilities: A00I (Hell Touch), Hotkey (Hotkey - Normal)
+{
+D
+}
+
+STRING 75
+// Abilities: A00J (Flame Blast), Name (Name)
+{
+Flame Blast
+}
+
+STRING 76
+// Abilities: A00J (Flame Blast), Hotkey (Hotkey - Normal)
+{
+D
+}
+
+STRING 77
+// Abilities: A00K (Flame Blast), Name (Name)
+{
+Flame Blast
+}
+
+STRING 78
+// Abilities: A00K (Flame Blast), Hotkey (Hotkey - Normal)
+{
+Q
+}
+
+STRING 79
+// Abilities: A00L (Cleave), Name (Name)
+{
+Cleave
+}
+
+STRING 80
+// Abilities: A00L (Cleave), Hotkey (Hotkey - Normal)
+{
+G
+}
+
+STRING 81
+// Abilities: A00M (Slam), Name (Name)
+{
+Slam
+}
+
+STRING 82
+// Abilities: A00M (Slam), Hotkey (Hotkey - Normal)
+{
+G
+}
+
+STRING 83
+// Abilities: A00N (Sprint), Name (Name)
+{
+Sprint
+}
+
+STRING 84
+// Abilities: A00N (Sprint), Hotkey (Hotkey - Normal)
+{
+F
+}
+
+STRING 85
+// Abilities: A00N (Sprint), Researchhotkey (Hotkey - Learn)
+{
+F
+}
+
+STRING 86
+// Abilities: A00N (Sprint), Unhotkey (Hotkey - Turn Off)
+{
+F
+}
+
+STRING 87
+// Abilities: A00O (Swing), Name (Name)
+{
+Swing
+}
+
+STRING 88
+// Abilities: A00O (Swing), Hotkey (Hotkey - Normal)
+{
+D
+}
+
+STRING 89
+// Abilities: A00P (Charge), Name (Name)
+{
+Charge
+}
+
+STRING 90
+// Abilities: A00P (Charge), Hotkey (Hotkey - Normal)
+{
+F
+}
+
+STRING 91
+// Abilities: A00Q (W Template), Hotkey (Hotkey - Normal)
+{
+W
+}
+
+STRING 92
+// Abilities: A00Q (W Template), Name (Name)
+{
+W Template
+}
+
+STRING 93
+// Abilities: A00R (F Template), Hotkey (Hotkey - Normal)
+{
+F
+}
+
+STRING 94
+// Abilities: A00R (F Template), Unhotkey (Hotkey - Turn Off)
+{
+F
+}
+
+STRING 95
+// Abilities: A00R (F Template), Name (Name)
+{
+F Template
+}
+
+STRING 96
+// Abilities: A00S (Backburn), Hotkey (Hotkey - Normal)
+{
+W
+}
+
+STRING 97
+// Abilities: A00S (Backburn), Name (Name)
+{
+Backburn
+}
+
+STRING 98
+// Abilities: A00T (Backburn), Hotkey (Hotkey - Normal)
+{
+F
+}
+
+STRING 99
+// Abilities: A00T (Backburn), Unhotkey (Hotkey - Turn Off)
+{
+F
+}
+
+STRING 100
+// Abilities: A00T (Backburn), Name (Name)
+{
+Backburn
+}
+
