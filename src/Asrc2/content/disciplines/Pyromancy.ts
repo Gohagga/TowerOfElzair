@@ -23,6 +23,8 @@ import { HellTouch } from "../abilities/pyromancy/HellTouch";
 import { FlameBlast } from "../abilities/pyromancy/FlameBlast";
 import { Log } from "Asrc2/systems/log/Log";
 import { Backburn } from "../abilities/pyromancy/Backburn";
+import { FireShield } from "../abilities/pyromancy/FireShield";
+import { IgniteWeapon } from "../abilities/pyromancy/IgniteWeapon";
 
 const { left, up, right, down } = TalentDepType;
 
@@ -41,14 +43,14 @@ export class Pyromancy extends Discipline {
         inputManager: InputManager,
         abilities: {
             firebolt: Firebolt, fieryEscape: FieryEscape, ignition: Ignition, fireball: Fireball, 
-            hellTouch: HellTouch,
+            hellTouch: HellTouch, fireShield: FireShield, igniteWeapon: IgniteWeapon,
             flameBlast: FlameBlast, backburn: Backburn
         }
     ) {
         super(unit, slotManager, inputManager);
 
-        this.InitializeTier1(abilities.firebolt, abilities.fieryEscape, abilities.ignition, abilities.fireball, abilities.hellTouch,
-            abilities.flameBlast);
+        this.InitializeTier1(abilities.firebolt, abilities.fieryEscape, abilities.ignition, abilities.fireball, 
+            abilities.hellTouch, abilities.fireShield, abilities.igniteWeapon);
 
         this.InitializeTier2(abilities.flameBlast, abilities.backburn);
         
@@ -145,8 +147,7 @@ export class Pyromancy extends Discipline {
     }
 
     InitializeTier1(firebolt: Firebolt, fieryEscape: FieryEscape, ignition: Ignition, fireball: Fireball,
-        hellTouch: HellTouch,
-        flameBlast: FlameBlast) {
+        hellTouch: HellTouch, fireShield: FireShield, igniteWeapon: IgniteWeapon) {
 
         let dmgBonus = 7.5;
         let mastery1 = this.AddTalent(0, 5, {
@@ -319,57 +320,61 @@ export class Pyromancy extends Discipline {
             Tag: hellTouch
         }));
 
-        // // Charge
-        // this.masteryFirstAbilities.push(this.AddTalent(2, 4, {
-        //     Name: charge.name,
-        //     Description: charge.GenerateDescription(this.unit),
-        //     Dependency: { [left]: -1 },
-        //     Icon: charge.icon,
-        //     IconDisabled: charge.iconDisabled,
-        //     Requirements: () => {
-        //         const lvl = this.GetAllocatedTalentLevel(0, 4);
-        //         const talent = this.talents[4 * this.columns];
-        //         return [lvl > 0, talent.name];
-        //     },
-        //     OnAllocate: u => {
-        //         if (this.slotManager.ApplySlot(u, charge, u => {
-        //             charge.RemoveFromUnit(u);
-        //             this.SetTalentLevel(2, 4, 0);
-        //         })) {
-        //             charge.AddToUnit(u);
-        //             this.SetTalentLevel(2, 4, 1);
-        //             return true;
-        //         }
-        //         return false;
-        //     },
-        //     Tag: charge
-        // }));
+        // Fire Shield
+        this.masteryFirstAbilities.push(this.AddTalent(2, 4, {
+            Name: fireShield.name,
+            Description: fireShield.GenerateDescription(this.unit),
+            Dependency: { [left]: -1 },
+            Icon: fireShield.icon,
+            IconDisabled: fireShield.iconDisabled,
+            Requirements: () => {
+                const lvl = this.GetAllocatedTalentLevel(0, 4);
+                const talent = this.talents[4 * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                let slot = this.GetSlot(fireShield);
+                if (this.slotManager.ApplySlot(u, fireShield, u => {
+                    fireShield.RemoveFromUnit(u);
+                    this.SetTalentLevel(2, 4, 0);
+                    return true;
+                }, slot)) {
+                    fireShield.AddToUnit(u, slot >= 4);
+                    this.SetTalentLevel(2, 4, 1);
+                    return true;
+                }
+                return false;
+            },
+            Tag: fireShield
+        }));
 
-        // // Cleave
-        // this.masteryFirstAbilities.push(this.AddTalent(3, 4, {
-        //     Name: cleave.name,
-        //     Description: cleave.GenerateDescription(this.unit),
-        //     Dependency: { [left]: -1 },
-        //     Icon: cleave.icon,
-        //     IconDisabled: cleave.iconDisabled,
-        //     Requirements: () => {
-        //         const lvl = this.GetAllocatedTalentLevel(0, 4);
-        //         const talent = this.talents[4 * this.columns];
-        //         return [lvl > 0, talent.name];
-        //     },
-        //     OnAllocate: u => {
-        //         if (this.slotManager.ApplySlot(u, cleave, u => {
-        //             cleave.RemoveFromUnit(u);
-        //             this.SetTalentLevel(3, 4, 0);
-        //         })) {
-        //             cleave.AddToUnit(u);
-        //             this.SetTalentLevel(3, 4, 1);
-        //             return true;
-        //         };
-        //         return false;
-        //     },
-        //     Tag: cleave
-        // }));
+        // Ignite Weapon
+        this.masteryFirstAbilities.push(this.AddTalent(3, 4, {
+            Name: igniteWeapon.name,
+            Description: igniteWeapon.GenerateDescription(this.unit),
+            Dependency: { [left]: -1 },
+            Icon: igniteWeapon.icon,
+            IconDisabled: igniteWeapon.iconDisabled,
+            Requirements: () => {
+                const lvl = this.GetAllocatedTalentLevel(0, 4);
+                const talent = this.talents[4 * this.columns];
+                return [lvl > 0, talent.name];
+            },
+            OnAllocate: u => {
+                let slot = this.GetSlot(igniteWeapon);
+                if (this.slotManager.ApplySlot(u, igniteWeapon, u => {
+                    igniteWeapon.RemoveFromUnit(u);
+                    this.SetTalentLevel(3, 4, 0);
+                    return true;
+                }, slot)) {
+                    igniteWeapon.AddToUnit(u, slot >= 4);
+                    this.SetTalentLevel(3, 4, 1);
+                    return true;
+                }
+                return false;
+            },
+            Tag: igniteWeapon
+        }));
 
         // // Battle Rush
         // this.masteryFirstAbilities.push(this.AddTalent(4, 4, {

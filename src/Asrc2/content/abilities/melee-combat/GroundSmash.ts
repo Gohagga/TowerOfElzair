@@ -21,13 +21,13 @@ export type GroundSmashConfig = {
 
 export class GroundSmash extends Ability implements IUnitConfigurable<GroundSmashConfig> {
 
-    private unitConfig = new UnitConfigurable<GroundSmashConfig>({
+    private unitConfig = new UnitConfigurable<GroundSmashConfig>(() => { return {
         Damage: 45,
         IsAoeAttack: false,
         Range: 0,
         Cost: 45,
         Cooldown: 15,
-    });
+    }});
 
     constructor(
         data: AbilityData,

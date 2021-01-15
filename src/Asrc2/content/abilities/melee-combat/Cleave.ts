@@ -22,13 +22,13 @@ export type CleaveConfig = {
 
 export class Cleave extends Ability implements IUnitConfigurable<CleaveConfig> {
 
-    private unitConfig = new UnitConfigurable<CleaveConfig>({
+    private unitConfig = new UnitConfigurable<CleaveConfig>(() => { return {
         Damage: 30,
         Range: 200,
         AngleRange: 120,
         Cost: 30,
         Cooldown: 4,
-    });
+    }});
 
     constructor(
         data: AbilityData,

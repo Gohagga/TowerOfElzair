@@ -12,8 +12,10 @@ import { Backburn } from "./content/abilities/pyromancy/Backburn";
 import { FieryEscape } from "./content/abilities/pyromancy/FieryEscape";
 import { Fireball } from "./content/abilities/pyromancy/Fireball";
 import { Firebolt } from "./content/abilities/pyromancy/Firebolt";
+import { FireShield } from "./content/abilities/pyromancy/FireShield";
 import { FlameBlast } from "./content/abilities/pyromancy/FlameBlast";
 import { HellTouch } from "./content/abilities/pyromancy/HellTouch";
+import { IgniteWeapon } from "./content/abilities/pyromancy/IgniteWeapon";
 import { Ignition } from "./content/abilities/pyromancy/Ignition";
 import { abilityDataRecord as abData } from "./content/AbilityData";
 import { MeleeCombat } from "./content/disciplines/MeleeCombat";
@@ -51,15 +53,16 @@ export class Bootstrapper {
         
         const config = new Config();
     
+        const damageDisplayManager = new DamageDisplayManager();
+
         const damageEventHandler = new DamageEventHandler();
         const abilityEvent = new AbilityEventHandler();
         const frameEvent = new FrameEventHandler();
-        const damageService = new DamageService(damageEventHandler);
+        const damageService = new DamageService(damageEventHandler, damageDisplayManager);
         const enumService = new EnumUnitService();
 
         const critManager = new CritManager(damageEventHandler);
-        const damageDisplayManager = new DamageDisplayManager(damageEventHandler);
-        const autoattackEventProvider = new AutoattackEventProvider(damageEventHandler);
+        const autoattackEventProvider = new AutoattackEventProvider(damageEventHandler, damageDisplayManager);
         const bludgeonDamageManager = new BludgeonDamageManager(damageService, damageEventHandler);
 
         const inputManager = new InputManager(10);
@@ -85,8 +88,8 @@ export class Bootstrapper {
             fireball: new Fireball(abData.fireball, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
 
             hellTouch: new HellTouch(abData.hellTouch, damageService, abilityEvent),
-            // fireShield,
-            // igniteWeapon,
+            fireShield: new FireShield(abData.fireShield, damageService, abilityEvent, missileManager, enumService),
+            igniteWeapon: new IgniteWeapon(abData.igniteWeapon, damageService, abilityEvent, enumService, inputManager, damageEventHandler),
             // 
 
             flameBlast: new FlameBlast(abData.flameBlast, damageService, abilityEvent, enumService, inputManager),

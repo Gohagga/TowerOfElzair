@@ -29,13 +29,13 @@ export type FireballConfig = {
 
 export class Fireball extends Ability implements IUnitConfigurable<FireballConfig> {
 
-    private unitConfig = new UnitConfigurable<FireballConfig>({
+    private unitConfig = new UnitConfigurable<FireballConfig>(() => { return {
         Damage: 45,
         Range: 1000,
         Cost: 45,
         Cooldown: 2,
         Speed: 800,
-    });
+    }});
 
     constructor(
         data: AbilityData,

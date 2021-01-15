@@ -11,9 +11,9 @@ export type SprintConfig = {
 
 export class Sprint extends Ability implements IUnitConfigurable<SprintConfig> {
 
-    private unitConfig = new UnitConfigurable<SprintConfig>({
+    private unitConfig = new UnitConfigurable<SprintConfig>(() => { return {
         
-    });
+    }});
 
     constructor(
         data: AbilityData,

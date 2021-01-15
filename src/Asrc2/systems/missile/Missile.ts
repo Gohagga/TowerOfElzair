@@ -18,16 +18,23 @@ export class Missile implements IMissile {
 
     public x: number;
     public y: number;
+    public type: MissileType;
+    public speed: number;
+    public target?: Unit;
 
     constructor(
         private unit: Unit,
-        public speed: number,
-        public type: MissileType,
+        speed: number,
+        type: MissileType,
     ) {
         this._id = unit.id;
-        this.speed *= 0.03;
+        print(speed);
+        this.speed = speed * 0.03;
+        this.type = type;
         this.x = unit.x;
         this.y = unit.y;
+
+        print(type, this.type, "type", speed);
     }
 
     public get id() {
@@ -136,6 +143,7 @@ export class Missile implements IMissile {
         this.dy = math.sin(this.angle) * speed;
         this.distance = distance;
 
+        print(this.type, "type");
         return this.Build();
     }
 }

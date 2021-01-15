@@ -1,6 +1,6 @@
 export const enum ActionOrder {
 
-    Autoattack,
+    EnchantDamageType,
     ChargeBonus,
 
     // Crit and damage type specific

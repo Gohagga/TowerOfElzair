@@ -17,14 +17,43 @@ export class MissileManager {
 
     GetType(unit: Unit): MissileType {
         let id = unit.id;
-        if (id in this.instances) return this.instances[unit.id].type
+        if (id in this.instances) return this.instances[id].type
         return MissileType.None;
+    }
+
+    GetMissile(unit: Unit): IMissile | null {
+        let id = unit.id;
+        if (id in this.instances) return this.instances[id];
+        return null;
+    }
+
+    GetMissiles(filter: (missile: IMissile) => boolean) {
+        let retVal: IMissile[] = [];
+        for (let m of this.updateList) {
+            if (filter(m))
+                retVal.push(m);
+        }
+        return retVal;
+    }
+
+    GetMissilesInRange(x: number, y: number, range: number, filter?: (missile: IMissile) => boolean) {
+        let retVal: IMissile[] = [];
+        for (let m of this.updateList) {
+            let dist = (x-m.x)*(x-m.x) + (y-m.y)*(y-m.y);
+            if (dist < range * range) {
+                if (!filter || filter(m))
+                    retVal.push(m);
+            }
+        }
+        return retVal;
     }
 
     Fire(missile: IMissile) {
         if (missile.id in this.instances) {
             // Handle destroy logic?
         }
+
+        print(missile.type);
 
         this.instances[missile.id] = missile;
         this.updateList.push(missile);

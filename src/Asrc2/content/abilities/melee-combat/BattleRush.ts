@@ -19,12 +19,12 @@ export type BattleRushConfig = {
 
 export class BattleRush extends Ability implements IUnitConfigurable<BattleRushConfig> {
 
-    private unitConfig = new UnitConfigurable<BattleRushConfig>({
+    private unitConfig = new UnitConfigurable<BattleRushConfig>(() => { return {
         Damage: 45,
         IsAoeAttack: false,
         Range: 0,
         Cost: 45,
-    });
+    }});
 
     constructor(
         data: AbilityData,

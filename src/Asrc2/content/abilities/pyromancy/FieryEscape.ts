@@ -23,13 +23,13 @@ export type FieryEscapeConfig = {
 
 export class FieryEscape extends Ability implements IUnitConfigurable<FieryEscapeConfig> {
 
-    private unitConfig = new UnitConfigurable<FieryEscapeConfig>({
+    private unitConfig = new UnitConfigurable<FieryEscapeConfig>(() => { return {
         Damage: 20,
         Radius: 200,
         Cost: 13,
         Cooldown: 8,
         Speed: 1200,
-    });
+    }});
 
     constructor(
         data: AbilityData,

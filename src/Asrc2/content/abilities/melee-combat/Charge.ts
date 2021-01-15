@@ -27,12 +27,12 @@ export class Charge extends Ability implements IUnitConfigurable<ChargeConfig> {
     private buffId: number;
     private timers: Record<number, Timer> = {};
 
-    private unitConfig = new UnitConfigurable<ChargeConfig>({
+    private unitConfig = new UnitConfigurable<ChargeConfig>(() => { return {
         Damage: 12,
         Duration: 5,
         Cost: 12,
         Cooldown: 7,
-    });
+    }});
 
     constructor(
         data: AbilityData & { 

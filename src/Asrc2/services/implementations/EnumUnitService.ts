@@ -1,6 +1,7 @@
 import { Point } from "Asrc2/models/Point";
 import { Unit } from "Asrc2/models/Unit";
 import { Log } from "Asrc2/systems/log/Log";
+import { Rectangle } from "w3ts/index";
 import { IEnumUnitService } from "../interfaces/IEnumUnitService";
 
 export class EnumUnitService implements IEnumUnitService {

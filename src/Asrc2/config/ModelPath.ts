@@ -16,4 +16,6 @@ export const enum ModelPath {
     Conflagrate                                         = 'war3mapImported\\Conflagrate.mdx',
     Damnation                                           = 'war3mapImported\\Damnation Orange_00.mdx',
     PillarOfFlame                                       = 'war3mapImported\\Pillar of Flame Orange.mdx',
+    Ember                                               = 'war3mapImported\\Ember.mdx',
+    Immolation                                          = 'Abilities\\Spells\\Other\\ImmolationRed\\ImmolationRedTarget.mdl',
 }

@@ -1,6 +1,7 @@
 import { DamageEvent } from "Asrc2/events/handlers/damage/DamageEvent";
 import { IDamageEventHandler } from "Asrc2/events/handlers/damage/IDamageEventHandler";
 import { Unit } from "Asrc2/models/Unit";
+import { DamageDisplayManager } from "Asrc2/systems/damage-display/DamageDisplayManager";
 import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { Log } from "Asrc2/systems/log/Log";
@@ -9,7 +10,8 @@ import { IDamageService } from "../interfaces/IDamageService";
 export class DamageService implements IDamageService {
 
     constructor(
-        private damageEventHandler: IDamageEventHandler
+        private damageEventHandler: IDamageEventHandler,
+        private damageDisplayManager: DamageDisplayManager
     ) { }
 
     UnitCauseStrain(source: Unit, target: Unit, amount: number, attackType: AttackType = AttackType.Untyped): void {
@@ -25,6 +27,7 @@ export class DamageService implements IDamageService {
         });
 
         event = this.damageEventHandler.Register(event);
+        event.strain = math.floor(event.strain + 0.5);
 
         // Try to increase the guy's value
         const max = target.maxMana;
@@ -46,6 +49,7 @@ export class DamageService implements IDamageService {
         } else {
             target.mana += event.strain;
         }
+        this.damageDisplayManager.DisplayDamageEvent(event);
     }
 
     CreateDamageEvent({
@@ -98,8 +102,11 @@ export class DamageService implements IDamageService {
         });
 
         event = this.damageEventHandler.Register(event);
-        Log.info("DAMAGING TARGET FOR", event.damage);
+        // Log.info("DAMAGING TARGET FOR", event.damage);
+        event.damage = math.ceil(event.damage);
+        // print("CEIL OF 0 " , math.ceil(0));
         source.damageTarget(event.targetUnit.handle, event.damage, 0, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
+        this.damageDisplayManager.DisplayDamageEvent(event);
     }
 
     UnitHealTarget(source: Unit, target: Unit, amount: number, attackType: AttackType, damageType: DamageType, isCrit: boolean = false): void {
@@ -114,6 +121,7 @@ export class DamageService implements IDamageService {
 
         event = this.damageEventHandler.Register(event);
         let targetUnit = event.targetUnit.handle;
+        event.damage = math.floor(event.damage + 0.5);
         SetWidgetLife(targetUnit, GetWidgetLife(targetUnit) - event.damage);
     }
 }

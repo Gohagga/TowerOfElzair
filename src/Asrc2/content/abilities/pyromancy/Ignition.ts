@@ -29,13 +29,13 @@ export type IgnitionConfig = {
 
 export class Ignition extends Ability implements IUnitConfigurable<IgnitionConfig> {
 
-    public unitConfig = new UnitConfigurable<IgnitionConfig>({
+    public unitConfig = new UnitConfigurable<IgnitionConfig>(() => {return{
         Damage: 20,
         Radius: 250,
         Cost: 13,
         Cooldown: 1.75,
         Speed: 1200,
-    });
+    }});
 
     constructor(
         data: AbilityData,

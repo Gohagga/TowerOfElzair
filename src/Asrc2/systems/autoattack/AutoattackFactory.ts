@@ -41,9 +41,10 @@ export class AutoattackFactory {
             dummy.y = y;
             let effect = new Effect(model, x, y);
 
-            let missile = new HomingMissile(dummy, height, speed, type, collision, () => e.targetUnit, effect)
-                .OnDestroy(() => {
-                    this.damageService.UnitDamageTarget(e.source, e.targetUnit, e.damage, e.attackType, e.damageType);
+            let missile = new HomingMissile(dummy, e.targetUnit, height, speed, type, collision, () => e.targetUnit, effect);
+            missile.OnDestroy(() => {
+                    print(missile.target.name);
+                    this.damageService.UnitDamageTarget(e.source, missile.target, e.damage, e.attackType, e.damageType);
                 })
                 .Build();
 

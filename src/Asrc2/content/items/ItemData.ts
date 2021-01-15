@@ -73,7 +73,10 @@ export class ItemData {
             {
                 codeId: 'rde1',
                 name: 'Ring of Protection +2',
-                OnAcquire: unit => unit.addAbility(FourCC('AId2')),
+                OnAcquire: unit => {
+                    unit.addAbility(FourCC('AId2'));
+                    unit.resistances[DamageType.Fire] = 25
+                },
                 OnRelease: unit => unit.removeAbility(FourCC('AId2')),
                 OnEquip: unit => Log.info("Equipped item rop2"),
                 OnUnequip: unit => Log.info("Unequipped item rop2"),

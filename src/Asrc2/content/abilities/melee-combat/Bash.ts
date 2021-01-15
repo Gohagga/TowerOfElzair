@@ -21,13 +21,13 @@ export type BashConfig = {
 
 export class Bash extends Ability implements IUnitConfigurable<BashConfig> {
 
-    private unitConfig = new UnitConfigurable<BashConfig>({
+    private unitConfig = new UnitConfigurable<BashConfig>(() => { return {
         Damage: 20,
         IsAoeAttack: false,
         Range: 0,
         Cost: 13,
         Cooldown: 2.5,
-    });
+    }});
 
     constructor(
         data: AbilityData,

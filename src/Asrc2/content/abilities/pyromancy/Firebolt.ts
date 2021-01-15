@@ -29,13 +29,13 @@ export type FireboltConfig = {
 
 export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfig> {
 
-    public unitConfig = new UnitConfigurable<FireboltConfig>({
+    public unitConfig = new UnitConfigurable<FireboltConfig>(() => { return {
         Damage: 20,
         Range: 1000,
         Cost: 13,
         Cooldown: 1.75,
         Speed: 1200,
-    });
+    }});
 
     constructor(
         data: AbilityData,
@@ -80,13 +80,15 @@ export class Firebolt extends Ability implements IUnitConfigurable<FireboltConfi
                 effect.y = ey;
                     
                 if (targets.length > 0) {
-                    this.damageService.UnitDamageTarget(caster, targets[0], data.Damage, this.type, DamageType.Fire);
-                    effect.destroy();
-                    new Effect(ModelPath.RainOfFire, ex, ey).destroy();
+                    miss.target = targets[0];
                     miss.alive = false;
                 }
             })
             .OnDestroy(miss => {
+                if (miss.target) {
+                    this.damageService.UnitDamageTarget(caster, miss.target, data.Damage, this.type, DamageType.Fire);
+                    new Effect(ModelPath.RainOfFire, miss.x, miss.y).destroy();
+                }
                 effect.destroy();
             })
             .SetDestination(e.targetPoint.x, e.targetPoint.y, data.Range);

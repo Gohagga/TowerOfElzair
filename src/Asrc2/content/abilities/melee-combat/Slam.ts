@@ -21,13 +21,13 @@ export type SlamConfig = {
 
 export class Slam extends Ability implements IUnitConfigurable<SlamConfig> {
 
-    private unitConfig = new UnitConfigurable<SlamConfig>({
+    private unitConfig = new UnitConfigurable<SlamConfig>(() => { return {
         Damage: 40,
         IsAoeAttack: false,
         Range: 0,
         Cost: 40,
         Cooldown: 5,
-    });
+    }});
 
     constructor(
         data: AbilityData,

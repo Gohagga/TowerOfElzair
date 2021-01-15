@@ -27,11 +27,11 @@ export type HellTouchConfig = {
 
 export class HellTouch extends Ability implements IUnitConfigurable<HellTouchConfig> {
 
-    public unitConfig = new UnitConfigurable<HellTouchConfig>({
+    public unitConfig = new UnitConfigurable<HellTouchConfig>(() => {return{
         Damage: 45,
         Cost: 20,
         Cooldown: 1.75
-    });
+    }});
 
     constructor(
         data: AbilityData,

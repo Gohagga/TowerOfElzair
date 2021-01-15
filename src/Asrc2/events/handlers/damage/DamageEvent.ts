@@ -15,6 +15,7 @@ export class DamageEvent {
     private _isCrit: boolean;
     private _attackType: AttackType;
     private _strain: number;
+    private _resistances: Record<DamageType, number>;
 
     constructor(data: {
         source: Unit,
@@ -35,6 +36,8 @@ export class DamageEvent {
         this._damage = data.damage;
         this._strain = data.strain;
         this._isCrit = data.isCrit;
+
+        this._resistances = Object.assign({}, data.targetUnit.resistances)
         // this._targetWidget = data.targetWidget;
     }
 
@@ -55,6 +58,10 @@ export class DamageEvent {
 
     public set damage(v: number) {
         this._damage = v;
+    }
+
+    public set strain(v: number) {
+        this._strain = v;
     }
 
     public set isCrit(v: boolean) {

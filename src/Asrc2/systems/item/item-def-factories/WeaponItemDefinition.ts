@@ -49,12 +49,13 @@ export class WeaponItemFactory {
             // unit.acquireRange = def.attackRange;
             unit.attackRange = def.attackRange;
             
+            print("assign dmg type", def.damageType);
+            unit.damageType = def.damageType;
             this.ResetDamageType(unit);
             for (let d of def.enabledDamageTypes) {
                 if (Number(d) in this.upgrades) unit.owner.addTechResearched(this.upgrades[Number(d)], 1);
                 Log.info(Number(d).toString(), unit.owner.getTechCount(this.upgrades[Number(d)], true));
             }
-            unit.damageType = def.damageType;
             if (cbAcq) cbAcq(unit);
         }
 

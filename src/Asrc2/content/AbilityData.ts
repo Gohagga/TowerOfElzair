@@ -110,6 +110,22 @@ export const abilityDataRecord = {
         icon: IconPath.BTNImmolationOn,
         type: AttackType.Magic,
     },
+    fireShield: {
+        codeId: 'A00U',
+        extCodeId: 'A00V',
+        name: 'Fire Shield',
+        slot: AbilitySlot.W,
+        icon: IconPath.BTNOrbOfFire,
+        type: AttackType.Magic,
+    },
+    igniteWeapon: {
+        codeId: 'A00W',
+        extCodeId: 'A00X',
+        name: 'Ignite Weapon',
+        slot: AbilitySlot.E,
+        icon: IconPath.BTNShamanMaster,
+        type: AttackType.Magic,
+    },
 
     flameBlast: {
         codeId: 'A00K',

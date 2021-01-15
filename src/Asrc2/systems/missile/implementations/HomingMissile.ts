@@ -1,4 +1,5 @@
-import { Effect, Point, Unit } from "w3ts/index";
+import { Unit } from "Asrc2/models/Unit";
+import { Effect, Point } from "w3ts/index";
 import { IMissile } from "../IMissile";
 import { MissileType } from "../MissileType";
 
@@ -11,6 +12,9 @@ export class HomingMissile implements IMissile {
     public x: number;
     public y: number;
     public z: number;
+    public speed: number;
+    public type: number;
+    public target: Unit;
 
     public arc: number = 0;
     private travelled: number = 0;
@@ -23,15 +27,18 @@ export class HomingMissile implements IMissile {
 
     constructor(
         private unit: Unit,
+        target: Unit,
         z: number,
-        public speed: number,
-        public type: MissileType,
+        speed: number,
+        type: MissileType,
         public collision: number,
         public getTarget: () => { x: number, y: number },
         private effect?: Effect,
     ) {
         this._id = unit.id;
-        this.speed *= 0.03;
+        this.target = target;
+        this.speed = speed * 0.03;
+        this.type = type;
         this.x = unit.x;
         this.y = unit.y;
         this.z = z;

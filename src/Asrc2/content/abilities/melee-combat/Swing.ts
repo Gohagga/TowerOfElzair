@@ -21,13 +21,13 @@ export type SwingConfig = {
 
 export class Swing extends Ability implements IUnitConfigurable<SwingConfig> {
 
-    private unitConfig = new UnitConfigurable<SwingConfig>({
+    private unitConfig = new UnitConfigurable<SwingConfig>(() => { return {
         Damage: 45,
         IsAoeAttack: false,
         Range: 0,
         Cost: 45,
         Cooldown: 2
-    });
+    }});
 
     constructor(
         data: AbilityData,

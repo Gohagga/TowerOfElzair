@@ -1,4 +1,5 @@
 import { Unit } from "Asrc2/models/Unit";
+import { DamageDisplayManager } from "Asrc2/systems/damage-display/DamageDisplayManager";
 // import { Widget } from "Asrc2/models/Widget";
 import { AttackType } from "Asrc2/systems/damage/AttackType";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
@@ -11,7 +12,8 @@ export class AutoattackEventProvider {
     damageEventTrigger: Trigger;
 
     constructor(
-        private damageEventHandler: IDamageEventHandler
+        private damageEventHandler: IDamageEventHandler,
+        private damageDisplayManager: DamageDisplayManager
     ) {
 
         this.damageEventTrigger = new Trigger();
@@ -45,6 +47,8 @@ export class AutoattackEventProvider {
             
             // If it was melee attack, need to recognize it and create a damage event
             this.damageEventHandler.Register(event);
+
+            this.damageDisplayManager.DisplayDamageEvent(event);
         });
         
     }

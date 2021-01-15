@@ -24,8 +24,11 @@ export class Unit extends ThUnit {
     
     private static resistances: Record<number, Record<DamageType, number>> = {};
     public get resistances(): Record<DamageType, number> {
-        return Unit.resistances[this.id] || {};
+        if (this.id in Unit.resistances == false)
+            Unit.resistances[this.id] = {};
+        return Unit.resistances[this.id];
     }
+
     public set resistances(v: Record<DamageType, number>) {
         Unit.resistances[this.id] = v;
     }

@@ -9,16 +9,19 @@ import { AbilityData } from "Asrc2/systems/ability/AbilityData";
 import { DamageType } from "Asrc2/systems/damage/DamageType";
 import { InputManager } from "Asrc2/systems/input/InputManager";
 import { IMissile } from "Asrc2/systems/missile/IMissile";
+import { HomingMissile } from "Asrc2/systems/missile/implementations/HomingMissile";
+import { Missile } from "Asrc2/systems/missile/Missile";
 import { MissileManager } from "Asrc2/systems/missile/MissileManager";
 import { MissileType } from "Asrc2/systems/missile/MissileType";
 import { IUnitConfigurable } from "Asrc2/systems/unit-configurable/IUnitConfigurable";
 import { UnitConfigurable } from "Asrc2/systems/unit-configurable/UnitConfigurable";
-import { Effect } from "w3ts/index";
+import { Effect, Point, Timer } from "w3ts/index";
 
 export type BackburnConfig = {
     Damage: number,
     Radius: number,
     DashDistance: number,
+    MovementDistanceBonus: number,
     DashDuration: number,
     Cost: number,
     Cooldown: number,
@@ -26,14 +29,15 @@ export type BackburnConfig = {
 
 export class Backburn extends Ability implements IUnitConfigurable<BackburnConfig> {
 
-    public unitConfig = new UnitConfigurable<BackburnConfig>({
+    public unitConfig = new UnitConfigurable<BackburnConfig>(() => { return {
         Damage: 25,
         Radius: 150,
-        DashDistance: 180,
+        DashDistance: 80,
+        MovementDistanceBonus: 0.5,
         DashDuration: 1.5,
         Cost: 20,
         Cooldown: 3,
-    });
+    }});
 
     constructor(
         data: AbilityData,
@@ -69,14 +73,15 @@ export class Backburn extends Ability implements IUnitConfigurable<BackburnConfi
         //     this.damageService.UnitDamageTarget(e.caster, t, this.type, damage, DamageType.Fire);
         // }
 
-        let angle = (caster.facing - 180) * bj_DEGTORAD;
+        let angle = caster.facing * bj_DEGTORAD;
+        let angleCaster = (caster.facing - 180) * bj_DEGTORAD;
         let dur = 0.6;
         let deccel = 0.8;
-        let cosa = math.cos(angle);
-        let sina = math.sin(angle);
+        let cosa = math.cos(angleCaster);
+        let sina = math.sin(angleCaster);
 
         let totalMoves = math.floor(dur * 30);
-        let speed = data.DashDistance / totalMoves;
+        let speed = (data.DashDistance + caster.moveSpeed * data.MovementDistanceBonus) / totalMoves;
 
         let factor = 5;
 
@@ -87,8 +92,10 @@ export class Backburn extends Ability implements IUnitConfigurable<BackburnConfi
             id: caster.id,
             alive: true,
             type: MissileType.Person,
+            x: caster.x,
+            y: caster.y,
             Update: () => {
-                
+
                 factor = factor * deccel;
                 let spd = speed * factor;
                 let dx = spd * cosa;
@@ -105,9 +112,64 @@ export class Backburn extends Ability implements IUnitConfigurable<BackburnConfi
                 }
             }
         }
-
-        
         this.missileManager.Fire(casterMissile)
+
+        let ef = new Effect(ModelPath.Ember, caster.x, caster.y);
+        ef.scale = 2;
+        ef.setOrientation(angle, -90 * bj_DEGTORAD, 0);
+        ef.z = 60;
+        let dmgMissile: IMissile;
+        let missileDistance = caster.moveSpeed * data.MovementDistanceBonus + 60;
+        let mSpeed = missileDistance * 0.06;
+        let dx = math.cos(angle) * mSpeed;
+        let dy = math.sin(angle) * mSpeed;
+        let efPoint = caster.point;
+        let tim = new Timer();
+        dmgMissile = {
+            id: 0,
+            alive: true,
+            type: MissileType.Fire,
+            x: efPoint.x,
+            y: efPoint.y,
+            Update: () => {
+                
+                efPoint.x += dx;
+                efPoint.y += dy;
+                ef.setPoint(efPoint);
+                // ef.x += dx;
+                // ef.y += dy;
+                ef.z = 60;
+                
+                missileDistance -= mSpeed;
+                if (missileDistance < 0) {
+                    print("Destroying");
+                    dmgMissile.alive = false;
+                    ef.destroy();
+                }
+            }
+        }
+        let ticks = 3;
+        let instanceDmg = data.Damage / ticks;
+        tim.start(0.2, true, () => {
+            print("timer tick");
+            // let p = new Point(ef.x, ef.y);
+            print(efPoint.x, efPoint.y);
+            let targets = this.enumService.EnumUnitsInRange(efPoint, 150, target =>
+                target.isAlly(owner) == false &&
+                target.isAlive());
+            
+            let damage = instanceDmg / math.max(targets.length, 2);
+            for (let t of targets) {
+                this.damageService.UnitDamageTarget(caster, t, damage, this.type, DamageType.Fire);
+            }
+
+            if (--ticks <= 0) {
+                tim.pause();
+                tim.destroy();
+                efPoint.destroy();
+            }
+        });
+        this.missileManager.Fire(dmgMissile);
         
         this.ApplyCost(caster, data.Cost);
     }
