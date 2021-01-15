@@ -466,15 +466,9 @@ F
 }
 
 STRING 91
-// Abilities: A00Q (W Template), Hotkey (Hotkey - Normal)
+// Abilities: A00Q (Backburn), Hotkey (Hotkey - Normal)
 {
 W
-}
-
-STRING 92
-// Abilities: A00Q (W Template), Name (Name)
-{
-W Template
 }
 
 STRING 93
@@ -502,7 +496,7 @@ W
 }
 
 STRING 97
-// Abilities: A00S (Backburn), Name (Name)
+// Abilities: A00Q (Backburn), Name (Name)
 {
 Backburn
 }
@@ -520,8 +514,68 @@ F
 }
 
 STRING 100
+// Abilities: A00S (Backburn), Name (Name)
+{
+Backburn
+}
+
+STRING 101
 // Abilities: A00T (Backburn), Name (Name)
 {
 Backburn
+}
+
+STRING 102
+// Abilities: A00U (Fire Shield), Hotkey (Hotkey - Normal)
+{
+W
+}
+
+STRING 103
+// Abilities: A00U (Fire Shield), Name (Name)
+{
+Fire Shield
+}
+
+STRING 104
+// Abilities: A00V (Fire Shield), Hotkey (Hotkey - Normal)
+{
+F
+}
+
+STRING 105
+// Abilities: A00V (Fire Shield), Unhotkey (Hotkey - Turn Off)
+{
+F
+}
+
+STRING 106
+// Abilities: A00V (Fire Shield), Name (Name)
+{
+Fire Shield
+}
+
+STRING 107
+// Abilities: A00W (Ignite Weapon), Name (Name)
+{
+Ignite Weapon
+}
+
+STRING 108
+// Abilities: A00W (Ignite Weapon), Hotkey (Hotkey - Normal)
+{
+E
+}
+
+STRING 109
+// Abilities: A00X (Ignite Weapon), Name (Name)
+{
+Ignite Weapon
+}
+
+STRING 110
+// Abilities: A00X (Ignite Weapon), Hotkey (Hotkey - Normal)
+{
+F
 }
 
