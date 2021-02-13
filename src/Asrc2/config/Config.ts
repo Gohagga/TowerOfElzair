@@ -4,6 +4,7 @@ import { ITalentTreeConfig } from "Asrc2/ui/talent-screen/interface/ITalentTreeC
 import { IUnitInfoPanelConfig } from "Asrc2/ui/unit-info-panel/interface/IUnitInfoPanelConfig";
 import { IconPath } from "Asrc2/config/IconPath";
 import { MapPlayer } from "w3ts/index";
+import { ICommandBarConfig } from "Asrc2/ui/command-bar/interface/ICommandBarConfig";
 
 export class Config { // 
     
@@ -113,6 +114,88 @@ export class Config { //
             isBorderOnTop: false,
             textureBorder: IconPath.BTNArthas,
             textureFill: IconPath.BTNHeroDeathKnight
+        }
+    };
+
+    playerUi: ICommandBarConfig = {
+        commandBar: {
+            tocFile: "war3mapImported\\MySimpleButton.toc",
+            frameName: "TestTextureAlphaMod",
+            texture: "war3mapImported\\UIbarsingle3_V3.blp",
+            x: 0.4,
+            y: 0.123,
+        },
+    
+        portrait: {
+            x: -11,
+            y: -11,
+            windowTexture: "war3mapImported\\UITextPortraitBackdrop.blp",
+            boxTexture: "war3mapImported\\UITextboxBackdrop1.blp",
+        },
+    
+        character: {
+            x: 0.335,
+            y: 0.35,
+            texture: "war3mapImported\\UI_Char_Backdrop.blp",
+            backdropB: {
+                texture: "war3mapImported\\UI_Char_Backdrop_B.blp"
+            },
+            button: {
+                x1: 0.178,
+                y1: 0.045,
+                x2: 0.195,
+                y2: 0.062,
+                texture: "ReplaceableTextures\\CommandButtons\\BTN_UI_Character.blp"
+            },
+            armor: {
+                texture: "war3mapImported\\ARM_EV_UA.blp"
+            },
+            face: {
+                texture: "war3mapImported\\Face1.blp"
+            },
+            hair: {
+                texture: "war3mapImported\\hair1.blp"
+            }
+        },
+
+        talents: {
+            button: {
+                x1: 0.178,
+                y1: 0.024,
+                x2: 0.195,
+                y2: 0.041,
+                texture: "ReplaceableTextures\\CommandButtons\\BTN_UI_Talents.blp",
+            }
+        },
+
+        questlog: {
+            button: {
+                x1: 0.567,
+                y1: 0.024,
+                x2: 0.584,
+                y2: 0.041,
+                texture: "ReplaceableTextures\\CommandButtons\\BTN_UI_Questlog.blp"
+            }
+        },
+
+        crafting: {
+            button: {
+                x1: 0.588,
+                y1: 0.024,
+                x2: 0.605,
+                y2: 0.041,
+                texture: "ReplaceableTextures\\CommandButtons\\BTN_UI_Crafting.blp"
+            }
+        },
+
+        menu: {
+            button: {
+                x1: 0.609,
+                y1: 0.024,
+                x2: 0.626,
+                y2: 0.041,
+                texture: "ReplaceableTextures\\CommandButtons\\BTN_UI_Menu.blp"
+            }
         }
     }
 }

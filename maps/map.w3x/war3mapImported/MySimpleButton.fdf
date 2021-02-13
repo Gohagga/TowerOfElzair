@@ -1,0 +1,264 @@
+Frame "SIMPLEFRAME" "TestTextureAlphaMod"{
+    Width 1,
+    Height 0.25,
+    Texture "TestTextureValue" {
+        AlphaMode "MOD",
+        File "war3imported\UIbarsingle3_V2",
+    }
+}
+
+Frame "SIMPLEFRAME" "Buttonnumbers"{
+    Width 1,
+    Height 0.25,
+    Texture "Buttonnumbers_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UIBAR_Buttonnumbers",
+    }
+}
+
+Frame "SIMPLEFRAME" "UINamePlate"{
+    Width 0.1,
+    Height 0.025,
+    Texture "UINamePlate_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UINamePlate",
+    }
+}
+
+Frame "SIMPLEFRAME" "UILevelButton"{
+    Width 0.05,
+    Height 0.05,
+    Texture "UILevelButton_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UILevel",
+    }
+}
+
+Frame "SIMPLEFRAME" "UIBook"{
+    Width 0.6,
+    Height 0.3,
+    Texture "UIBook_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UI_Book",
+    }
+}
+
+Frame "SIMPLEFRAME" "UILetter"{
+    Width 0.25,
+    Height 0.5,
+    Texture "UILetter_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UI_Letter",
+    }
+}
+
+Frame "SIMPLEFRAME" "CharacterBackdrop"{
+    Width 0.3,
+    Height 0.3,
+    Texture "CharacterBackdrop_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UI_Char_Backdrop",
+    }
+}
+
+Frame "SIMPLEFRAME" "CharacterBackdrop_B"{
+    Width 0.15,
+    Height 0.3,
+    Texture "CharacterBackdrop_B_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UI_Char_Backdrop_B",
+    }
+}
+
+Frame "SIMPLEFRAME" "CharacterArmor"{
+    Width 0.085,
+    Height 0.17,
+    Texture "CharacterArmor_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\ARM_EV_UA",
+    }
+}
+
+Frame "SIMPLEFRAME" "CharacterFace"{
+    Width 0.0225,
+    Height 0.0225,
+    Texture "CharacterFace_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\Face1",
+    }
+}
+
+Frame "SIMPLEFRAME" "CharacterHair"{
+    Width 0.05,
+    Height 0.05,
+    Texture "CharacterHair_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\Hair1",
+    }
+}
+
+Frame "SIMPLEFRAME" "PortraitWindow"{
+    Width 0.088,
+    Height 0.088,
+    Texture "PortraitWindow_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UITextPortraitBackdrop",
+    }
+}
+
+Frame "SIMPLEFRAME" "PortraitTextBox"{
+    Width 0.26,
+    Height 0.095,
+    Texture "PortraitBox_Texture" {
+        AlphaMode "MOD",
+        File "war3imported\UITextboxBackdrop",
+    }
+}
+
+Texture "UpperMenuButtonPushedBackground" {
+    File "UpperMenuButtonTexture",
+    TexCoord 0.0, 0.6640625, 0.25, 0.421875,
+}
+
+Texture "MySimpleButtonButtonHighlight" {
+    File "UI\Glues\ScoreScreen\scorescreen-tab-hilight.blp",
+    AlphaMode "ADD",
+}
+
+Frame "SIMPLEBUTTON" "UI_Cancel" {
+    Width 0.05,
+    Height 0.05,
+    UseHighlight "MySimpleButtonButtonHighlight",
+    Texture "UI_Cancel_Texture" {
+    }
+}
+
+Frame "SIMPLEBUTTON" "UIButton" {
+    Width 0.039,
+    Height 0.039,
+    ButtonPushedTextOffset 0.01 -0.01,
+    UseHighlight "MySimpleButtonButtonHighlight",
+    Texture "UIButton_Texture" {
+    }
+}
+
+Frame "SIMPLEBUTTON" "UIPortrait" {
+    Width 0.20,
+    Height 0.05,
+    UseHighlight "MySimpleButtonButtonHighlight",
+    Texture "UIPortrait_Texture" {
+    }
+}
+
+Frame "SIMPLEFRAME" "Playername" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "Playername_Text" {
+        Anchor TOPLEFT, 0, 0,
+        Font "InfoPanelTextFont", 0.01,
+    }
+}
+
+Frame "SIMPLEFRAME" "Playername2" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "Playername2_Text" {
+        Anchor TOPLEFT, 0, 0,
+        Font "InfoPanelTextFont", 0.007,
+    }
+}
+
+Frame "SIMPLEFRAME" "TextRight" {
+    Width 0.0001,
+    Height 0.0001,
+    DecorateFileNames,
+    String "TextRight_Text" {
+        Anchor TOPRIGHT, 0, 0,
+        Font "InfoPanelTextFont", 0.007,
+    }
+}
+
+String "MyBarTextTemplate" {
+   //FontColor 0.99 0.427 0.0705 1.0, //Red Green Blue Alpha 0.0 to 1.0
+   FontColor 1.0 1.0 1.0 1.0,
+   FontShadowColor 0.0 0.0 0.0 0.9,
+   FontShadowOffset 0.001 -0.001,
+   Font "MasterFont", 0.01, //MasterFont is only valid with "DecorateFileNames,"
+}
+
+Frame "SIMPLESTATUSBAR" "MyBar" {
+   Width 0.07,
+   Height 0.012,
+   BarTexture "Replaceabletextures\Teamcolor\Teamcolor00.blp",
+   Layer "BACKGROUND" {
+       Texture "MyBarBackground" {
+           File "UI\Glues\Loading\LoadBar\Loading-BarBackground.blp",
+       }
+   }
+   Frame "SIMPLEFRAME" "MyBarFrame" {
+       SetAllPoints,
+       DecorateFileNames,
+       Layer "ARTWORK" {
+           String "MyBarText" INHERITS "MyBarTextTemplate" {
+               Text "MyBar",
+           }
+       }
+   }
+}
+
+
+String "HealthbarTextTemplate" {
+   //FontColor 0.99 0.427 0.0705 1.0, //Red Green Blue Alpha 0.0 to 1.0
+   FontColor 1.0 1.0 1.0 1.0,
+   FontShadowColor 0.0 0.0 0.0 0.9,
+   FontShadowOffset 0.001 -0.001,
+   Font "MasterFont", 0.01, //MasterFont is only valid with "DecorateFileNames,"
+}
+Frame "SIMPLESTATUSBAR" "Healthbar" {
+   Width 0.07,
+   Height 0.012,
+   BarTexture "Replaceabletextures\Teamcolor\Teamcolor00.blp",
+   Layer "BACKGROUND" {
+       Texture "HealthbarBackground" {
+           File "UI\Glues\Loading\LoadBar\Loading-BarBackground.blp",
+       }
+   }
+   Frame "SIMPLEFRAME" "HealthbarFrame" {
+       SetAllPoints,
+       DecorateFileNames,
+       Layer "ARTWORK" {
+           String "HealthbarText" INHERITS "HealthbarTextTemplate" {
+               Text "MyBar",
+           }
+       }
+   }
+}
+
+String "ManabarTextTemplate" {
+   //FontColor 0.99 0.427 0.0705 1.0, //Red Green Blue Alpha 0.0 to 1.0
+   FontColor 1.0 1.0 1.0 1.0,
+   FontShadowColor 0.0 0.0 0.0 0.9,
+   FontShadowOffset 0.001 -0.001,
+   Font "MasterFont", 0.01, //MasterFont is only valid with "DecorateFileNames,"
+}
+Frame "SIMPLESTATUSBAR" "Manabar" {
+   Width 0.07,
+   Height 0.012,
+   BarTexture "Replaceabletextures\Teamcolor\Teamcolor00.blp",
+   Layer "BACKGROUND" {
+       Texture "ManabarBackground" {
+           File "UI\Glues\Loading\LoadBar\Loading-BarBackground.blp",
+       }
+   }
+   Frame "SIMPLEFRAME" "ManabarFrame" {
+       SetAllPoints,
+       DecorateFileNames,
+       Layer "ARTWORK" {
+           String "ManabarText" INHERITS "ManabarTextTemplate" {
+               Text "Manabar",
+           }
+       }
+   }
+}

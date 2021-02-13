@@ -1,31 +1,31 @@
 ﻿STRING 1
 {
-Demo map ToE
+Player 1
 }
 
 STRING 2
 {
-Any
+Force 1
 }
 
 STRING 3
 {
-Nondescript
+test
 }
 
 STRING 4
 {
-Unknown
+Any
 }
 
 STRING 5
 {
-Player 1
+Nondescript
 }
 
 STRING 6
 {
-Force 1
+Unknown
 }
 
 STRING 7
@@ -34,260 +34,58 @@ Player 2
 }
 
 STRING 8
-// Abilities: A001 (Bash), Name (Name)
 {
-Bash
+Player 3
 }
 
 STRING 9
-// Abilities: A001 (Bash), Hotkey (Hotkey - Normal)
 {
-Q
+Player 4
 }
 
 STRING 10
-// Abilities: A000 (Placeholder), Name (Name)
 {
-Placeholder
+Player 5
 }
 
 STRING 11
-// Abilities: A000 (Placeholder), Hotkey (Hotkey - Normal)
 {
-Q
+Player 6
 }
 
-STRING 12
-// Abilities: A002 (Sprint), Name (Name)
+STRING 17
+// Units: Hamg (Archmage), Propernames (Proper Names)
 {
-Sprint
-}
-
-STRING 13
-// Abilities: A003 (Slam), Name (Name)
-{
-Slam
-}
-
-STRING 14
-// Abilities: A005 (Swing), Hotkey (Hotkey - Normal)
-{
-Q
-}
-
-STRING 15
-// Buffs/Effects: B002 (), Bufftip (Tooltip)
-{
-Sprinting
-}
-
-STRING 16
-// Abilities: A004 (Ground Smash), Name (Name)
-{
-Ground Smash
+Player 2
 }
 
 STRING 18
-// Abilities: A002 (Sprint), Hotkey (Hotkey - Normal)
+// Units: Hmkg (Mountain King), Propernames (Proper Names)
 {
-W
-}
-
-STRING 19
-// Abilities: A002 (Sprint), Researchhotkey (Hotkey - Learn)
-{
-W
-}
-
-STRING 20
-// Abilities: A002 (Sprint), Unhotkey (Hotkey - Turn Off)
-{
-W
-}
-
-STRING 21
-// Abilities: A003 (Slam), Hotkey (Hotkey - Normal)
-{
-E
-}
-
-STRING 22
-// Abilities: A004 (Ground Smash), Hotkey (Hotkey - Normal)
-{
-R
+Player 3
 }
 
 STRING 23
-// Abilities: A005 (Swing), Name (Name)
+// Items: I000 (The Story of Ion), Name (Name)
 {
-Swing
+The Story of Ion
 }
 
 STRING 24
-// Abilities: A006 (Charge), Name (Name)
+// Items: I000 (The Story of Ion), Description (Description)
 {
-Charge
+Click to read.
 }
 
 STRING 25
-// Abilities: A007 (Cleave), Name (Name)
+// Abilities: A003 (Letter), Name (Name)
 {
-Cleave
+Letter
 }
 
 STRING 26
-// Abilities: A007 (Cleave), Hotkey (Hotkey - Normal)
+// Abilities: A004 (Book), Name (Name)
 {
-E
-}
-
-STRING 27
-// Abilities: A008 (Battle Rush), Name (Name)
-{
-Battle Rush
-}
-
-STRING 28
-// Abilities: A008 (Battle Rush), Hotkey (Hotkey - Normal)
-{
-R
-}
-
-STRING 29
-// Items: ratf (Toggle Inventory), Ubertip (Tooltip - Extended)
-{
-Switches between two inventories.
-}
-
-STRING 30
-// Items: ratf (Toggle Inventory), Name (Name)
-{
-Toggle Inventory
-}
-
-STRING 31
-// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Blunt Weapon
-}
-
-STRING 32
-// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Blunt Weapon
-}
-
-STRING 33
-// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Blunt Weapon
-}
-
-STRING 34
-// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Slashing Weapon
-}
-
-STRING 35
-// Upgrades: R0W1 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Blunt Weapon
-}
-
-STRING 36
-// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Blunt Weapon
-}
-
-STRING 37
-// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Piercing Weapon
-}
-
-STRING 38
-// Upgrades: R0W2 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Blunt Weapon
-}
-
-STRING 41
-// Items: I000 (Great Hammer), Name (Name)
-{
-Great Hammer
-}
-
-STRING 42
-// Items: I000 (Great Hammer), Ubertip (Tooltip - Extended)
-{
-Increases the attack damage of the Hero by 9 when worn.
-}
-
-STRING 43
-// Items: I000 (Great Hammer), Description (Description)
-{
-Increases the attack damage of the Hero by 9 when worn.
-}
-
-STRING 44
-// Items: I001 (Sword), Name (Name)
-{
-Sword
-}
-
-STRING 45
-// Items: I001 (Sword), Ubertip (Tooltip - Extended)
-{
-Increases the attack damage of the Hero by 6 when worn.
-}
-
-STRING 46
-// Upgrades: R0W0 (Iron Forged Swords,Steel Forged Swords,Mithril Forged Swords), Name (Name)
-{
-Bludgeoning Weapon
-}
-
-STRING 47
-// Units: nDUM (DUMMY), Name (Name)
-{
-DUMMY
-}
-
-STRING 48
-// Abilities: A009 (Firebolt), Name (Name)
-{
-Firebolt
-}
-
-STRING 49
-// Abilities: A009 (Firebolt), Hotkey (Hotkey - Normal)
-{
-Q
-}
-
-STRING 50
-// Abilities: A00A (Fireball), Name (Name)
-{
-Fireball
-}
-
-STRING 52
-// Abilities: A00B (Firebolt), Name (Name)
-{
-Firebolt
-}
-
-STRING 54
-// Abilities: A00A (Fireball), Hotkey (Hotkey - Normal)
-{
-R
-}
-
-STRING 55
-// Abilities: A00B (Firebolt), Hotkey (Hotkey - Normal)
-{
-D
+Book
 }
 

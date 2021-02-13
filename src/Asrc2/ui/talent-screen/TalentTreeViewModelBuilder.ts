@@ -86,7 +86,7 @@ export class TalentTreeViewModelBuilder {
         return this;
     }
 
-    SetTalentViewModelFactory(method: (view: ITalentView) => ITalentSlot) {
+    SetTalentViewModelFactory(method: (this: void, view: ITalentView) => ITalentSlot) {
         this._talentVMFactory = method;
         return this;
     }

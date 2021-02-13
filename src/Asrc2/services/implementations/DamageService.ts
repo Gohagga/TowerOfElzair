@@ -105,7 +105,7 @@ export class DamageService implements IDamageService {
 
         event = this.damageEventHandler.Register(event);
         print("DAMAGING TARGET FOR", event.damage);
-        source.damageTarget(event.targetUnit.handle, event.damage, 0, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
+        source.damageTarget(event.targetUnit.handle, event.damage, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
     }
 
     UnitHealTarget(source: Unit, target: Unit, amount: number, attackType: AttackType, damageType: DamageType, isCrit: boolean = false): void {

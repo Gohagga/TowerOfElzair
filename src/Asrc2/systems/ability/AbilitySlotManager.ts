@@ -17,7 +17,7 @@ export class AbilitySlotManager {
         if (owner.id in this._instances == false) return true;
         if (slot in this._instances[owner.id]) {
             let ability = this._instances[owner.id][slot].ability;
-            return owner.getAbilityCooldownRemaining(ability.id, 0) < 10;
+            return owner.getAbilityCooldownRemaining(ability.id) < 10;
         }
     }
 
@@ -46,7 +46,7 @@ export class AbilitySlotManager {
                 let extId = unitSlots[s].ability.extId;
                 let abilityId = s >= 4 && extId ? extId : unitSlots[s].ability.id;
 
-                if (owner.getAbilityCooldownRemaining(abilityId, 0) < 10) {
+                if (owner.getAbilityCooldownRemaining(abilityId) < 10) {
                     owner.startAbilityCooldown(abilityId, 10);
                 }
             }

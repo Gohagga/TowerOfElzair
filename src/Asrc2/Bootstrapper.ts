@@ -33,6 +33,8 @@ import { DummyManager } from "./systems/dummy/DummyManager";
 import { InputManager } from "./systems/input/InputManager";
 import { ItemManager } from "./systems/item/ItemManager";
 import { MissileManager } from "./systems/missile/MissileManager";
+import { GenerateCommandBarView } from "./ui/command-bar/CommandBarView";
+import { GenerateInventoryView } from "./ui/inventory-screen/InventoryView";
 import { GenerateTabView } from "./ui/tab-screen/TabView";
 import { TabViewModel } from "./ui/tab-screen/TabViewModel";
 import { ITalentView } from "./ui/talent-screen/interface/ITalentView";
@@ -46,106 +48,112 @@ export class Bootstrapper {
     static registerComponents() {
         
         print(-1)
+        print("SOMETHING HAS TO COME OUT")
         const config = new Config();
     
-        print(0)
+        // print(0)
 
-        const damageEventHandler = new DamageEventHandler();
-        print(0.1)
-        const abilityEvent = new AbilityEventHandler();
-        print(0.2)
-        const frameEvent = new FrameEventHandler();
-        print(0.3)
-        const damageService = new DamageService(damageEventHandler);
-        print(0.4)
-        const enumService = new EnumUnitService();
+        // const damageEventHandler = new DamageEventHandler();
+        // print(0.1)
+        // const abilityEvent = new AbilityEventHandler();
+        // print(0.2)
+        // const frameEvent = new FrameEventHandler();
+        // print(0.3)
+        // const damageService = new DamageService(damageEventHandler);
+        // print(0.4)
+        // const enumService = new EnumUnitService();
 
-        const critManager = new CritManager(damageEventHandler);
-        const damageDisplayManager = new DamageDisplayManager(damageEventHandler);
-        const autoattackEventProvider = new AutoattackEventProvider(damageEventHandler);
-        const bludgeonDamageManager = new BludgeonDamageManager(damageService, damageEventHandler);
+        // const critManager = new CritManager(damageEventHandler);
+        // const damageDisplayManager = new DamageDisplayManager(damageEventHandler);
+        // const autoattackEventProvider = new AutoattackEventProvider(damageEventHandler);
+        // const bludgeonDamageManager = new BludgeonDamageManager(damageService, damageEventHandler);
 
-        const inputManager = new InputManager(10);
-        const missileManager = new MissileManager();
-        const dummyManager = new DummyManager(config.dummyOwningPlayer, config.dummyUnitId);
+        // const inputManager = new InputManager(10);
+        // const missileManager = new MissileManager();
+        // const dummyManager = new DummyManager(config.dummyOwningPlayer, config.dummyUnitId);
 
-        print(1)
-        const abilityEventProvider = new AbilityEventProvider(abilityEvent);
+        // print(1)
+        // const abilityEventProvider = new AbilityEventProvider(abilityEvent);
     
-        let abilities = {
-            bash: new Bash(abData.bash, damageService, abilityEvent, enumService),
-            sprint: new Sprint(abData.sprint, damageService),
-            slam: new Slam(abData.slam, damageService, abilityEvent, enumService),
-            groundSmash: new GroundSmash(abData.groundSmash, damageService, abilityEvent, enumService),
+        // let abilities = {
+        //     bash: new Bash(abData.bash, damageService, abilityEvent, enumService),
+        //     sprint: new Sprint(abData.sprint, damageService),
+        //     slam: new Slam(abData.slam, damageService, abilityEvent, enumService),
+        //     groundSmash: new GroundSmash(abData.groundSmash, damageService, abilityEvent, enumService),
 
-            swing: new Swing(abData.swing, damageService, abilityEvent, enumService),
-            charge: new Charge(abData.charge, damageService, abilityEvent, enumService, damageEventHandler),
-            cleave: new Cleave(abData.cleave, damageService, abilityEvent, enumService),
-            battleRush: new BattleRush(abData.battleRush, damageService, abilityEvent, enumService),
+        //     swing: new Swing(abData.swing, damageService, abilityEvent, enumService),
+        //     charge: new Charge(abData.charge, damageService, abilityEvent, enumService, damageEventHandler),
+        //     cleave: new Cleave(abData.cleave, damageService, abilityEvent, enumService),
+        //     battleRush: new BattleRush(abData.battleRush, damageService, abilityEvent, enumService),
 
-            firebolt: new Firebolt(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
-            // fieryEscape: new FieryEscape()
-            fireball: new Fireball(abData.fireball, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
-        }
+        //     firebolt: new Firebolt(abData.firebolt, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
+        //     // fieryEscape: new FieryEscape()
+        //     fireball: new Fireball(abData.fireball, damageService, abilityEvent, enumService, missileManager, dummyManager, inputManager),
+        // }
 
-        print(2)
+        // print(2)
 
-        let u = Unit.from(gg_unit_Hpal_0002);
+        // let u = Unit.from(gg_unit_Hpal_0002);
 
-        print(3)
+        // print(3)
 
-        const talentTabView = GenerateTabView(config.TalentScreen);
-        const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), frameEvent, talentTabView);
+        // const talentTabView = GenerateTabView(config.TalentScreen);
+        // const talentTabs = new TabViewModel(MapPlayer.fromIndex(0), frameEvent, talentTabView);
 
-        print(4)
+        // print(4)
 
-        const talentTreeViewBuilder = new TalentTreeViewModelBuilder()
-            .SetConfig(config.talentTree)
-            .SetParentFrame(talentTabView.box)
-            .SetFrameEventHandler(frameEvent)
-            .SetBaseView(GenerateTalentTreeView(talentTabView.box, config.talentTree))
-            .SetTalentViews(GenerateNTalentViews(config.talentTree.base.maxTalentSlots,
-                talentTabView.box, config.talentTree.talent))
-            .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
+        // const talentTreeViewBuilder = new TalentTreeViewModelBuilder()
+        //     .SetConfig(config.talentTree)
+        //     .SetParentFrame(talentTabView.box)
+        //     .SetFrameEventHandler(frameEvent)
+        //     .SetBaseView(GenerateTalentTreeView(talentTabView.box, config.talentTree))
+        //     .SetTalentViews(GenerateNTalentViews(config.talentTree.base.maxTalentSlots,
+        //         talentTabView.box, config.talentTree.talent))
+        //     .SetTalentViewModelFactory((view: ITalentView) => new TalentViewModel(view));
 
-        print(5)
+        // print(5)
 
-        const slotManager = new AbilitySlotManager();
-        const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
-        print(6)
-        tab1.tree = new MeleeCombat(u, slotManager, inputManager, abilities);
+        // const slotManager = new AbilitySlotManager();
+        // const tab1 = talentTreeViewBuilder.SetWatcher(MapPlayer.fromIndex(0)).Build();
+        // print(6)
+        // tab1.tree = new MeleeCombat(u, slotManager, inputManager, abilities);
 
-        const tab2 = talentTreeViewBuilder.Build();
-        tab2.tree = new Pyromancy(u, slotManager, inputManager, abilities);
+        // const tab2 = talentTreeViewBuilder.Build();
+        // tab2.tree = new Pyromancy(u, slotManager, inputManager, abilities);
 
-        print(7)
-        talentTabs.tabContent = [ tab1, tab2 ];
-        talentTabs.activeTabIndex = 0;
+        // print(7)
+        // talentTabs.tabContent = [ tab1, tab2 ];
+        // talentTabs.activeTabIndex = 0;
 
-        print(8)
-        let t = new Trigger();
-        t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
-        t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
-        t.addAction(() => {  
-            print("tt")
-            switch (MapPlayer.fromEvent()) {
-                case MapPlayer.fromIndex(0):
-                    talentTabs.visible = !talentTabs.visible;
-                    break;
-            }
-        });
+        // print(8)
+        // let t = new Trigger();
+        // t.registerPlayerChatEvent(MapPlayer.fromIndex(0), '-tt', true);
+        // t.registerPlayerChatEvent(MapPlayer.fromIndex(1), '-tt', true);
+        // t.addAction(() => {  
+        //     print("tt")
+        //     switch (MapPlayer.fromEvent()) {
+        //         case MapPlayer.fromIndex(0):
+        //             talentTabs.visible = !talentTabs.visible;
+        //             break;
+        //     }
+        // });
 
-        print(9)
+        // print(9)
 
-        // Factories
-        const autoattackFactory = new AutoattackFactory(dummyManager, missileManager, damageService);
+        // // Factories
+        // const autoattackFactory = new AutoattackFactory(dummyManager, missileManager, damageService);
 
-        //#region Items
-        const itemDefs = ItemData.InitializeItemDefinitions(missileManager, autoattackFactory);
-        const itemManager = new ItemManager(itemDefs);
-        const itemEventProvider = new ItemEventProvider(itemManager);
+        // //#region Items
+        // const itemDefs = ItemData.InitializeItemDefinitions(missileManager, autoattackFactory);
+        // const itemManager = new ItemManager(itemDefs);
+        // const itemEventProvider = new ItemEventProvider(itemManager);
 
-        //#endregion
+        // //#endregion
+
+        // UI
+        const view = GenerateCommandBarView(config.playerUi);
+
+        const invView = GenerateInventoryView();
     }
     
     static OnMapInit() {
