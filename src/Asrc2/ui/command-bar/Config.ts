@@ -115,7 +115,7 @@ export class Config { //
             textureBorder: IconPath.BTNArthas,
             textureFill: IconPath.BTNHeroDeathKnight
         }
-    }
+    };
 
     playerUi: ICommandBarConfig = {
         commandBar: {

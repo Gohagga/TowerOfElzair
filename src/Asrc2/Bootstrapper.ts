@@ -39,6 +39,7 @@ import { DummyManager } from "./systems/dummy/DummyManager";
 import { InputManager } from "./systems/input/InputManager";
 import { ItemManager } from "./systems/item/ItemManager";
 import { MissileManager } from "./systems/missile/MissileManager";
+import { GenerateCommandBarView } from "./ui/command-bar/CommandBarView";
 import { GenerateTabView } from "./ui/tab-screen/TabView";
 import { TabViewModel } from "./ui/tab-screen/TabViewModel";
 import { ITalentView } from "./ui/talent-screen/interface/ITalentView";
@@ -142,6 +143,8 @@ export class Bootstrapper {
         const itemEventProvider = new ItemEventProvider(itemManager);
 
         //#endregion
+
+        var hud = GenerateCommandBarView(config.playerUi);
     }
     
     static OnMapInit() {
