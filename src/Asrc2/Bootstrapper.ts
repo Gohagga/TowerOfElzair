@@ -144,7 +144,7 @@ export class Bootstrapper {
 
         //#endregion
 
-        var hud = GenerateCommandBarView(config.playerUi);
+        const hud = GenerateCommandBarView(config.playerUi);
     }
     
     static OnMapInit() {

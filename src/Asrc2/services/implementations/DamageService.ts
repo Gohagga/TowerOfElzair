@@ -105,7 +105,7 @@ export class DamageService implements IDamageService {
         // Log.info("DAMAGING TARGET FOR", event.damage);
         event.damage = math.ceil(event.damage);
         // print("CEIL OF 0 " , math.ceil(0));
-        source.damageTarget(event.targetUnit.handle, event.damage, 0, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
+        source.damageTarget(event.targetUnit.handle, event.damage, false, false, ATTACK_TYPE_CHAOS, DAMAGE_TYPE_UNIVERSAL, WEAPON_TYPE_WHOKNOWS);
         this.damageDisplayManager.DisplayDamageEvent(event);
     }
 
